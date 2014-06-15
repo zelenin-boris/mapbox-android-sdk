@@ -199,8 +199,8 @@ public class MainTestFragment extends Fragment {
             TileLayer mbTileLayer = new MBTilesLayer(getActivity(), layer);
             //            mv.setTileSource(mbTileLayer);
             mv.setTileSource(new ITileLayer[] {
-                mbTileLayer, new WebSourceTileLayer("mapquest",
-                    "http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png").setName(
+                mbTileLayer, new WebSourceTileLayer(getActivity(),
+                    "mapquest", "http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png").setName(
                         "MapQuest Open Aerial")
                         .setAttribution("Tiles courtesy of MapQuest and OpenStreetMap contributors.")
                 .setMinimumZoomLevel(1)
@@ -209,28 +209,28 @@ public class MainTestFragment extends Fragment {
             box = mbTileLayer.getBoundingBox();
         } else {
             if (layer.equalsIgnoreCase("OpenStreetMap")) {
-                source = new WebSourceTileLayer("openstreetmap",
-                        "http://tile.openstreetmap.org/{z}/{x}/{y}.png").setName("OpenStreetMap")
+                source = new WebSourceTileLayer(getActivity(),
+                        "openstreetmap", "http://tile.openstreetmap.org/{z}/{x}/{y}.png").setName("OpenStreetMap")
                     .setAttribution("© OpenStreetMap Contributors")
                     .setMinimumZoomLevel(1)
                     .setMaximumZoomLevel(18);
             } else if (layer.equalsIgnoreCase("OpenSeaMap")) {
-                source = new WebSourceTileLayer("openstreetmap",
-                        "http://tile.openstreetmap.org/seamark/{z}/{x}/{y}.png").setName(
+                source = new WebSourceTileLayer(getActivity(),
+                        "openstreetmap", "http://tile.openstreetmap.org/seamark/{z}/{x}/{y}.png").setName(
                             "OpenStreetMap")
                             .setAttribution("© OpenStreetMap Contributors")
                             .setMinimumZoomLevel(1)
                             .setMaximumZoomLevel(18);
             } else if (layer.equalsIgnoreCase("mapquest")) {
-                source = new WebSourceTileLayer("mapquest",
-                        "http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png").setName(
+                source = new WebSourceTileLayer(getActivity(),
+                        "mapquest", "http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png").setName(
                             "MapQuest Open Aerial")
                             .setAttribution(
                                     "Tiles courtesy of MapQuest and OpenStreetMap contributors.")
                             .setMinimumZoomLevel(1)
                             .setMaximumZoomLevel(18);
             } else {
-                source = new MapboxTileLayer(layer);
+                source = new MapboxTileLayer(null, layer);
             }
             mv.setTileSource(source);
             box = source.getBoundingBox();

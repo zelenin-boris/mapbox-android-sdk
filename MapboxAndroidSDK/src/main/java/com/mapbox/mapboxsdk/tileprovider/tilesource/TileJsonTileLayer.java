@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -31,9 +32,8 @@ public class TileJsonTileLayer extends WebSourceTileLayer {
     private JSONObject tileJSON;
     private ResponseCache cache;
 
-    public TileJsonTileLayer(final String pId, final String url, final boolean enableSSL) {
-        super(pId, url, enableSSL);
-
+    public TileJsonTileLayer(Context context, final String pId, final String url, final boolean enableSSL) {
+        super(context, pId, url, enableSSL);
         File cacheDir =
                 new File(System.getProperty("java.io.tmpdir"), UUID.randomUUID().toString());
         try {

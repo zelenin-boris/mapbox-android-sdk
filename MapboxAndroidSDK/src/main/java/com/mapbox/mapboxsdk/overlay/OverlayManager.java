@@ -165,9 +165,12 @@ public class OverlayManager extends AbstractList<Overlay> {
             mTilesOverlay.draw(c, pMapView, true);
         }
 
+/*
+        // Why is this being drawn twice?
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
             mTilesOverlay.draw(c, pMapView, false);
         }
+*/
 
         for (final Overlay overlay : mOverlayList) {
             if (overlay.isEnabled()) {

@@ -1,18 +1,22 @@
 package com.mapbox.mapboxsdk.tileprovider;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.ImageView;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase;
 import com.mapbox.mapboxsdk.tileprovider.modules.NetworkAvailabilityCheck;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
-import com.mapbox.mapboxsdk.util.BitmapUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import com.mapbox.mapboxsdk.util.NetworkUtils;
+import com.mapbox.mapboxsdk.views.MapView;
+import com.squareup.picasso.Picasso;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
@@ -41,31 +45,35 @@ public class MapTileLayerArray extends MapTileLayerBase {
 
     protected final NetworkAvailabilityCheck mNetworkAvailabilityCheck;
 
+    private MapView mapView;
+
     /**
      * Creates an {@link MapTileLayerArray} with no tile providers.
      *
-     * @param pRegisterReceiver a {@link IRegisterReceiver}
+     * @param mapView
+     * @param pRegisterReceiver a {@link com.mapbox.mapboxsdk.tileprovider.IRegisterReceiver}
      */
-    protected MapTileLayerArray(final Context context, final ITileLayer pTileSource,
+    protected MapTileLayerArray(final MapView mapView, final ITileLayer pTileSource,
             final IRegisterReceiver pRegisterReceiver) {
-        this(context, pTileSource, pRegisterReceiver, null);
+        this(mapView, pTileSource, pRegisterReceiver, null);
     }
 
     /**
      * Creates an {@link MapTileLayerArray} with the specified tile providers.
      *
-     * @param aRegisterReceiver a {@link IRegisterReceiver}
+     * @param mapView
+     * @param aRegisterReceiver a {@link com.mapbox.mapboxsdk.tileprovider.IRegisterReceiver}
      * @param pTileProviderArray an array of {@link com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase}
      */
-    public MapTileLayerArray(final Context context, final ITileLayer pTileSource,
+    public MapTileLayerArray(final MapView mapView, final ITileLayer pTileSource,
             final IRegisterReceiver aRegisterReceiver,
             final MapTileModuleLayerBase[] pTileProviderArray) {
-        super(context, pTileSource);
+        super(mapView.getContext(), pTileSource);
 
         mWorking = new HashMap<MapTile, MapTileRequestState>();
         mUnaccessibleTiles = new ArrayList<MapTile>();
 
-        mNetworkAvailabilityCheck = new NetworkAvailabilityCheck(context);
+        mNetworkAvailabilityCheck = new NetworkAvailabilityCheck(mapView.getContext());
 
         mTileProviderList = new ArrayList<MapTileModuleLayerBase>();
         if (pTileProviderArray != null) {
@@ -114,6 +122,15 @@ public class MapTileLayerArray extends MapTileLayerBase {
 
     @Override
     public Drawable getMapTile(final MapTile pTile, final boolean allowRemote) {
+
+        String url = NetworkUtils.parseUrlForTile(mapView, pTile, true);
+        Log.i(getClass().getCanonicalName(), "getDrawableFromTile() with url = '" + url + "'");
+
+        ImageView imageView = new ImageView(context);
+        Picasso.with(context).load(url).into(imageView);
+        return imageView.getDrawable();
+
+/*
         if (tileUnavailable(pTile)) {
             if (DEBUG_TILE_PROVIDERS) {
                 Log.i(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
@@ -167,6 +184,7 @@ public class MapTileLayerArray extends MapTileLayerBase {
             return tileDrawable;
         }
         return null;
+*/
     }
 
     @Override

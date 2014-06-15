@@ -2,6 +2,9 @@ package com.mapbox.mapboxsdk.tileprovider.modules;
 
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.widget.ImageView;
+import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
@@ -9,16 +12,19 @@ import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.MapTileRequestState;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.TileLayer;
+import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import java.util.concurrent.atomic.AtomicReference;
+
+import com.squareup.picasso.Picasso;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server.
  */
-public class MapTileDownloader extends MapTileModuleLayerBase {
+public class MapTileDownloader extends MapTileModuleLayerBase implements MapboxConstants {
     private static final String TAG = "Tile downloader";
 
     private final AtomicReference<TileLayer> mTileSource = new AtomicReference<TileLayer>();
@@ -30,7 +36,7 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
 
     public MapTileDownloader(final ITileLayer pTileSource, final MapTileCache pTileCache,
             final NetworkAvailabilityCheck pNetworkAvailabilityCheck, final MapView mapView) {
-        super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+        super(mapView, NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
         this.mapView = mapView;
         this.mTileCache.set(pTileCache);
 
@@ -143,6 +149,14 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
 
         @Override
         public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
+
+            String url = NetworkUtils.parseUrlForTile(mapView, aState.getMapTile(), true);
+            Log.i(getClass().getCanonicalName(), "loadTile() called with url = ''");
+            ImageView imageView = new ImageView(mapView.getContext());
+            Picasso.with(mapView.getContext()).load(url).into(imageView);
+            return imageView.getDrawable();
+
+/*
             final MapTile tile = aState.getMapTile();
             if (mTileCache != null && mTileCache.get().containsTileInDiskCache(tile)) {
                 return mTileCache.get().getMapTileFromDisk(tile);
@@ -152,10 +166,12 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
                     (tileLayer != null) ? tileLayer.getDrawableFromTile(MapTileDownloader.this,
                             tile, hdpi) : null;
             return result;
+*/
         }
     }
 
     private CacheableBitmapDrawable onTileLoaded(CacheableBitmapDrawable pDrawable) {
         return mapView.getTileLoadedListener().onTileLoaded(pDrawable);
     }
+
 }

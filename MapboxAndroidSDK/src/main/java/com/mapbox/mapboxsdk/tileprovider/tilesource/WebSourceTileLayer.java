@@ -1,18 +1,20 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileDownloader;
 import com.mapbox.mapboxsdk.tileprovider.util.StreamUtils;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
-import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
-import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -20,24 +22,28 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * An implementation of {@link TileLayer} that pulls tiles from the internet.
  */
 public class WebSourceTileLayer extends TileLayer {
     private static final String TAG = "WebSourceTileLayer";
+    private Context context;
+    private String aUrl;
 
     // Tracks the number of threads active in the getBitmapFromURL method.
     private AtomicInteger activeThreads = new AtomicInteger(0);
     protected boolean mEnableSSL = false;
 
-    public WebSourceTileLayer(final String pId, final String url) {
-        this(pId, url, false);
+    public WebSourceTileLayer(Context context, final String pId, final String url) {
+        this(context, pId, url, false);
     }
 
-    public WebSourceTileLayer(final String pId, final String url, final boolean enableSSL) {
+    public WebSourceTileLayer(Context context, final String pId, final String url, final boolean enableSSL) {
         super(pId, url);
+        this.context = context;
         initialize(pId, url, enableSSL);
     }
 
@@ -47,6 +53,7 @@ public class WebSourceTileLayer extends TileLayer {
 
     @Override
     public TileLayer setURL(final String aUrl) {
+        this.aUrl = aUrl;
         if (aUrl.contains(String.format("http%s://", (mEnableSSL ? "" : "s")))) {
             super.setURL(aUrl.replace(String.format("http%s://", (mEnableSSL ? "" : "s")),
                     String.format("http%s://", (mEnableSSL ? "s" : ""))));
@@ -103,9 +110,17 @@ public class WebSourceTileLayer extends TileLayer {
     }
 
     @Override
-    public CacheableBitmapDrawable getDrawableFromTile(final MapTileDownloader downloader,
-            final MapTile aTile, boolean hdpi) {
+    public Drawable getDrawableFromTile(final MapTileDownloader downloader, final MapTile aTile, boolean hdpi) {
         if (downloader.isNetworkAvailable()) {
+
+            String url = getTileURL(aTile, hdpi);
+            Log.i(getClass().getCanonicalName(), "getDrawableFromTile() with url = '" + url + "'");
+
+            ImageView imageView = new ImageView(context);
+            Picasso.with(context).load(url).into(imageView);
+            return imageView.getDrawable();
+
+/*
             TilesLoadedListener listener = downloader.getTilesLoadedListener();
 
             String[] urls = getTileURLs(aTile, hdpi);
@@ -144,6 +159,7 @@ public class WebSourceTileLayer extends TileLayer {
             }
 
             return result;
+*/
         } else {
             if (UtilConstants.DEBUGMODE) {
                 Log.d(TAG, "Skipping tile " + aTile.toString() + " due to NetworkAvailabilityCheck.");

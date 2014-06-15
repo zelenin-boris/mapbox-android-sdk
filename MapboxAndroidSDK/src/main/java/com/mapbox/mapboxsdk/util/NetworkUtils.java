@@ -9,6 +9,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
+import com.mapbox.mapboxsdk.tileprovider.MapTile;
+import com.mapbox.mapboxsdk.views.MapView;
 import com.squareup.okhttp.HttpResponseCache;
 import com.squareup.okhttp.OkHttpClient;
 import javax.net.ssl.SSLSocketFactory;
@@ -18,7 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.ResponseCache;
 import java.net.URL;
 
-public class NetworkUtils {
+public class NetworkUtils implements MapboxConstants {
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -50,4 +52,14 @@ public class NetworkUtils {
     public static ResponseCache getResponseCache(final File cacheDir, final int maxSize) throws IOException {
         return new HttpResponseCache(cacheDir, maxSize);
     }
+
+    public static String parseUrlForTile(final MapView mapView, final MapTile aTile, boolean hdpi) {
+        String url = MAPBOX_BASE_URL + mapView.mapId + "/{z}/{x}/{y}{2x}.png";
+
+        return url.replace("{z}", String.valueOf(aTile.getZ()))
+                .replace("{x}", String.valueOf(aTile.getX()))
+                .replace("{y}", String.valueOf(aTile.getY()))
+                .replace("{2x}", hdpi ? "@2x" : "@2x");
+    }
+
 }

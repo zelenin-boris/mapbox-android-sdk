@@ -74,8 +74,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * state of a single map, including layers, markers,
  * and interaction code.
  */
-public class MapView extends ViewGroup
-        implements MapViewConstants, MapEventsReceiver, MapboxConstants {
+public class MapView extends ViewGroup implements MapViewConstants, MapEventsReceiver, MapboxConstants {
     /**
      * The default marker Overlay, automatically added to the view to add markers directly.
      */
@@ -169,6 +168,8 @@ public class MapView extends ViewGroup
 
     private UserLocationOverlay mLocationOverlay;
 
+    public String mapId;
+
     /**
      * Constructor for XML layout calls. Should not be used programmatically.
      *
@@ -189,7 +190,7 @@ public class MapView extends ViewGroup
         Projection.setTileSize(tileSizePixels);
 
         if (tileProvider == null) {
-            tileProvider = new MapTileLayerBasic(aContext, null, this);
+            tileProvider = new MapTileLayerBasic(null, this);
         }
 
         mTileRequestCompleteHandler =
@@ -212,9 +213,9 @@ public class MapView extends ViewGroup
         this.getOverlays().add(eventsOverlay);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapView);
-        String mapid = a.getString(R.styleable.MapView_mapid);
-        if (!Strings.isNullOrEmpty(mapid)) {
-            setTileSource(new MapboxTileLayer(mapid));
+        mapId = a.getString(R.styleable.MapView_mapid);
+        if (!Strings.isNullOrEmpty(mapId)) {
+            setTileSource(new MapboxTileLayer(getContext(), mapId));
         } else {
             Log.w(TAG, "mapid not set.");
         }

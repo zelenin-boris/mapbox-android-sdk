@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 
@@ -7,21 +8,21 @@ public class TileMillLayer extends WebSourceTileLayer {
 
     private static final String BASE_URL = "http://%s:20008/tile/%s";
 
-    public TileMillLayer(final String pHost, final String pMap, final float pMinZoom,
-            final float pMaxZoom) {
-        super(pHost, String.format(BASE_URL, pHost, pMap));
+    public TileMillLayer(Context context, final String pHost, final String pMap, final float pMinZoom,
+                         final float pMaxZoom) {
+        super(context, pHost, String.format(BASE_URL, pHost, pMap));
         mName = "TileMill";
         mMinimumZoomLevel = pMinZoom;
         mMaximumZoomLevel = pMaxZoom;
     }
 
-    public TileMillLayer(final String pHost, final String pMap) {
-        this(pHost, pMap, TileLayerConstants.MINIMUM_ZOOMLEVEL,
-                TileLayerConstants.MAXIMUM_ZOOMLEVEL);
+    public TileMillLayer(Context context, final String pHost, final String pMap) {
+        this(context, pHost, pMap,
+                TileLayerConstants.MINIMUM_ZOOMLEVEL, TileLayerConstants.MAXIMUM_ZOOMLEVEL);
     }
 
-    public TileMillLayer(final String pMap) {
-        this("localhost", pMap);
+    public TileMillLayer(Context context, final String pMap) {
+        this(context, "localhost", pMap);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.mapbox.mapboxsdk.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Process;
 import android.util.Log;
+import android.widget.ImageView;
+import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
@@ -15,7 +18,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
+
+import com.mapbox.mapboxsdk.util.NetworkUtils;
+import com.mapbox.mapboxsdk.views.MapView;
+import com.squareup.picasso.Picasso;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
@@ -24,7 +30,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
  * @author Marc Kurtz
  * @author Neil Boyd
  */
-public abstract class MapTileModuleLayerBase implements TileLayerConstants {
+public abstract class MapTileModuleLayerBase implements MapboxConstants, TileLayerConstants {
 
     /**
      * Gets the human-friendly name assigned to this tile provider.
@@ -117,6 +123,8 @@ public abstract class MapTileModuleLayerBase implements TileLayerConstants {
     protected final HashMap<MapTile, MapTileRequestState> mWorking;
     protected final LinkedHashMap<MapTile, MapTileRequestState> mPending;
 
+    private MapView mapView;
+
     public MapTileRequestState popFirstPending() {
         for (MapTile tile : mPending.keySet()) {
             return mPending.remove(tile);
@@ -129,7 +137,8 @@ public abstract class MapTileModuleLayerBase implements TileLayerConstants {
      * queue
      * size must be larger than or equal to the thread pool size.
      */
-    public MapTileModuleLayerBase(int pThreadPoolSize, final int pPendingQueueSize) {
+    public MapTileModuleLayerBase(MapView mapView, int pThreadPoolSize, final int pPendingQueueSize) {
+        this.mapView = mapView;
         if (pPendingQueueSize < pThreadPoolSize) {
             Log.w(TAG,
                     "The pending queue size is smaller than the thread pool size. Automatically reducing the thread pool size.");
@@ -160,6 +169,15 @@ public abstract class MapTileModuleLayerBase implements TileLayerConstants {
      * Loads a map tile asynchronously, adding it to the queue and calling getTileLoader.
      */
     public void loadMapTileAsync(final MapTileRequestState pState) {
+
+        // TODO - Get Picasso to work on main thread
+        String url = NetworkUtils.parseUrlForTile(mapView, pState.getMapTile(), true);
+        Log.i(getClass().getCanonicalName(), "loadMapTileAsync() with url = '" + url + "'");
+        ImageView imageView = new ImageView(mapView.getContext());
+        Picasso.with(mapView.getContext()).load(url).into(imageView);
+
+
+/*
         synchronized (mQueueLockObject) {
             if (DEBUG_TILE_PROVIDERS) {
                 Log.d(TAG, "MapTileModuleLayerBase.loadMaptileAsync() on provider: "
@@ -184,6 +202,7 @@ public abstract class MapTileModuleLayerBase implements TileLayerConstants {
         } catch (final RejectedExecutionException e) {
             Log.w(TAG, "RejectedExecutionException", e);
         }
+*/
     }
 
     /**

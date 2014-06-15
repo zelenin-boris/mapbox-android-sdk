@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import com.google.common.base.Strings;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
@@ -11,22 +12,22 @@ import java.util.Locale;
  * Underneath, this initializes a WebSourceTileLayer, but provides conveniences
  * for retina tiles, initialization by ID, and loading over SSL.
  */
-public class MapboxTileLayer extends TileJsonTileLayer
-        implements MapViewConstants, MapboxConstants {
+public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstants, MapboxConstants {
     private static final String TAG = "MapboxTileLayer";
     private String mId;
 
     /**
      * Initialize a new tile layer, directed at a hosted Mapbox tilesource.
      *
+     * @param context Mapview Context
      * @param pId a valid mapid, of the form account.map
      */
-    public MapboxTileLayer(String pId) {
-        this(pId, true);
+    public MapboxTileLayer(Context context, String pId) {
+        this(context, pId, true);
     }
 
-    public MapboxTileLayer(String pId, boolean enableSSL) {
-        super(pId, pId, enableSSL);
+    public MapboxTileLayer(Context context, String pId, boolean enableSSL) {
+        super(context, pId, pId, enableSSL);
     }
 
     @Override

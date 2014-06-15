@@ -11,22 +11,21 @@ import com.mapbox.mapboxsdk.views.MapView;
  * A base class for tile layers to built, this is a simple collection of tile sources.
  */
 public class MapTileLayerBasic extends MapTileLayerArray implements IMapTileProviderCallback {
-    Context mContext;
     MapView mMapView;
 
     /**
-     * @param pContext
      * @param pTileSource
      * @param mapView
      */
-    public MapTileLayerBasic(final Context pContext, final ITileLayer pTileSource,
+    public MapTileLayerBasic(final ITileLayer pTileSource,
             MapView mapView) {
-        super(pContext, pTileSource, new SimpleRegisterReceiver(pContext));
-        this.mContext = pContext;
+        super(mapView, pTileSource, new SimpleRegisterReceiver(mapView.getContext()));
         this.mMapView = mapView;
 
+/*
         final MapTileDownloader downloaderProvider =
                 new MapTileDownloader(pTileSource, mTileCache, mNetworkAvailabilityCheck, mMapView);
+*/
 
         for (MapTileModuleLayerBase provider : mTileProviderList) {
             if (provider.getClass().isInstance(MapTileDownloader.class)) {
