@@ -60,6 +60,10 @@ import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewLayouts;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import org.json.JSONException;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -180,6 +184,17 @@ public class MapView extends ViewGroup
                       MapTileLayerBase tileProvider, final Handler tileRequestCompleteHandler,
                       final AttributeSet attrs) {
         super(aContext, attrs);
+
+        // Create global configuration and initialize ImageLoader with this configuration
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+                .memoryCacheSize(2 * 1024 * 1024)
+                .memoryCacheSizePercentage(13)
+                .imageDownloader(new BaseImageDownloader(context))
+                .writeDebugLogs()
+                .build();
+        ImageLoader.getInstance().init(config);
+
         setWillNotDraw(false);
         mLayedOut = false;
         mConstraintRegionFit = false;
