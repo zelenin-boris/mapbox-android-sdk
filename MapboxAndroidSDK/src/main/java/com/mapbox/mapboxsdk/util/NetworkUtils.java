@@ -9,6 +9,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.okhttp.HttpResponseCache;
 import com.squareup.okhttp.OkHttpClient;
 import javax.net.ssl.SSLSocketFactory;
@@ -50,4 +51,8 @@ public class NetworkUtils {
     public static ResponseCache getResponseCache(final File cacheDir, final int maxSize) throws IOException {
         return new HttpResponseCache(cacheDir, maxSize);
     }
-}
+
+    public static ImageLoader getImageLoader() {
+        return ImageLoader.getInstance();
+    }
+ }
