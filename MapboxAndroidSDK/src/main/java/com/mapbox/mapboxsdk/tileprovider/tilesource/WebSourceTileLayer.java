@@ -3,24 +3,17 @@ package com.mapbox.mapboxsdk.tileprovider.tilesource;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.google.common.base.Strings;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileDownloader;
-import com.mapbox.mapboxsdk.tileprovider.util.StreamUtils;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * An implementation of {@link TileLayer} that pulls tiles from the internet.
@@ -103,13 +96,12 @@ public class WebSourceTileLayer extends TileLayer {
     }
 
     @Override
-    public CacheableBitmapDrawable getDrawableFromTile(final MapTileDownloader downloader,
-            final MapTile aTile, boolean hdpi) {
+    public Drawable getDrawableFromTile(final MapTileDownloader downloader, final MapTile aTile, boolean hdpi) {
         if (downloader.isNetworkAvailable()) {
             TilesLoadedListener listener = downloader.getTilesLoadedListener();
 
             String[] urls = getTileURLs(aTile, hdpi);
-            CacheableBitmapDrawable result = null;
+            Drawable result = null;
             Bitmap resultBitmap = null;
             if (urls != null) {
                 MapTileCache cache = downloader.getCache();
@@ -117,7 +109,7 @@ public class WebSourceTileLayer extends TileLayer {
                     listener.onTilesLoadStarted();
                 }
                 for (final String url : urls) {
-                    Bitmap bitmap = getBitmapFromURL(url, cache);
+                    Bitmap bitmap = getBitmapFromURL(url);
                     if (bitmap == null) {
                         continue;
                     }
@@ -154,43 +146,14 @@ public class WebSourceTileLayer extends TileLayer {
      * Requests and returns a bitmap object from a given URL, using aCache to decode it.
      *
      * @param url the map tile url. should refer to a valid bitmap resource.
-     * @param aCache a cache, an instance of MapTileCache
      * @return the tile if valid, otherwise null
      */
-    public Bitmap getBitmapFromURL(final String url, final MapTileCache aCache) {
+    public Bitmap getBitmapFromURL(final String url) {
         // We track the active threads here, every exit point should decrement this value.
         Log.d(getClass().getCanonicalName(), "getBitmapFormURL() called with url = '" + url + "'");
-        activeThreads.incrementAndGet();
-        InputStream in = null;
-        OutputStream out = null;
-
         if (TextUtils.isEmpty(url)) {
-            activeThreads.decrementAndGet();
             return null;
         }
-
-        try {
-            HttpURLConnection connection = NetworkUtils.getHttpURLConnection(new URL(url));
-            in = connection.getInputStream();
-
-            if (in == null) {
-                Log.d(TAG, "No content downloading MapTile: '" + url + "'");
-                return null;
-            }
-
-            final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-            StreamUtils.copy(in, out);
-            out.flush();
-            final byte[] data = dataStream.toByteArray();
-            return aCache.decodeBitmap(data, null);
-        } catch (final Throwable e) {
-            Log.e(TAG, "Error downloading MapTile: " + url + ":" + e);
-        } finally {
-            StreamUtils.closeStream(in);
-            StreamUtils.closeStream(out);
-            activeThreads.decrementAndGet();
-        }
-        return null;
+        return NetworkUtils.getImageLoader().loadImageSync(url);
     }
 }
