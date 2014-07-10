@@ -76,8 +76,7 @@ public class TileLayer implements ITileLayer, TileLayerConstants, MapViewConstan
         return this;
     }
 
-    public Drawable getDrawableFromTile(final MapTileDownloader downloader, final MapTile aTile,
-            boolean hdpi) {
+    public Drawable getDrawableFromTile(final MapTileDownloader downloader, final MapTile aTile, boolean hdpi) {
         return null;
     }
 

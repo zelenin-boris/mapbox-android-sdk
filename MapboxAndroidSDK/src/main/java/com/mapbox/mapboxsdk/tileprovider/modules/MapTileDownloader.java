@@ -1,5 +1,8 @@
 package com.mapbox.mapboxsdk.tileprovider.modules;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -10,11 +13,15 @@ import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.MapTileRequestState;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.TileLayer;
+import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.concurrent.atomic.AtomicReference;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server.
@@ -146,20 +153,29 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
         public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
             final MapTile tile = aState.getMapTile();
             Log.d(TAG, "loadTile() with tile = '" + tile + "'");
-            if (mTileCache != null && mTileCache.get().containsTileInDiskCache(tile)) {
-                Log.d(TAG, "tile found in Disk Cache, so returning it. tile = '" + tile + "'");
-                return mTileCache.get().getMapTileFromDisk(tile);
+            ImageLoader loader = NetworkUtils.getImageLoader();
+            if (loader.getDiskCache() != null && mTileCache.get().containsTileInDiskCache(tile)) {
+                File image = DiskCacheUtils.findInCache(tile.toString(), loader.getDiskCache());
+                if (image != null) {
+                    Log.d(TAG, "tile found in Disk Cache, so returning it. tile = '" + tile + "'");
+                    try {
+                        Bitmap bm = BitmapFactory.decodeStream(new FileInputStream(image));
+                        return new BitmapDrawable(bm);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error getting tile from Disk Cache: " + e.toString());
+                        return null;
+                    }
+                }
             }
             TileLayer tileLayer = mTileSource.get();
             Drawable result =
-                    (tileLayer != null) ? tileLayer.getDrawableFromTile(MapTileDownloader.this,
-                            tile, hdpi) : null;
+                    (tileLayer != null) ? tileLayer.getDrawableFromTile(MapTileDownloader.this, tile, hdpi) : null;
             Log.d(TAG, "tileLayer.getDrawable() returning result = '" + result + "'");
             return result;
         }
     }
 
-    private CacheableBitmapDrawable onTileLoaded(CacheableBitmapDrawable pDrawable) {
+    private Drawable onTileLoaded(Drawable pDrawable) {
         return mapView.getTileLoadedListener().onTileLoaded(pDrawable);
     }
 }
