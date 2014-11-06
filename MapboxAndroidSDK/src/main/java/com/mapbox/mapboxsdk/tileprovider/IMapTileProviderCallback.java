@@ -1,7 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider;
 
 import android.graphics.drawable.Drawable;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public interface IMapTileProviderCallback {
 
@@ -25,8 +24,7 @@ public interface IMapTileProviderCallback {
      *
      * @param aState a state object
      */
-    void mapTileRequestExpiredTile(MapTileRequestState aState,
-            final CacheableBitmapDrawable aDrawable);
+    void mapTileRequestExpiredTile(MapTileRequestState aState, final Drawable aDrawable);
 
     /**
      * Returns true if the network connection should be used, false if not.
