@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><osm version="0.6" generator="Overpass API">
-<note>The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.</note>
-<meta osm_base="2014-12-23T18:46:02Z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Overpass API">
+  <note>The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.</note>
+  <meta osm_base="2014-12-23T18:46:02Z"/>
 
   <node id="3203542408" lat="47.6690451" lon="-122.3849681" version="1" timestamp="2014-11-24T20:12:49Z" changeset="27006416" uid="250487" user="jharpster">
     <tag k="addr:city" v="Seattle"/>
