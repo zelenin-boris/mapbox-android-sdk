@@ -34,4 +34,7 @@ public class Node {
         user = userStr;
     }
 
+    public long getId() {
+        return id;
+    }
 }

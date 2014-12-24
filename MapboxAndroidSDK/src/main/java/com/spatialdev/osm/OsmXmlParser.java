@@ -7,18 +7,12 @@ package com.spatialdev.osm;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Xml;
-
-import com.mapbox.mapboxsdk.util.constants.UtilConstants;
-import com.spatialdev.osm.data.Node;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class OsmXmlParser {
@@ -124,9 +118,8 @@ public class OsmXmlParser {
         String uidStr       = parser.getAttributeValue(ns, "changeset");
         String userStr      = parser.getAttributeValue(ns, "user");
 
-        Node n = new Node(idStr, latStr, lonStr, versionStr, timestampStr,
-                            changesetStr, uidStr, userStr);
-        ds.addNode(n);
+        ds.addNode( idStr, latStr, lonStr, versionStr, timestampStr,
+                    changesetStr, uidStr, userStr );
     }
 
     private void readWay() throws XmlPullParserException, IOException {
