@@ -11,6 +11,8 @@ import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.spatialdev.osm.OsmXmlParser;
+
 import java.util.ArrayList;
 
 public class LocalOSMTestFragment extends Fragment {
@@ -33,8 +35,9 @@ public class LocalOSMTestFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // Load GeoJSON
+        // Load OSM XML
         try {
+            OsmXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
             FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");
             ArrayList<Object> uiObjects = DataLoadingUtils.createUIObjectsFromGeoJSONObjects(features, null);
 
