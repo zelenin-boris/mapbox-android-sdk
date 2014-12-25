@@ -115,11 +115,16 @@ public class OsmXmlParser {
         String versionStr   = parser.getAttributeValue(ns, "version");
         String timestampStr = parser.getAttributeValue(ns, "timestamp");
         String changesetStr = parser.getAttributeValue(ns, "changeset");
-        String uidStr       = parser.getAttributeValue(ns, "changeset");
+        String uidStr       = parser.getAttributeValue(ns, "uid");
         String userStr      = parser.getAttributeValue(ns, "user");
 
         ds.addNode( idStr, latStr, lonStr, versionStr, timestampStr,
                     changesetStr, uidStr, userStr );
+
+        // If the next thing is not an END_TAG, we have some tag elements in the node...
+        if (parser.next() != XmlPullParser.END_TAG) {
+            readTags();
+        }
     }
 
     private void readWay() throws XmlPullParserException, IOException {
@@ -128,6 +133,16 @@ public class OsmXmlParser {
 
     private void readRelation() throws XmlPullParserException, IOException {
 
+    }
+
+    private void readTags() throws XmlPullParserException, IOException {
+        if (parser.getName().equals("tag")){
+            String k = parser.getAttributeValue(ns, "k");
+            String v = parser.getAttributeValue(ns, "v");
+        }
+        while (parser.next() != XmlPullParser.END_TAG) {
+
+        }
     }
 
 
