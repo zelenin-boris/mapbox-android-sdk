@@ -32,6 +32,7 @@ repositories {
 }
 
 dependencies {
+    compile files('libs/jsi-examples-1.1.0-SNAPSHOT-jar-with-dependencies.jar')
     compile 'com.android.support:support-v4:21.0.2'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'

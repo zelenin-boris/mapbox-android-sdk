@@ -13,8 +13,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jsi.SpatialIndex;
+import net.sf.jsi.rtree.RTree;
+import net.sf.jsi.Rectangle;
 
 public class DataSet {
+
+    /**
+     * This is the R-Tree that indexes all of the OSM Spatial Objects
+     */
+    SpatialIndex rtree = new RTree();
 
     /**
      * A list of the notes. There is no ID, so we don't need a Hash.
