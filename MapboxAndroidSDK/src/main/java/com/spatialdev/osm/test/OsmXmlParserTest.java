@@ -1,3 +1,8 @@
+/**
+ * Created by Nicholas Hallahan on 1/2/2015.
+ * nhallahan@spatialdev.com
+ */
+
 package com.spatialdev.osm.test;
 
 import android.test.InstrumentationTestCase;
@@ -7,9 +12,6 @@ import com.spatialdev.osm.OsmXmlParser;
 
 import java.io.InputStream;
 
-/**
- * Created by nick on 1/2/15.
- */
 public class OsmXmlParserTest extends InstrumentationTestCase {
 
     private InputStream in;
@@ -17,16 +19,16 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-
+        in = getInstrumentation().getTargetContext().getResources().getAssets().open("test/osm/spatialdev_small.osm");
+        ds = OsmXmlParser.parseFromInputStream(in);
     }
 
     public void tearDown() throws Exception {
         super.tearDown();
     }
 
-    public void testParseFromAssets() throws Exception {
-        in = getInstrumentation().getTargetContext().getResources().getAssets().open("test/osm/spatialdev_small.osm");
-        ds = OsmXmlParser.parseFromInputStream(in);
+    public void testNumberOfNodes() throws Exception {
+        assertEquals(ds.getNodes().size(), 44);
     }
 
     public void testGetDataSet() throws Exception {

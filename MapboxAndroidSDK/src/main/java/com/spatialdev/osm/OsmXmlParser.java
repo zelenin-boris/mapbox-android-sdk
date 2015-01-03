@@ -163,6 +163,9 @@ public class OsmXmlParser {
         String k = parser.getAttributeValue(ns, "k");
         String v = parser.getAttributeValue(ns, "v");
         el.addTag(k, v);
+        // we do this twice, because these are singular nodes that
+        // function as start and end tags
+        parser.nextTag();
         parser.nextTag();
         if (parser.getName().equals("tag")){
             readTags(el);
@@ -175,6 +178,10 @@ public class OsmXmlParser {
         String ref = parser.getAttributeValue(ns, "ref");
         long id = Long.valueOf(ref);
         way.addNodeRef(id);
+        // we do this twice, because these are singular nodes that
+        // function as start and end tags
+        parser.nextTag();
+        parser.nextTag();
         if (parser.getName().equals("tag")){
             readTags(way);
         } else if (parser.getName().equals("nd")) {

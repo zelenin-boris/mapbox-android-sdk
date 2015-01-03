@@ -79,4 +79,24 @@ public class DataSet {
         ways.put(Long.valueOf(w.getId()), w);
         return w;
     }
+
+    public Map<Long, Node> getNodes() {
+        return nodes;
+    }
+
+    public Map<Long, Way> getWays() {
+        return ways;
+    }
+
+    public Map<Long, Relation> getRelations() {
+        return relations;
+    }
+
+    public ArrayList<String> getNotes() {
+        return notes;
+    }
+
+    public Meta getMeta() {
+        return meta;
+    }
 }
