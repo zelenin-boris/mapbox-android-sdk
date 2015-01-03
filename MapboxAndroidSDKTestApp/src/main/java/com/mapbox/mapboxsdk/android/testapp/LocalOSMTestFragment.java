@@ -11,7 +11,7 @@ import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.views.MapView;
-import com.spatialdev.osm.OsmXmlParser;
+import com.spatialdev.osm.model.OsmXmlParser;
 
 import java.util.ArrayList;
 

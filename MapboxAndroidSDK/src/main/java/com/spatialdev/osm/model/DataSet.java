@@ -2,7 +2,7 @@
  * Created by Nicholas Hallahan on 12/24/14.
  * nhallahan@spatialdev.com
  */
-package com.spatialdev.osm;
+package com.spatialdev.osm.model;
 
 import com.spatialdev.osm.model.Meta;
 import com.spatialdev.osm.model.Node;
@@ -12,6 +12,7 @@ import com.spatialdev.osm.model.Way;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.jsi.SpatialIndex;
 import net.sf.jsi.rtree.RTree;
@@ -80,6 +81,17 @@ public class DataSet {
         return w;
     }
 
+    /**
+     * Should only be called by the parser.
+     */
+    void postProcessing() {
+        Set<Long> wayKeys = ways.keySet();
+        for (Long key : wayKeys) {
+            Way w = ways.get(key);
+            w.linkNodes(nodes);
+        }
+    }
+
     public int getNodeCount() {
         return nodes.size();
     }
@@ -99,4 +111,17 @@ public class DataSet {
     public Meta getMeta() {
         return meta;
     }
+
+    public Map<Long, Node> getNodes() {
+        return nodes;
+    }
+
+    public Map<Long, Way> getWays() {
+        return ways;
+    }
+
+    public Map<Long, Relation> getRelations() {
+        return relations;
+    }
+
 }

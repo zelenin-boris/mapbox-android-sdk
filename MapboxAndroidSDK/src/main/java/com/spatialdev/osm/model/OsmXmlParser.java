@@ -3,15 +3,11 @@
  * nhallahan@spatialdev.com
  */
 
-package com.spatialdev.osm;
+package com.spatialdev.osm.model;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Xml;
-
-import com.spatialdev.osm.model.Element;
-import com.spatialdev.osm.model.Node;
-import com.spatialdev.osm.model.Way;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -69,6 +65,7 @@ public class OsmXmlParser {
             parser.setInput(in, null);
             parser.nextTag();
             readOsm();
+            ds.postProcessing();
         } finally {
             in.close();
         }

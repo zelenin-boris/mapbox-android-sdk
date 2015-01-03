@@ -5,6 +5,7 @@
 package com.spatialdev.osm.model;
 
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Way extends Element {
 
@@ -14,6 +15,8 @@ public class Way extends Element {
      * as we parse and will then do postprocessing to create that association.
      */
     private LinkedList<Long> nodeRefs = new LinkedList<>();
+
+    private LinkedList<Node> linkedNodes = new LinkedList();
 
     public Way( String idStr,
                 String versionStr,
@@ -27,5 +30,34 @@ public class Way extends Element {
 
     public void addNodeRef(long id) {
         nodeRefs.add(id);
+    }
+
+    /**
+     * Populates linked list of nodes referred to by this way.
+     *
+     * @param nodes
+     * @return the number of node references NOT linked.
+     */
+    int linkNodes(Map<Long, Node> nodes) {
+        LinkedList<Long> unlinkedRefs = new LinkedList<>();
+        while (nodeRefs.size() > 0) {
+            Long refId = nodeRefs.pop();
+            Node node = nodes.get(refId);
+            if (node == null) {
+                unlinkedRefs.push(refId);
+            } else {
+                linkedNodes.push(node);
+            }
+        }
+        nodeRefs = unlinkedRefs;
+        return nodeRefs.size();
+    }
+
+    public int getNumUnlinkedNodes() {
+        return nodeRefs.size();
+    }
+
+    public int getNumLinkedNodes() {
+        return linkedNodes.size();
     }
 }

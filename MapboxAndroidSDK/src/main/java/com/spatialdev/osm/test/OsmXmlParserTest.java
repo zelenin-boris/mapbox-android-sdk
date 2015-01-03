@@ -7,8 +7,9 @@ package com.spatialdev.osm.test;
 
 import android.test.InstrumentationTestCase;
 
-import com.spatialdev.osm.DataSet;
-import com.spatialdev.osm.OsmXmlParser;
+import com.spatialdev.osm.model.DataSet;
+import com.spatialdev.osm.model.OsmXmlParser;
+import com.spatialdev.osm.model.Way;
 
 import java.io.InputStream;
 
@@ -35,6 +36,18 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
     // should be 10 ways
     public void testNumberOfWays() throws Exception {
         assertEquals(10, ds.getWayCount());
+    }
+
+    public void testNumberUnlinkedNodes() throws Exception {
+        Way w = ds.getWays().get(Long.valueOf(178540022));
+        int count = w.getNumUnlinkedNodes();
+        assertEquals(0, count);
+    }
+
+    public void testNumberLinkedNodes() throws Exception {
+        Way w = ds.getWays().get(Long.valueOf(178540022));
+        int count = w.getNumLinkedNodes();
+        assertEquals(12, count);
     }
 
     // should be 0 relations
