@@ -24,6 +24,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Scroller;
 
 import com.cocoahero.android.geojson.FeatureCollection;
@@ -278,7 +279,7 @@ public class MapView extends FrameLayout implements MapViewConstants,
 
     /**
      * Constructor for XML layout calls. Should not be used programmatically.
-     * 
+     *
      * @param aContext
      *            A copy of the app context
      * @param attrs
@@ -651,7 +652,7 @@ public class MapView extends FrameLayout implements MapViewConstants,
      * Select a marker, showing a tooltip if the marker has content that would appear within it.
      */
     public void selectMarker(final Marker marker) {
-        
+
         boolean selectedMarker = marker == defaultMarkerOverlay.getFocus();
         if (selectedMarker && currentInfoWindow != null) {
             //already selected
@@ -928,7 +929,7 @@ public class MapView extends FrameLayout implements MapViewConstants,
      * Get a projection for converting between screen-pixel coordinates and
      * latitude/longitude coordinates. You should not hold on to this object for
      * more than one draw, since the projection of the map could change.
-     * 
+     *
      * @return The Projection of the map in its current state. You should not
      *         hold on to this object for more than one draw, since the
      *         projection of the map could change.
@@ -2268,11 +2269,11 @@ public class MapView extends FrameLayout implements MapViewConstants,
     public void setDefaultPinAnchor(PointF point) {
         mDefaultPinAnchor = point;
     }
-    
+
     public void setDefaultInfoWindowAnchor(PointF point) {
         mDefaultInfoWindowAnchor = point;
     }
-    
+
     public PointF getDefaultPinAnchor() {
         return mDefaultPinAnchor;
     }
