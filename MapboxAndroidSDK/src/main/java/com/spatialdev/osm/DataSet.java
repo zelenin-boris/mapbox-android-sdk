@@ -80,16 +80,16 @@ public class DataSet {
         return w;
     }
 
-    public Map<Long, Node> getNodes() {
-        return nodes;
+    public int getNodeCount() {
+        return nodes.size();
     }
 
-    public Map<Long, Way> getWays() {
-        return ways;
+    public int getWayCount() {
+        return ways.size();
     }
 
-    public Map<Long, Relation> getRelations() {
-        return relations;
+    public int getRelationCount() {
+        return relations.size();
     }
 
     public ArrayList<String> getNotes() {

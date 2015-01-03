@@ -27,18 +27,19 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
         super.tearDown();
     }
 
+    // should be 83 nodes
     public void testNumberOfNodes() throws Exception {
-        assertEquals(ds.getNodes().size(), 44);
+        assertEquals(83, ds.getNodeCount());
     }
 
-    public void testGetDataSet() throws Exception {
-        fail("testGetDataSet");
+    // should be 10 ways
+    public void testNumberOfWays() throws Exception {
+        assertEquals(10, ds.getWayCount());
     }
 
-    public void test() throws Exception {
-        System.out.println("testtttt");
-        final int expected = 1;
-        final int reality = 5;
-        assertEquals(expected, reality);
+    // should be 0 relations
+    public void testNumberOfRelations() throws Exception {
+        assertEquals(0, ds.getRelationCount());
     }
+
 }
