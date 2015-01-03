@@ -9,7 +9,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Xml;
 
+import com.spatialdev.osm.model.Element;
 import com.spatialdev.osm.model.Node;
+import com.spatialdev.osm.model.Way;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -127,27 +129,56 @@ public class OsmXmlParser {
                                     changesetStr, uidStr, userStr   );
 
         // If the next thing is not an END_TAG, we have some tag elements in the node...
-        if (parser.next() != XmlPullParser.END_TAG) {
+        if (parser.nextTag() != XmlPullParser.END_TAG && parser.getName().equals("tag")) {
             readTags(node);
         }
     }
 
     private void readWay() throws XmlPullParserException, IOException {
+        String idStr        = parser.getAttributeValue(ns, "id");
+        String versionStr   = parser.getAttributeValue(ns, "version");
+        String timestampStr = parser.getAttributeValue(ns, "timestamp");
+        String changesetStr = parser.getAttributeValue(ns, "changeset");
+        String uidStr       = parser.getAttributeValue(ns, "uid");
+        String userStr      = parser.getAttributeValue(ns, "user");
 
+        Way way = ds.createWay(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+
+        if (parser.nextTag() != XmlPullParser.END_TAG) {
+            if (parser.getName().equals("nd")) {
+                readNds(way);
+            } else if (parser.getName().equals("tag")) {
+                readTags(way);
+            } else {
+                skip();
+            }
+        }
     }
 
     private void readRelation() throws XmlPullParserException, IOException {
 
     }
 
-    private void readTags(Node node) throws XmlPullParserException, IOException {
+    private void readTags(Element el) throws XmlPullParserException, IOException {
+        String k = parser.getAttributeValue(ns, "k");
+        String v = parser.getAttributeValue(ns, "v");
+        el.addTag(k, v);
+        parser.nextTag();
         if (parser.getName().equals("tag")){
-            String k = parser.getAttributeValue(ns, "k");
-            String v = parser.getAttributeValue(ns, "v");
-            node.addTag(k, v);
+            readTags(el);
+        } else if (parser.getName().equals("nd")) {
+            readNds((Way)el);
         }
-        while (parser.next() != XmlPullParser.END_TAG) {
-            readTags(node);
+    }
+
+    private void readNds(Way way)  throws XmlPullParserException, IOException {
+        String ref = parser.getAttributeValue(ns, "ref");
+        long id = Long.valueOf(ref);
+        way.addNodeRef(id);
+        if (parser.getName().equals("tag")){
+            readTags(way);
+        } else if (parser.getName().equals("nd")) {
+            readNds(way);
         }
     }
 

@@ -67,4 +67,16 @@ public class DataSet {
         nodes.put(Long.valueOf(n.getId()), n);
         return n;
     }
+
+    public Way createWay( String idStr,
+                          String versionStr,
+                          String timestampStr,
+                          String changesetStr,
+                          String uidStr,
+                          String userStr ) {
+
+        Way w = new Way(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+        ways.put(Long.valueOf(w.getId()), w);
+        return w;
+    }
 }
