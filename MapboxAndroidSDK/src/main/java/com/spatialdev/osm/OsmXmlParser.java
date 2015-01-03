@@ -9,6 +9,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Xml;
 
+import com.spatialdev.osm.model.Node;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
@@ -19,10 +21,10 @@ public class OsmXmlParser {
     // We are not using namespaces.
     private static final String ns = null;
 
-    XmlPullParser parser;
+    private XmlPullParser parser;
 
     // This is the data set that gets populated from the XML.
-    DataSet ds;
+    private DataSet ds;
 
     /**
      * Access the parser through public static methods which function
@@ -32,8 +34,12 @@ public class OsmXmlParser {
         if (TextUtils.isEmpty(fileName)) {
             throw new NullPointerException("No OSM XML File Name passed in.");
         }
-        OsmXmlParser osmXmlParser = new OsmXmlParser();
         InputStream in = context.getAssets().open(fileName);
+        return parseFromInputStream(in);
+    }
+
+    public static DataSet parseFromInputStream(InputStream in) throws IOException {
+        OsmXmlParser osmXmlParser = new OsmXmlParser();
         try {
             osmXmlParser.parse(in);
         } catch (XmlPullParserException e) {
@@ -45,7 +51,6 @@ public class OsmXmlParser {
         }
         return osmXmlParser.getDataSet();
     }
-
 
     private OsmXmlParser() {
         ds = new DataSet();
@@ -98,13 +103,13 @@ public class OsmXmlParser {
 
     private void readNote() throws XmlPullParserException, IOException {
         String note = readText();
-        ds.addNote(note);
+        ds.createNote(note);
     }
 
     private void readMeta() throws XmlPullParserException, IOException {
         parser.next();
         String osmBase = parser.getAttributeValue(ns, "osm_base");
-        ds.addMeta(osmBase);
+        ds.createMeta(osmBase);
         parser.next();
     }
 
@@ -118,12 +123,12 @@ public class OsmXmlParser {
         String uidStr       = parser.getAttributeValue(ns, "uid");
         String userStr      = parser.getAttributeValue(ns, "user");
 
-        ds.addNode( idStr, latStr, lonStr, versionStr, timestampStr,
-                    changesetStr, uidStr, userStr );
+        Node node = ds.createNode(  idStr, latStr, lonStr, versionStr, timestampStr,
+                                    changesetStr, uidStr, userStr   );
 
         // If the next thing is not an END_TAG, we have some tag elements in the node...
         if (parser.next() != XmlPullParser.END_TAG) {
-            readTags();
+            readTags(node);
         }
     }
 
@@ -135,13 +140,14 @@ public class OsmXmlParser {
 
     }
 
-    private void readTags() throws XmlPullParserException, IOException {
+    private void readTags(Node node) throws XmlPullParserException, IOException {
         if (parser.getName().equals("tag")){
             String k = parser.getAttributeValue(ns, "k");
             String v = parser.getAttributeValue(ns, "v");
+            node.addTag(k, v);
         }
         while (parser.next() != XmlPullParser.END_TAG) {
-
+            readTags(node);
         }
     }
 

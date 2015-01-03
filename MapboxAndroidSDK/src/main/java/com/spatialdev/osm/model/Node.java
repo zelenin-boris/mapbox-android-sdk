@@ -2,7 +2,10 @@
  * Created by Nicholas Hallahan on 12/24/14.
  * nhallahan@spatialdev.com
  */
-package com.spatialdev.osm.data;
+package com.spatialdev.osm.model;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Node {
 
@@ -14,6 +17,8 @@ public class Node {
     long changeset;
     long uid;
     String user;
+
+    private Map<String, String> tags = new HashMap<>();
 
     public Node( String idStr,
                  String latStr,
@@ -37,4 +42,9 @@ public class Node {
     public long getId() {
         return id;
     }
+
+    public void addTag(String k, String v) {
+        tags.put(k, v);
+    }
+
 }

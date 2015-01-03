@@ -4,10 +4,10 @@
  */
 package com.spatialdev.osm;
 
-import com.spatialdev.osm.data.Meta;
-import com.spatialdev.osm.data.Node;
-import com.spatialdev.osm.data.Relation;
-import com.spatialdev.osm.data.Way;
+import com.spatialdev.osm.model.Meta;
+import com.spatialdev.osm.model.Node;
+import com.spatialdev.osm.model.Relation;
+import com.spatialdev.osm.model.Way;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,6 @@ import java.util.Map;
 
 import net.sf.jsi.SpatialIndex;
 import net.sf.jsi.rtree.RTree;
-import net.sf.jsi.Rectangle;
 
 public class DataSet {
 
@@ -45,26 +44,27 @@ public class DataSet {
     public DataSet() {}
 
 
-    public void addNote(String note) {
+    public void createNote(String note) {
         notes.add(note);
     }
 
-    public void addMeta(String osmBase) {
+    public void createMeta(String osmBase) {
         meta = new Meta(osmBase);
     }
 
-    public void addNode( String idStr,
-                         String latStr,
-                         String lonStr,
-                         String versionStr,
-                         String timestampStr,
-                         String changesetStr,
-                         String uidStr,
-                         String userStr ) {
+    public Node createNode(String idStr,
+                           String latStr,
+                           String lonStr,
+                           String versionStr,
+                           String timestampStr,
+                           String changesetStr,
+                           String uidStr,
+                           String userStr) {
 
         Node n = new Node(  idStr, latStr, lonStr, versionStr, timestampStr,
                             changesetStr, uidStr, userStr );
 
         nodes.put(Long.valueOf(n.getId()), n);
+        return n;
     }
 }
