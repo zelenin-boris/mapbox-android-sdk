@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Marker;
+import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.spatialdev.osm.OSM;
+import com.spatialdev.osm.model.DataSet;
 import com.spatialdev.osm.model.OsmXmlParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LocalOSMTestFragment extends Fragment {
 
@@ -37,7 +41,9 @@ public class LocalOSMTestFragment extends Fragment {
 
         // Load OSM XML
         try {
-            OsmXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
+            DataSet ds = OsmXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
+            ArrayList<Object> uiObjects2 = OSM.createUIObjectsFromDataSet(ds);
+
             FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");
             ArrayList<Object> uiObjects = DataLoadingUtils.createUIObjectsFromGeoJSONObjects(features, null);
 
@@ -45,7 +51,8 @@ public class LocalOSMTestFragment extends Fragment {
                 if (obj instanceof Marker) {
                     mapView.addMarker((Marker) obj);
                 } else if (obj instanceof PathOverlay) {
-                    mapView.getOverlays().add((PathOverlay) obj);
+                    List<Overlay> overlays = mapView.getOverlays();
+                    overlays.add((PathOverlay) obj);
                 }
             }
             if (uiObjects.size() > 0) {
