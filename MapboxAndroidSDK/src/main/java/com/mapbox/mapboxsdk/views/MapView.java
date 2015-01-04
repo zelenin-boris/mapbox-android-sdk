@@ -2227,10 +2227,6 @@ public class MapView extends FrameLayout implements MapViewConstants,
         }
     }
 
-    public void setMapViewListener(MapViewListener listener) {
-        this.mMapViewListener = listener;
-    }
-
     public void setOnTileLoadedListener(TileLoadedListener aTileLoadedListener) {
         this.tileLoadedListener = aTileLoadedListener;
     }
