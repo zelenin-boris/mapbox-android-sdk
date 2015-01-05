@@ -6,6 +6,7 @@ package com.spatialdev.osm.model;
 
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 public class Way extends Element {
 
@@ -16,7 +17,7 @@ public class Way extends Element {
      */
     private LinkedList<Long> nodeRefs = new LinkedList<>();
 
-    private LinkedList<Node> linkedNodes = new LinkedList();
+    private LinkedList<Node> linkedNodes = new LinkedList<>();
 
     public Way( String idStr,
                 String versionStr,
@@ -35,14 +36,18 @@ public class Way extends Element {
     /**
      * Populates linked list of nodes referred to by this way.
      *
+     * Takes nodes from nodes hash and puts them in the wayNodes hash
+     * for nodes that are in the actual way.
+     *
      * @param nodes
      * @return the number of node references NOT linked.
      */
-    int linkNodes(Map<Long, Node> nodes) {
+    int linkNodes(Map<Long, Node> nodes, Set<Long> wayNodes) {
         LinkedList<Long> unlinkedRefs = new LinkedList<>();
         while (nodeRefs.size() > 0) {
             Long refId = nodeRefs.pop();
             Node node = nodes.get(refId);
+            wayNodes.add(refId);
             if (node == null) {
                 unlinkedRefs.push(refId);
             } else {

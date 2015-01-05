@@ -11,6 +11,7 @@ import com.spatialdev.osm.model.Way;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,9 +42,20 @@ public class DataSet {
     private Map<Long, Way>      ways      = new HashMap<>();
     private Map<Long, Relation> relations = new HashMap<>();
 
+    /**
+     * Gets filled with ids of nodes that are in a way. This is
+     * used to construct standaloneNodes in postProcessing.
+     */
+    private Set<Long> wayNodeIds = new HashSet<>();
+
+    /**
+     * When the post-processing is done, the nodes that are not
+     * in a way are put here.
+     */
+    private Map<Long, Node> standaloneNodes = new HashMap<>();
+
 
     public DataSet() {}
-
 
     public void createNote(String note) {
         notes.add(note);
@@ -65,7 +77,7 @@ public class DataSet {
         Node n = new Node(  idStr, latStr, lonStr, versionStr, timestampStr,
                             changesetStr, uidStr, userStr );
 
-        nodes.put(Long.valueOf(n.getId()), n);
+        nodes.put(n.getId(), n);
         return n;
     }
 
@@ -77,7 +89,7 @@ public class DataSet {
                           String userStr ) {
 
         Way w = new Way(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
-        ways.put(Long.valueOf(w.getId()), w);
+        ways.put(w.getId(), w);
         return w;
     }
 
@@ -88,7 +100,18 @@ public class DataSet {
         Set<Long> wayKeys = ways.keySet();
         for (Long key : wayKeys) {
             Way w = ways.get(key);
-            w.linkNodes(nodes);
+            w.linkNodes(nodes, wayNodeIds);
+        }
+        Set<Long> nodeKeys = nodes.keySet();
+        for (Long key : nodeKeys) {
+            /*
+             * If a node is not in a way,
+             * put that node in standaloneNodes.
+             */
+            if ( ! wayNodeIds.contains(key) ) {
+                Node n = nodes.get(key);
+                standaloneNodes.put(key, n);
+            }
         }
     }
 
@@ -112,8 +135,17 @@ public class DataSet {
         return meta;
     }
 
-    public Map<Long, Node> getNodes() {
-        return nodes;
+    /**
+     * Returns only the nodes that are not part of ways / relations.
+     *
+     * @return
+     */
+    public Map<Long, Node> getStandaloneNodes() {
+        return standaloneNodes;
+    }
+
+    public int getStandaloneNodesCount() {
+        return standaloneNodes.size();
     }
 
     public Map<Long, Way> getWays() {

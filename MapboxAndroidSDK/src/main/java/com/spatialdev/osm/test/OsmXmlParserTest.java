@@ -55,4 +55,8 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
         assertEquals(0, ds.getRelationCount());
     }
 
+    public void testNumberStandaloneNodes() throws Exception {
+        assertEquals(1, ds.getStandaloneNodesCount());
+    }
+
 }
