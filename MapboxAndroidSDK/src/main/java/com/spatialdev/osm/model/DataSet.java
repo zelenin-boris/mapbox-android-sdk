@@ -60,6 +60,12 @@ public class DataSet {
      */
     private Map<Long, Way> closedWays = new HashMap<>();
 
+    /**
+     * If its not a closed way, then it is an open way.
+     */
+    private Map<Long, Way> openWays = new HashMap<>();
+
+
     public DataSet() {}
 
     public void createNote(String note) {
@@ -118,6 +124,8 @@ public class DataSet {
              */
             if ( w.isClosed() ) {
                 closedWays.put(w.getId(), w);
+            } else {
+                openWays.put(w.getId(), w);
             }
         }
 
@@ -178,6 +186,14 @@ public class DataSet {
 
     public int getClosedWaysCount() {
         return closedWays.size();
+    }
+
+    public Map<Long, Way> getOpenWays() {
+        return openWays;
+    }
+
+    public int getOpenWaysCount() {
+        return openWays.size();
     }
 
     public Map<Long, Relation> getRelations() {

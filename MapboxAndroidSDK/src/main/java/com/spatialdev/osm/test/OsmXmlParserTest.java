@@ -63,4 +63,8 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
         assertEquals(7, ds.getClosedWaysCount());
     }
 
+    public void testNumberOpenWays() throws Exception {
+        assertEquals(3, ds.getOpenWaysCount());
+    }
+
 }
