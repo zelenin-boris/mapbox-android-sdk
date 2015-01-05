@@ -19,6 +19,11 @@ public class Way extends Element {
 
     private LinkedList<Node> linkedNodes = new LinkedList<>();
 
+    /**
+     * isClosed checks to see if this way is closed and sets it to true if so.
+     */
+    private boolean closed = false;
+
     public Way( String idStr,
                 String versionStr,
                 String timestampStr,
@@ -43,6 +48,8 @@ public class Way extends Element {
      * @return the number of node references NOT linked.
      */
     int linkNodes(Map<Long, Node> nodes, Set<Long> wayNodes) {
+        // first check if the way is closed before doing this processing...
+        checkIfClosed();
         LinkedList<Long> unlinkedRefs = new LinkedList<>();
         while (nodeRefs.size() > 0) {
             Long refId = nodeRefs.pop();
@@ -58,11 +65,34 @@ public class Way extends Element {
         return nodeRefs.size();
     }
 
-    public int getNumUnlinkedNodes() {
+    public int getUnlinkedNodesCount() {
         return nodeRefs.size();
     }
 
-    public int getNumLinkedNodes() {
+    public int getLinkedNodesCount() {
         return linkedNodes.size();
+    }
+
+    private void checkIfClosed() {
+        Long firstId = nodeRefs.getFirst();
+        Long lastId = nodeRefs.getLast();
+        if (firstId.equals(lastId)) {
+            closed = true;
+        }
+    }
+
+    /**
+     * If the starting node is the same as ending node, this way
+     * is closed.
+     *
+     * WARNING: This will be correct only AFTER linkNodes has been run.
+     *
+     * @return closed
+     */
+    boolean isClosed() {
+        if (closed) {
+            return true;
+        }
+        return false;
     }
 }

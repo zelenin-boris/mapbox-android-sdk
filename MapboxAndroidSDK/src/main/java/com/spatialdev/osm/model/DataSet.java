@@ -54,6 +54,11 @@ public class DataSet {
      */
     private Map<Long, Node> standaloneNodes = new HashMap<>();
 
+    /**
+     * Post-processing find all of the ways that are closed,
+     *      ie: same first and last node
+     */
+    private Map<Long, Way> closedWays = new HashMap<>();
 
     public DataSet() {}
 
@@ -97,14 +102,28 @@ public class DataSet {
      * Should only be called by the parser.
      */
     void postProcessing() {
+
         Set<Long> wayKeys = ways.keySet();
         for (Long key : wayKeys) {
+            /**
+             * Link node references to the actual nodes
+             * in the Way objects.
+             */
             Way w = ways.get(key);
             w.linkNodes(nodes, wayNodeIds);
+
+            /**
+             * If a way has the same starting node as ending node,
+             * it is a closed way.
+             */
+            if ( w.isClosed() ) {
+                closedWays.put(w.getId(), w);
+            }
         }
+
         Set<Long> nodeKeys = nodes.keySet();
         for (Long key : nodeKeys) {
-            /*
+            /**
              * If a node is not in a way,
              * put that node in standaloneNodes.
              */
@@ -113,6 +132,7 @@ public class DataSet {
                 standaloneNodes.put(key, n);
             }
         }
+
     }
 
     public int getNodeCount() {
@@ -150,6 +170,14 @@ public class DataSet {
 
     public Map<Long, Way> getWays() {
         return ways;
+    }
+
+    public Map<Long, Way> getClosedWays() {
+        return closedWays;
+    }
+
+    public int getClosedWaysCount() {
+        return closedWays.size();
     }
 
     public Map<Long, Relation> getRelations() {

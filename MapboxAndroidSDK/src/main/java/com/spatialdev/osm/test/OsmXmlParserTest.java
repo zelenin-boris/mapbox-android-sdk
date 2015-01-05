@@ -40,13 +40,13 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
 
     public void testNumberUnlinkedNodes() throws Exception {
         Way w = ds.getWays().get(Long.valueOf(178540022));
-        int count = w.getNumUnlinkedNodes();
+        int count = w.getUnlinkedNodesCount();
         assertEquals(0, count);
     }
 
     public void testNumberLinkedNodes() throws Exception {
         Way w = ds.getWays().get(Long.valueOf(178540022));
-        int count = w.getNumLinkedNodes();
+        int count = w.getLinkedNodesCount();
         assertEquals(12, count);
     }
 
@@ -57,6 +57,10 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
 
     public void testNumberStandaloneNodes() throws Exception {
         assertEquals(1, ds.getStandaloneNodesCount());
+    }
+
+    public void testNumberClosedWays() throws Exception {
+        assertEquals(7, ds.getClosedWaysCount());
     }
 
 }
