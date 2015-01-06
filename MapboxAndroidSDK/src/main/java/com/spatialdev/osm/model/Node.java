@@ -4,10 +4,11 @@
  */
 package com.spatialdev.osm.model;
 
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
 public class Node extends Element {
 
-    double lat;
-    double lon;
+    private LatLng latLng;
 
     public Node( String idStr,
                  String latStr,
@@ -20,8 +21,12 @@ public class Node extends Element {
 
         super(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
 
-        lat = Double.valueOf(latStr);
-        lon = Double.valueOf(lonStr);
+        double lat = Double.valueOf(latStr);
+        double lon = Double.valueOf(lonStr);
+        latLng = new LatLng(lat, lon);
     }
 
+    public LatLng getLatLng() {
+        return latLng;
+    }
 }

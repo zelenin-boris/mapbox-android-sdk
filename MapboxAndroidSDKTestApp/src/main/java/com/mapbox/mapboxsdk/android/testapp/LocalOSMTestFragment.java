@@ -42,10 +42,10 @@ public class LocalOSMTestFragment extends Fragment {
         // Load OSM XML
         try {
             DataSet ds = OsmXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
-            ArrayList<Object> uiObjects2 = OSM.createUIObjectsFromDataSet(ds);
+            ArrayList<Object> uiObjects = OSM.createUIObjectsFromDataSet(ds);
 
-            FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");
-            ArrayList<Object> uiObjects = DataLoadingUtils.createUIObjectsFromGeoJSONObjects(features, null);
+//            FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");
+//            ArrayList<Object> uiObjects = DataLoadingUtils.createUIObjectsFromGeoJSONObjects(features, null);
 
             for (Object obj : uiObjects) {
                 if (obj instanceof Marker) {

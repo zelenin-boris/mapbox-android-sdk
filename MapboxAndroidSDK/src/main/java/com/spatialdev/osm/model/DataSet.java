@@ -10,8 +10,8 @@ import com.spatialdev.osm.model.Relation;
 import com.spatialdev.osm.model.Way;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,9 +38,9 @@ public class DataSet {
     /**
      * Hash tables to look up Nodes, Ways, Relations by their IDs.
      */
-    private Map<Long, Node>     nodes     = new HashMap<>();
-    private Map<Long, Way>      ways      = new HashMap<>();
-    private Map<Long, Relation> relations = new HashMap<>();
+    private LinkedHashMap<Long, Node>     nodes     = new LinkedHashMap<>();
+    private LinkedHashMap<Long, Way>      ways      = new LinkedHashMap<>();
+    private LinkedHashMap<Long, Relation> relations = new LinkedHashMap<>();
 
     /**
      * Gets filled with ids of nodes that are in a way. This is
@@ -52,18 +52,18 @@ public class DataSet {
      * When the post-processing is done, the nodes that are not
      * in a way are put here.
      */
-    private Map<Long, Node> standaloneNodes = new HashMap<>();
+    private LinkedHashMap<Long, Node> standaloneNodes = new LinkedHashMap<>();
 
     /**
      * Post-processing find all of the ways that are closed,
      *      ie: same first and last node
      */
-    private Map<Long, Way> closedWays = new HashMap<>();
+    private LinkedHashMap<Long, Way> closedWays = new LinkedHashMap<>();
 
     /**
      * If its not a closed way, then it is an open way.
      */
-    private Map<Long, Way> openWays = new HashMap<>();
+    private LinkedHashMap<Long, Way> openWays = new LinkedHashMap<>();
 
 
     public DataSet() {}
@@ -168,7 +168,7 @@ public class DataSet {
      *
      * @return
      */
-    public Map<Long, Node> getStandaloneNodes() {
+    public LinkedHashMap<Long, Node> getStandaloneNodes() {
         return standaloneNodes;
     }
 
@@ -180,7 +180,7 @@ public class DataSet {
         return ways;
     }
 
-    public Map<Long, Way> getClosedWays() {
+    public LinkedHashMap<Long, Way> getClosedWays() {
         return closedWays;
     }
 
@@ -188,7 +188,7 @@ public class DataSet {
         return closedWays.size();
     }
 
-    public Map<Long, Way> getOpenWays() {
+    public LinkedHashMap<Long, Way> getOpenWays() {
         return openWays;
     }
 
@@ -196,7 +196,7 @@ public class DataSet {
         return openWays.size();
     }
 
-    public Map<Long, Relation> getRelations() {
+    public LinkedHashMap<Long, Relation> getRelations() {
         return relations;
     }
 

@@ -4,6 +4,7 @@
  */
 package com.spatialdev.osm.model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -94,5 +95,13 @@ public class Way extends Element {
             return true;
         }
         return false;
+    }
+
+    /**
+     * This allows you to iterate through the nodes. This is great if you
+     * want to give a renderer all of the lat longs to paint a line...
+     */
+    public Iterator<Node> getNodeIterator() {
+        return linkedNodes.listIterator();
     }
 }
