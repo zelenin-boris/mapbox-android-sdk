@@ -32,6 +32,7 @@ public class OSM {
             Way w = closedWays.get(k);
             Iterator<Node> nodeIterator = w.getNodeIterator();
             PathOverlay path = new PathOverlay();
+            path.setOptimizePath(false); // optimizePath does not work for polys
             path.getPaint().setStyle(Paint.Style.FILL);
             while (nodeIterator.hasNext()) {
                 Node n = nodeIterator.next();
