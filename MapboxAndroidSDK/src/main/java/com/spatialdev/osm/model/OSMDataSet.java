@@ -15,7 +15,7 @@ import java.util.Set;
 import net.sf.jsi.SpatialIndex;
 import net.sf.jsi.rtree.RTree;
 
-public class DataSet {
+public class OSMDataSet {
 
     /**
      * This is the R-Tree that indexes all of the OSM Spatial Objects
@@ -63,7 +63,7 @@ public class DataSet {
     private LinkedHashMap<Long, Way> openWays = new LinkedHashMap<>();
 
 
-    public DataSet() {}
+    public OSMDataSet() {}
 
     public void createNote(String note) {
         notes.add(note);
@@ -181,6 +181,18 @@ public class DataSet {
         return closedWays;
     }
 
+    public Way[] getClosedWaysArr() {
+        int len = closedWays.size();
+        Way[] wayArr = new Way[len];
+        int i = 0;
+        Set<Long> keys = closedWays.keySet();
+        for (Long k : keys) {
+            Way w = closedWays.get(k);
+            wayArr[i++] = w;
+        }
+        return wayArr;
+    }
+
     public int getClosedWaysCount() {
         return closedWays.size();
     }
@@ -197,9 +209,4 @@ public class DataSet {
         return relations;
     }
 
-    public void queryWithLatLng(ILatLng latLng) {
-        double lat = latLng.getLatitude();
-        double lng = latLng.getLongitude();
-
-    }
 }

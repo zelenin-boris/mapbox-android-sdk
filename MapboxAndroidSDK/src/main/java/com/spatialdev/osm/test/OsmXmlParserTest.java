@@ -7,7 +7,7 @@ package com.spatialdev.osm.test;
 
 import android.test.InstrumentationTestCase;
 
-import com.spatialdev.osm.model.DataSet;
+import com.spatialdev.osm.model.OSMDataSet;
 import com.spatialdev.osm.model.OsmXmlParser;
 import com.spatialdev.osm.model.Way;
 
@@ -16,7 +16,7 @@ import java.io.InputStream;
 public class OsmXmlParserTest extends InstrumentationTestCase {
 
     private InputStream in;
-    private DataSet ds;
+    private OSMDataSet ds;
 
     public void setUp() throws Exception {
         super.setUp();

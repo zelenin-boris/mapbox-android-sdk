@@ -104,4 +104,8 @@ public class Way extends Element {
     public Iterator<Node> getNodeIterator() {
         return linkedNodes.listIterator();
     }
+
+    public Node[] getNodesArr() {
+        return linkedNodes.toArray(new Node[linkedNodes.size()]);
+    }
 }

@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
-import com.spatialdev.osm.model.DataSet;
+import com.spatialdev.osm.model.OSMDataSet;
 import com.spatialdev.osm.model.Node;
 import com.spatialdev.osm.model.Way;
 
@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class OSMUtil {
 
-    public static ArrayList<Object> createUIObjectsFromDataSet(DataSet ds) {
+    public static ArrayList<Object> createUIObjectsFromDataSet(OSMDataSet ds) {
         ArrayList<Object> uiObjects = new ArrayList<Object>();
 
         /**

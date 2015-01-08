@@ -29,4 +29,12 @@ public class Node extends Element {
     public LatLng getLatLng() {
         return latLng;
     }
+
+    public double getLat() {
+        return latLng.getLatitude();
+    }
+
+    public double getLng() {
+        return latLng.getLongitude();
+    }
 }

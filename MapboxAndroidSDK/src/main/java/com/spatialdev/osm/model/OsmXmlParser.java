@@ -22,13 +22,13 @@ public class OsmXmlParser {
     private XmlPullParser parser;
 
     // This is the data set that gets populated from the XML.
-    private DataSet ds;
+    private OSMDataSet ds;
 
     /**
      * Access the parser through public static methods which function
      * as factories creating parser instances.
      */
-    public static DataSet parseFromAssets(final Context context, final String fileName) throws IOException {
+    public static OSMDataSet parseFromAssets(final Context context, final String fileName) throws IOException {
         if (TextUtils.isEmpty(fileName)) {
             throw new NullPointerException("No OSM XML File Name passed in.");
         }
@@ -36,7 +36,7 @@ public class OsmXmlParser {
         return parseFromInputStream(in);
     }
 
-    public static DataSet parseFromInputStream(InputStream in) throws IOException {
+    public static OSMDataSet parseFromInputStream(InputStream in) throws IOException {
         OsmXmlParser osmXmlParser = new OsmXmlParser();
         try {
             osmXmlParser.parse(in);
@@ -51,10 +51,10 @@ public class OsmXmlParser {
     }
 
     private OsmXmlParser() {
-        ds = new DataSet();
+        ds = new OSMDataSet();
     }
 
-    public DataSet getDataSet() {
+    public OSMDataSet getDataSet() {
         return ds;
     }
 
