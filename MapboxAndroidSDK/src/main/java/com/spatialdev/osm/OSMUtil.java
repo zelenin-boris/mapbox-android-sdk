@@ -1,3 +1,7 @@
+/**
+ * Created by Nicholas Hallahan on 1/3/15.
+ * nhallahan@spatialdev.com
+ */
 package com.spatialdev.osm;
 
 import android.graphics.Paint;
@@ -13,10 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Nicholas Hallahan on 1/3/15.
- * nhallahan@spatialdev.com
- */
+
 public class OSMUtil {
 
     public static ArrayList<Object> createUIObjectsFromDataSet(OSMDataSet ds) {
