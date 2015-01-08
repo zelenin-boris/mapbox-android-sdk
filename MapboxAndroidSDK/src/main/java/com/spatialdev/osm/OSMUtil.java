@@ -11,8 +11,7 @@ import com.spatialdev.osm.model.Way;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Nicholas Hallahan on 1/3/15.
@@ -26,10 +25,8 @@ public class OSMUtil {
         /**
          * POLYGONS
          */
-        LinkedHashMap<Long, Way> closedWays = ds.getClosedWays();
-        Set<Long> closedWayKeys = closedWays.keySet();
-        for (Long k : closedWayKeys) {
-            Way w = closedWays.get(k);
+        List<Way> closedWays = ds.getClosedWays();
+        for (Way w : closedWays) {
             Iterator<Node> nodeIterator = w.getNodeIterator();
             PathOverlay path = new PathOverlay();
             path.setOptimizePath(false); // optimizePath does not work for polys
@@ -48,10 +45,8 @@ public class OSMUtil {
         /**
          * LINES
          */
-        LinkedHashMap<Long, Way> openWays = ds.getOpenWays();
-        Set<Long> openWayKeys = openWays.keySet();
-        for (Long k : openWayKeys) {
-            Way w = openWays.get(k);
+        List<Way> openWays = ds.getOpenWays();
+        for (Way w : openWays) {
             Iterator<Node> nodeIterator = w.getNodeIterator();
             PathOverlay path = new PathOverlay();
             path.getPaint().setARGB(200, 209, 29, 119);
@@ -67,10 +62,8 @@ public class OSMUtil {
         /**
          * POINTS
          */
-        LinkedHashMap<Long, Node> standaloneNodes = ds.getStandaloneNodes();
-        Set<Long> standaloneNodeKeys = standaloneNodes.keySet();
-        for (Long k : standaloneNodeKeys) {
-            Node n = standaloneNodes.get(k);
+        List<Node> standaloneNodes = ds.getStandaloneNodes();
+        for (Node n : standaloneNodes) {
             LatLng latLng = n.getLatLng();
             Marker marker = new Marker("stubTitle", "stubDesc", latLng);
             uiObjects.add(marker);

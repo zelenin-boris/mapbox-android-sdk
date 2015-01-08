@@ -4,11 +4,10 @@
  */
 package com.spatialdev.osm.model;
 
-import com.mapbox.mapboxsdk.api.ILatLng;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,18 +48,18 @@ public class OSMDataSet {
      * When the post-processing is done, the nodes that are not
      * in a way are put here.
      */
-    private LinkedHashMap<Long, Node> standaloneNodes = new LinkedHashMap<>();
+    private List<Node> standaloneNodes = new ArrayList<>();
 
     /**
      * Post-processing find all of the ways that are closed,
      *      ie: same first and last node
      */
-    private LinkedHashMap<Long, Way> closedWays = new LinkedHashMap<>();
+    private List<Way> closedWays = new ArrayList<>();
 
     /**
      * If its not a closed way, then it is an open way.
      */
-    private LinkedHashMap<Long, Way> openWays = new LinkedHashMap<>();
+    private List<Way> openWays = new ArrayList<>();
 
 
     public OSMDataSet() {}
@@ -120,9 +119,9 @@ public class OSMDataSet {
              * it is a closed way.
              */
             if ( w.isClosed() ) {
-                closedWays.put(w.getId(), w);
+                closedWays.add(w);
             } else {
-                openWays.put(w.getId(), w);
+                openWays.add(w);
             }
         }
 
@@ -134,7 +133,7 @@ public class OSMDataSet {
              */
             if ( ! wayNodeIds.contains(key) ) {
                 Node n = nodes.get(key);
-                standaloneNodes.put(key, n);
+                standaloneNodes.add(n);
             }
         }
 
@@ -165,7 +164,7 @@ public class OSMDataSet {
      *
      * @return
      */
-    public LinkedHashMap<Long, Node> getStandaloneNodes() {
+    public List<Node> getStandaloneNodes() {
         return standaloneNodes;
     }
 
@@ -177,27 +176,15 @@ public class OSMDataSet {
         return ways;
     }
 
-    public LinkedHashMap<Long, Way> getClosedWays() {
+    public List<Way> getClosedWays() {
         return closedWays;
-    }
-
-    public Way[] getClosedWaysArr() {
-        int len = closedWays.size();
-        Way[] wayArr = new Way[len];
-        int i = 0;
-        Set<Long> keys = closedWays.keySet();
-        for (Long k : keys) {
-            Way w = closedWays.get(k);
-            wayArr[i++] = w;
-        }
-        return wayArr;
     }
 
     public int getClosedWaysCount() {
         return closedWays.size();
     }
 
-    public LinkedHashMap<Long, Way> getOpenWays() {
+    public List<Way> getOpenWays() {
         return openWays;
     }
 
@@ -205,8 +192,8 @@ public class OSMDataSet {
         return openWays.size();
     }
 
-    public LinkedHashMap<Long, Relation> getRelations() {
-        return relations;
+    public List<Relation> getRelations() {
+        return new ArrayList<>(relations.values());
     }
 
 }

@@ -6,6 +6,7 @@ package com.spatialdev.osm.model;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -105,7 +106,7 @@ public class Way extends Element {
         return linkedNodes.listIterator();
     }
 
-    public Node[] getNodesArr() {
-        return linkedNodes.toArray(new Node[linkedNodes.size()]);
+    public List<Node> getNodes() {
+        return linkedNodes;
     }
 }

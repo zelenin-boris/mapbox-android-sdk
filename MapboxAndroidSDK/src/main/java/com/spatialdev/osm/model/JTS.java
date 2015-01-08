@@ -37,18 +37,16 @@ public class JTS {
     public void addOSMDataSet(OSMDataSet ds) {
         this.ds = ds;
 
-        Way[] closedWays = ds.getClosedWaysArr();
-        for (int i = 0; i < closedWays.length; i++) {
-            Way closedWay = closedWays[i];
-            Node[] nodes = closedWay.getNodesArr();
-            int nodesLen = nodes.length;
-            Coordinate[] coords = new Coordinate[nodesLen];
-            for (int j = 0; j < nodes.length; j++) {
-                Node node = nodes[j];
+        List<Way> closedWays = ds.getClosedWays();
+        for (Way closedWay : closedWays) {
+            List<Node> nodes = closedWay.getNodes();
+            Coordinate[] coords = new Coordinate[nodes.size()];
+            int i = 0;
+            for (Node node : nodes) {
                 double lat = node.getLat();
                 double lng = node.getLng();
                 Coordinate coord = new Coordinate(lng, lat);
-                coords[j] = coord;
+                coords[i++] = coord;
             }
             Polygon poly = geometryFactory.createPolygon(coords);
             Envelope envelope = poly.getEnvelopeInternal();
