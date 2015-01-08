@@ -4,10 +4,7 @@
  */
 package com.spatialdev.osm.model;
 
-import com.spatialdev.osm.model.Meta;
-import com.spatialdev.osm.model.Node;
-import com.spatialdev.osm.model.Relation;
-import com.spatialdev.osm.model.Way;
+import com.mapbox.mapboxsdk.api.ILatLng;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -200,4 +197,9 @@ public class DataSet {
         return relations;
     }
 
+    public void queryWithLatLng(ILatLng latLng) {
+        double lat = latLng.getLatitude();
+        double lng = latLng.getLongitude();
+
+    }
 }

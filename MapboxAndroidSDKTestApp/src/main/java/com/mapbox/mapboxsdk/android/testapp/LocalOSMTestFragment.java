@@ -5,14 +5,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.cocoahero.android.geojson.FeatureCollection;
+
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
-import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.views.MapView;
-import com.spatialdev.osm.OSM;
+import com.spatialdev.osm.OSMMapListener;
+import com.spatialdev.osm.OSMUtil;
 import com.spatialdev.osm.model.DataSet;
 import com.spatialdev.osm.model.OsmXmlParser;
 
@@ -42,7 +42,8 @@ public class LocalOSMTestFragment extends Fragment {
         // Load OSM XML
         try {
             DataSet ds = OsmXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
-            ArrayList<Object> uiObjects = OSM.createUIObjectsFromDataSet(ds);
+            OSMMapListener mapListener = new OSMMapListener(mapView, ds);
+            ArrayList<Object> uiObjects = OSMUtil.createUIObjectsFromDataSet(ds);
 
 //            FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");
 //            ArrayList<Object> uiObjects = DataLoadingUtils.createUIObjectsFromGeoJSONObjects(features, null);

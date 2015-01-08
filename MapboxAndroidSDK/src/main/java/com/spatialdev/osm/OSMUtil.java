@@ -18,7 +18,7 @@ import java.util.Set;
  * Created by Nicholas Hallahan on 1/3/15.
  * nhallahan@spatialdev.com
  */
-public class OSM {
+public class OSMUtil {
 
     public static ArrayList<Object> createUIObjectsFromDataSet(DataSet ds) {
         ArrayList<Object> uiObjects = new ArrayList<Object>();
