@@ -93,6 +93,18 @@ public class OSMDataSet {
         return w;
     }
 
+    public Relation createRelation( String idStr,
+                                    String versionStr,
+                                    String timestampStr,
+                                    String changesetStr,
+                                    String uidStr,
+                                    String userStr ) {
+
+        Relation r = new Relation(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+        relations.put(r.getId(), r);
+        return r;
+    }
+
     /**
      * Should only be called by the parser.
      */

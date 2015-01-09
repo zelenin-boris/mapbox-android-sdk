@@ -153,7 +153,23 @@ public class OSMXmlParser {
     }
 
     private void readRelation() throws XmlPullParserException, IOException {
+        String idStr        = parser.getAttributeValue(ns, "id");
+        String versionStr   = parser.getAttributeValue(ns, "version");
+        String timestampStr = parser.getAttributeValue(ns, "timestamp");
+        String changesetStr = parser.getAttributeValue(ns, "changeset");
+        String uidStr       = parser.getAttributeValue(ns, "uid");
+        String userStr      = parser.getAttributeValue(ns, "user");
 
+        Relation relation = ds.createRelation(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+        if (parser.nextTag() != XmlPullParser.END_TAG) {
+            if (parser.getName().equals("member")) {
+                readMembers(relation);
+            } else if (parser.getName().equals("tag")) {
+                readTags(relation);
+            } else {
+                skip();
+            }
+        }
     }
 
     private void readTags(Element el) throws XmlPullParserException, IOException {
@@ -184,6 +200,24 @@ public class OSMXmlParser {
         } else if (parser.getName().equals("nd")) {
             readNds(way);
         }
+    }
+
+    private void readMembers(Relation relation) throws XmlPullParserException, IOException {
+        String type = parser.getAttributeValue(ns, "type");
+        String ref = parser.getAttributeValue(ns, "ref");
+
+        // TODO: Implement roles.
+//        String role = parser.getAttributeValue(ns, "role");
+
+        long id = Long.valueOf(ref);
+        if (type.equals("node")) {
+            relation.addNodeRef(id);
+        } else if (type.equals("way")) {
+            relation.addWayRef(id);
+        } else if (type.equals("relation")) {
+            relation.addRelationRef(id);
+        }
+
     }
 
 

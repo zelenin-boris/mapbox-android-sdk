@@ -1,6 +1,6 @@
 package com.spatialdev.osm.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +15,7 @@ public abstract class Element {
     protected long uid;
     protected String user;
 
-    protected Map<String, String> tags = new HashMap<>();
+    protected Map<String, String> tags = new LinkedHashMap<>();
 
     public Element( String idStr,
                     String versionStr,

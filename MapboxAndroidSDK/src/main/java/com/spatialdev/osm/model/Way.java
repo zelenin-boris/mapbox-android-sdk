@@ -22,6 +22,11 @@ public class Way extends Element {
     private LinkedList<Node> linkedNodes = new LinkedList<>();
 
     /**
+     * If a way is in a relation, it's relation is added to this list.
+     */
+    private LinkedList<Relation> linkedRelations = new LinkedList<>();
+
+    /**
      * isClosed checks to see if this way is closed and sets it to true if so.
      */
     private boolean closed = false;
@@ -108,5 +113,17 @@ public class Way extends Element {
 
     public List<Node> getNodes() {
         return linkedNodes;
+    }
+
+    /**
+     * If this is in a relation, it's parent relation is added to an internal linked list.
+     * @param relation
+     */
+    public void addRelation(Relation relation) {
+        linkedRelations.push(relation);
+    }
+
+    public List<Relation> getRelations() {
+        return linkedRelations;
     }
 }

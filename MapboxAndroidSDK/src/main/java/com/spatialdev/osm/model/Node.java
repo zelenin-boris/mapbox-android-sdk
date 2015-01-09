@@ -6,9 +6,14 @@ package com.spatialdev.osm.model;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Node extends Element {
 
     private LatLng latLng;
+
+    private LinkedList<Relation> linkedRelations = new LinkedList<>();
 
     public Node( String idStr,
                  String latStr,
@@ -36,5 +41,13 @@ public class Node extends Element {
 
     public double getLng() {
         return latLng.getLongitude();
+    }
+
+    public void addRelation(Relation relation) {
+        linkedRelations.push(relation);
+    }
+
+    public List<Relation> getRelations() {
+        return linkedRelations;
     }
 }
