@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class OsmXmlParser {
+public class OSMXmlParser {
     // We are not using namespaces.
     private static final String ns = null;
 
@@ -37,7 +37,7 @@ public class OsmXmlParser {
     }
 
     public static OSMDataSet parseFromInputStream(InputStream in) throws IOException {
-        OsmXmlParser osmXmlParser = new OsmXmlParser();
+        OSMXmlParser osmXmlParser = new OSMXmlParser();
         try {
             osmXmlParser.parse(in);
         } catch (XmlPullParserException e) {
@@ -50,7 +50,7 @@ public class OsmXmlParser {
         return osmXmlParser.getDataSet();
     }
 
-    private OsmXmlParser() {
+    private OSMXmlParser() {
         ds = new OSMDataSet();
     }
 

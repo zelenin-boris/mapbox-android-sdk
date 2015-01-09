@@ -8,12 +8,12 @@ package com.spatialdev.osm.test;
 import android.test.InstrumentationTestCase;
 
 import com.spatialdev.osm.model.OSMDataSet;
-import com.spatialdev.osm.model.OsmXmlParser;
+import com.spatialdev.osm.model.OSMXmlParser;
 import com.spatialdev.osm.model.Way;
 
 import java.io.InputStream;
 
-public class OsmXmlParserTest extends InstrumentationTestCase {
+public class OSMXmlParserTest extends InstrumentationTestCase {
 
     private InputStream in;
     private OSMDataSet ds;
@@ -21,7 +21,7 @@ public class OsmXmlParserTest extends InstrumentationTestCase {
     public void setUp() throws Exception {
         super.setUp();
         in = getInstrumentation().getTargetContext().getResources().getAssets().open("test/osm/spatialdev_small.osm");
-        ds = OsmXmlParser.parseFromInputStream(in);
+        ds = OSMXmlParser.parseFromInputStream(in);
     }
 
     public void tearDown() throws Exception {

@@ -15,7 +15,7 @@ import com.spatialdev.osm.OSMMapListener;
 import com.spatialdev.osm.OSMUtil;
 import com.spatialdev.osm.model.JTS;
 import com.spatialdev.osm.model.OSMDataSet;
-import com.spatialdev.osm.model.OsmXmlParser;
+import com.spatialdev.osm.model.OSMXmlParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class LocalOSMTestFragment extends Fragment {
 
         // Load OSM XML
         try {
-            OSMDataSet ds = OsmXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
+            OSMDataSet ds = OSMXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
             JTS jts = new JTS(ds);
             OSMMapListener mapListener = new OSMMapListener(mapView, jts);
             ArrayList<Object> uiObjects = OSMUtil.createUIObjectsFromDataSet(ds);
