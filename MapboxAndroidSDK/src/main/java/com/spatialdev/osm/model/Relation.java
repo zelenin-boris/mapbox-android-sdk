@@ -55,6 +55,7 @@ public class Relation extends Element {
             if (node == null) {
                 unlinkedRefs.push(refId);
             } else {
+                node.addRelation(this);
                 linkedNodes.push(node);
             }
         }
@@ -70,6 +71,7 @@ public class Relation extends Element {
             if (way == null) {
                 unlinkedRefs.push(refId);
             } else {
+                way.addRelation(this);
                 linkedWays.push(way);
             }
         }
@@ -85,6 +87,7 @@ public class Relation extends Element {
             if (relation == null) {
                 unlinkedRefs.push(refId);
             } else {
+                relation.addRelation(this);
                 linkedRelations.push(relation);
             }
         }
@@ -98,5 +101,9 @@ public class Relation extends Element {
 
     public List<Relation> getRelations() {
         return linkedRelations;
+    }
+
+    public int getUnlinkedMemberCount() {
+        return nodeRefs.size() + wayRefs.size() + relationRefs.size();
     }
 }

@@ -142,6 +142,11 @@ public class OSMDataSet {
             }
         }
 
+        Set<Long> relationKeys = relations.keySet();
+        for (Long key : relationKeys) {
+            Relation r = relations.get(key);
+            r.link(nodes, ways, relations);
+        }
     }
 
     public int getNodeCount() {
@@ -197,8 +202,8 @@ public class OSMDataSet {
         return openWays.size();
     }
 
-    public List<Relation> getRelations() {
-        return new ArrayList<>(relations.values());
+    public Map<Long, Relation> getRelations() {
+        return relations;
     }
 
 }

@@ -161,6 +161,7 @@ public class OSMXmlParser {
         String userStr      = parser.getAttributeValue(ns, "user");
 
         Relation relation = ds.createRelation(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+
         if (parser.nextTag() != XmlPullParser.END_TAG) {
             if (parser.getName().equals("member")) {
                 readMembers(relation);
@@ -184,6 +185,8 @@ public class OSMXmlParser {
             readTags(el);
         } else if (parser.getName().equals("nd")) {
             readNds((Way)el);
+        } else if (parser.getName().equals("member")) {
+            readMembers((Relation)el);
         }
     }
 
@@ -216,6 +219,16 @@ public class OSMXmlParser {
             relation.addWayRef(id);
         } else if (type.equals("relation")) {
             relation.addRelationRef(id);
+        }
+
+        // we do this twice, because these are singular nodes that
+        // function as start and end tags
+        parser.nextTag();
+        parser.nextTag();
+        if (parser.getName().equals("tag")){
+            readTags(relation);
+        } else if (parser.getName().equals("member")) {
+            readMembers(relation);
         }
 
     }

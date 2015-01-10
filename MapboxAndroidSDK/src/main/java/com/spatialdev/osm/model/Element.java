@@ -39,4 +39,12 @@ public abstract class Element {
     public long getId() {
         return id;
     }
+
+    public Map<String, String> getTags() {
+        return tags;
+    }
+
+    public int getTagCount() {
+        return tags.size();
+    }
 }
