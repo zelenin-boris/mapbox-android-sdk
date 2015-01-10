@@ -2,6 +2,7 @@ package com.spatialdev.osm.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Created by Nicholas Hallahan on 1/2/15.
@@ -14,6 +15,8 @@ public abstract class Element {
     protected long changeset;
     protected long uid;
     protected String user;
+
+    protected Geometry jtsGeom;
 
     protected Map<String, String> tags = new LinkedHashMap<>();
 
@@ -47,4 +50,13 @@ public abstract class Element {
     public int getTagCount() {
         return tags.size();
     }
+
+    public void setJTSGeom(Geometry geom) {
+        jtsGeom = geom;
+    }
+
+    public Geometry getJTSGeom() {
+        return jtsGeom;
+    }
+
 }

@@ -10,13 +10,10 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.index.strtree.STRtree;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 public class JTS {
 
