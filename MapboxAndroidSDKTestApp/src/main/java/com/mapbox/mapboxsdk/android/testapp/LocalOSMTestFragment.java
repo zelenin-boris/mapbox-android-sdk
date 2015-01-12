@@ -13,7 +13,7 @@ import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.spatialdev.osm.OSMMapListener;
 import com.spatialdev.osm.OSMUtil;
-import com.spatialdev.osm.model.JTS;
+import com.spatialdev.osm.model.JTSModel;
 import com.spatialdev.osm.model.OSMDataSet;
 import com.spatialdev.osm.model.OSMXmlParser;
 
@@ -43,8 +43,8 @@ public class LocalOSMTestFragment extends Fragment {
         // Load OSM XML
         try {
             OSMDataSet ds = OSMXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
-            JTS jts = new JTS(ds);
-            OSMMapListener mapListener = new OSMMapListener(mapView, jts);
+            JTSModel jtsModel = new JTSModel(ds);
+            OSMMapListener mapListener = new OSMMapListener(mapView, jtsModel);
             ArrayList<Object> uiObjects = OSMUtil.createUIObjectsFromDataSet(ds);
 
 //            FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");

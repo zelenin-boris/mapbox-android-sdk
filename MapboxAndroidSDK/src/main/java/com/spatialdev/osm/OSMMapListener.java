@@ -13,17 +13,16 @@ import com.mapbox.mapboxsdk.events.ZoomEvent;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.MapViewListener;
-import com.spatialdev.osm.model.JTS;
-import com.spatialdev.osm.model.OSMDataSet;
+import com.spatialdev.osm.model.JTSModel;
 
 public class OSMMapListener implements MapViewListener, MapListener {
 
     private MapView mapView;
-    private JTS jts;
+    private JTSModel jtsModel;
 
-    public OSMMapListener(MapView mapView, JTS jts) {
+    public OSMMapListener(MapView mapView, JTSModel jtsModel) {
         this.mapView = mapView;
-        this.jts = jts;
+        this.jtsModel = jtsModel;
 
         mapView.setMapViewListener(this);
         mapView.addListener(this);
@@ -55,12 +54,12 @@ public class OSMMapListener implements MapViewListener, MapListener {
 
     @Override
     public void onTapMap(MapView pMapView, ILatLng pPosition) {
-        jts.queryWithLatLng(pPosition);
+        jtsModel.queryWithLatLng(pPosition);
     }
 
     @Override
     public void onLongPressMap(MapView pMapView, ILatLng pPosition) {
-        jts.queryWithLatLng(pPosition);
+        jtsModel.queryWithLatLng(pPosition);
     }
 
     /**

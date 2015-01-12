@@ -15,18 +15,18 @@ import com.vividsolutions.jts.index.strtree.STRtree;
 
 import java.util.List;
 
-public class JTS {
+public class JTSModel {
 
     private OSMDataSet ds;
     private GeometryFactory geometryFactory;
     private STRtree rtree;
 
-    public JTS(OSMDataSet ds) {
+    public JTSModel(OSMDataSet ds) {
         this();
         addOSMDataSet(ds);
     }
 
-    public JTS() {
+    public JTSModel() {
         geometryFactory = new GeometryFactory();
         rtree = new STRtree();
     }
