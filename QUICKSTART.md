@@ -2,10 +2,6 @@
 
 This guide will take you through the process of adding a map to your Android app. It assumes you have a Java IDE (like Eclipse or IntelliJ IDEA) with the [Android SDK](http://developer.android.com/sdk/index.html) installed, and an app project open.
 
-###Adding the SDK to your project
-
-Clone the repository into your system and import build.gradle in the app project.
-
 ### Required Permissions
 
 Ensure the following *core* permissions are requested in your `AndroidManifest.xml` file:
@@ -151,16 +147,7 @@ more information on these methods
 
 JavaDocs are automatically generated and distributed with each official and
 SNAPSHOT release.  They can be downloaded from Maven Central for local
-viewing and / or integration with an IDE.  The latest official version
-is available here:
-
-**`0.2.3` Release Overview**
-
-http://search.maven.org/#artifactdetails%7Ccom.mapbox.mapboxsdk%7Cmapbox-android-sdk%7C0.2.3%7Cjar
-
-**`0.2.3` JavaDoc**
-
-http://search.maven.org/remotecontent?filepath=com/mapbox/mapboxsdk/mapbox-android-sdk/0.2.3/mapbox-android-sdk-0.2.3-javadoc.jar
+viewing and / or integration with an IDE.
 
 ### Generating SDK Documentation (aka JavaDoc)
 
