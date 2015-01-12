@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Marker;
+import com.mapbox.mapboxsdk.util.MapboxUtils;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.MapViewListener;
 
@@ -37,7 +39,10 @@ public class TapForUTFGridTestFragment extends Fragment {
 
             @Override
             public void onTapMap(MapView pMapView, ILatLng pPosition) {
-                Log.i("TapForUTFGridTestFragment", String.format("Zoom = %f, Lat = %f, Lon = %f", pMapView.getZoomLevel(), pPosition.getLatitude(), pPosition.getLongitude()));
+                String coords = String.format("Zoom = %f, Lat = %f, Lon = %f", pMapView.getZoomLevel(), pPosition.getLatitude(), pPosition.getLongitude());
+                String utfGrid = MapboxUtils.getUTFGridString(pPosition, Float.valueOf(pMapView.getZoomLevel()).intValue());
+                Log.i("TapForUTFGridTestFragment", String.format("coords = '%s', UTFGrid = '%s'", coords, utfGrid));
+                Toast.makeText(getActivity(), coords + " == " + utfGrid, Toast.LENGTH_LONG).show();
             }
 
             @Override

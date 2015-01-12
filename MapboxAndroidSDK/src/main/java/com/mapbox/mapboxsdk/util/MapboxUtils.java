@@ -81,10 +81,10 @@ public class MapboxUtils implements MapboxConstants {
      */
     public static String getUTFGridString(ILatLng latLng, int zoom) {
 
-        int z = Double.valueOf(Math.pow(2.0, zoom)).intValue();
-        int x = Double.valueOf(Math.floor(((latLng.getLongitude() + 180.0) / 360.0) * z)).intValue();
-        int y = Double.valueOf(Math.floor((1.0 - (Math.log(Math.tan(latLng.getLatitude() * MathConstants.PI / 180.0) + 1.0 / Math.cos(latLng.getLatitude() * MathConstants.PI / 180.0)) / MathConstants.PI)) / 2.0 * z)).intValue();
+        int tilesPerSide = Double.valueOf(Math.pow(2.0, zoom)).intValue();
+        int x = Double.valueOf(Math.floor(((latLng.getLongitude() + 180.0) / 360.0) * tilesPerSide)).intValue();
+        int y = Double.valueOf(Math.floor((1.0 - (Math.log(Math.tan(latLng.getLatitude() * MathConstants.PI / 180.0) + 1.0 / Math.cos(latLng.getLatitude() * MathConstants.PI / 180.0)) / MathConstants.PI)) / 2.0 * tilesPerSide)).intValue();
 
-        return String.format("%d/%d/%d", z, x, y);
+        return String.format("%d/%d/%d", zoom, x, y);
     }
 }
