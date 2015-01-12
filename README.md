@@ -88,6 +88,16 @@ The Mapbox Android SDK is also packaged as a `.apklib` file.  This allows integr
 
 For more information on how to use Maven and Eclipse together please see Sonatype's [Developing with Eclipse and Maven](http://books.sonatype.com/m2eclipse-book/reference/) tutorial.
 
+### Eclipse Hardcoding - NOT Recommended
+
+The best way to make sure that the Mapbox Android SDK is setup properly (as well as updated as new versions are released) is to make use of Gradle or Maven as documented above.  However, if that's not possible the Mapbox Android SDK can also be added to the project by hardcoding it in.  Please note that this is **extremely** brittle and not scalable.  Here's the steps:
+
+1. Download the [mapbox-android-sdk-0.5.1.apk](http://search.maven.org/remotecontent?filepath=com/mapbox/mapboxsdk/mapbox-android-sdk/0.5.1/mapbox-android-sdk-0.5.1.apklib).
+2. Extract the source code and import it directly into the Eclipse project
+  * `jar xf mapbox-android-sdk-0.5.1.apk`
+3. Download all `.jar` dependencies from [build.gradle](https://github.com/mapbox/mapbox-android-sdk/blob/mb-pages/MapboxAndroidSDK/build.gradle#L35-L39) and add to the Eclipse project as libaries.  Do NOT extract the content of these files.
+4. Download all `.java` files from [Cocoahero's GeoJSON library](https://github.com/cocoahero/android-geojson/tree/master/androidgeojson/src/main/java/com) and add to the Eclipse project's source code.
+
 ### Building From Source
 
 Building from source means you get the very latest version of our code.
