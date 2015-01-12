@@ -8,7 +8,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * Created by Nicholas Hallahan on 1/2/15.
  * nhallahan@spatialdev.com
  */
-public abstract class Element {
+public abstract class OSMElement {
     protected long id;
     protected long version;
     protected String timestamp;
@@ -20,12 +20,12 @@ public abstract class Element {
 
     protected Map<String, String> tags = new LinkedHashMap<>();
 
-    public Element( String idStr,
-                    String versionStr,
-                    String timestampStr,
-                    String changesetStr,
-                    String uidStr,
-                    String userStr ) {
+    public OSMElement(String idStr,
+                      String versionStr,
+                      String timestampStr,
+                      String changesetStr,
+                      String uidStr,
+                      String userStr) {
 
         id = Long.valueOf(idStr);
         version = Long.valueOf(versionStr);

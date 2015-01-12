@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Way extends Element {
+public class Way extends OSMElement {
 
     /**
      * As the XML document is being parsed, ways have references to nodes' IDs.

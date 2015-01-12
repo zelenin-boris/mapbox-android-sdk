@@ -9,7 +9,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Node extends Element {
+public class Node extends OSMElement {
 
     private LatLng latLng;
 

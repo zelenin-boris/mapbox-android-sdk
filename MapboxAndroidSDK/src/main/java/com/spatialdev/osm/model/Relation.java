@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Relation extends Element {
+public class Relation extends OSMElement {
 
     private LinkedList<Long> nodeRefs = new LinkedList<>();
     private LinkedList<Long> wayRefs = new LinkedList<>();

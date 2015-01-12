@@ -173,7 +173,7 @@ public class OSMXmlParser {
         }
     }
 
-    private void readTags(Element el) throws XmlPullParserException, IOException {
+    private void readTags(OSMElement el) throws XmlPullParserException, IOException {
         String k = parser.getAttributeValue(ns, "k");
         String v = parser.getAttributeValue(ns, "v");
         el.addTag(k, v);
