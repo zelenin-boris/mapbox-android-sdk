@@ -46,9 +46,6 @@ dependencies {
     compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.6.0-SNAPSHOT@aar'){
         transitive=true
     }
-    compile ('com.cocoahero.android:geojson:1.0.0@aar'){
-        transitive=true
-    }
 }
 ```
 
