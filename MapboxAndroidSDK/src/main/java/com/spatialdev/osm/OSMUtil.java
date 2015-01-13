@@ -21,7 +21,7 @@ import java.util.List;
 public class OSMUtil {
 
     public static ArrayList<Object> createUIObjectsFromDataSet(OSMDataSet ds) {
-        ArrayList<Object> uiObjects = new ArrayList<Object>();
+        ArrayList<Object> uiObjects = new ArrayList<>();
 
         /**
          * POLYGONS
@@ -33,7 +33,7 @@ public class OSMUtil {
             path.setOptimizePath(false); // optimizePath does not work for polys
             Paint paint = path.getPaint();
             paint.setStyle(Paint.Style.FILL);
-            paint.setARGB(200, 221, 114, 8);
+            paint.setARGB(85, 95, 237, 140);
             while (nodeIterator.hasNext()) {
                 Node n = nodeIterator.next();
                 LatLng latLng = n.getLatLng();

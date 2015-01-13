@@ -106,4 +106,10 @@ public class Relation extends OSMElement {
     public int getUnlinkedMemberCount() {
         return nodeRefs.size() + wayRefs.size() + relationRefs.size();
     }
+
+    @Override
+    public Object getOverlay() {
+        return null;
+    }
+
 }

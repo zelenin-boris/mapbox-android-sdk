@@ -50,4 +50,10 @@ public class Node extends OSMElement {
     public List<Relation> getRelations() {
         return linkedRelations;
     }
+
+    @Override
+    public Object getOverlay() {
+        return null;
+    }
+
 }

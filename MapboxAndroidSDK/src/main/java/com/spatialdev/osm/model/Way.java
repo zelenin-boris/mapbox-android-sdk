@@ -4,6 +4,11 @@
  */
 package com.spatialdev.osm.model;
 
+import android.graphics.Paint;
+
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.PathOverlay;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -126,4 +131,96 @@ public class Way extends OSMElement {
     public List<Relation> getRelations() {
         return linkedRelations;
     }
+
+
+
+
+    @Override
+    public Object getOverlay() {
+        // if there is no overlay, make it for this element
+        if (overlay == null) {
+            overlay = createPathOverlay();
+        }
+        return overlay;
+    }
+
+    /**
+     * Creating a PathOverlay for this element.
+     *
+     * @return a PathOverlay that represents just this element.
+     */
+    protected PathOverlay createPathOverlay() {
+        PathOverlay path = new PathOverlay();
+
+        /**
+         * POLYGON
+         */
+        if (closed) {
+            path.setOptimizePath(false); // optimizePath does not work for polys
+            Paint paint = path.getPaint();
+            paint.setStyle(Paint.Style.FILL);
+            if (selected) {
+                paint.setARGB(110, 255, 140, 0);
+            } else {
+                paint.setARGB(85, 95, 237, 140);
+            }
+
+        }
+
+        /**
+         * LINE
+         */
+        else {
+            Paint paint = path.getPaint();
+            paint.setARGB(200, 209, 29, 119);
+            if (selected) {
+                paint.setARGB(110, 255, 140, 0);
+                paint.setStrokeWidth(4);
+            } else {
+                paint.setARGB(85, 95, 237, 140);
+                paint.setStrokeWidth(2);
+            }
+        }
+
+        /**
+         * ADD POINTS TO PATH
+         */
+        Iterator<Node> nodeIterator = getNodeIterator();
+        while (nodeIterator.hasNext()) {
+            Node n = nodeIterator.next();
+            LatLng latLng = n.getLatLng();
+            path.addPoint(latLng);
+        }
+
+        return path;
+    }
+
+    @Override
+    public void select() {
+        super.select();
+        if (overlay != null && overlay instanceof PathOverlay) {
+            PathOverlay path = (PathOverlay) overlay;
+            Paint paint = path.getPaint();
+            paint.setARGB(110, 255, 140, 0);
+            if (!closed) {
+                paint.setStrokeWidth(4);
+            }
+        }
+    }
+
+    @Override
+    public void deselect() {
+        super.deselect();
+        if (overlay != null && overlay instanceof PathOverlay) {
+            PathOverlay path = (PathOverlay) overlay;
+            Paint paint = path.getPaint();
+            if (closed) {
+                paint.setARGB(85, 95, 237, 140);
+            } else {
+                paint.setARGB(200, 209, 29, 119);
+                paint.setStrokeWidth(2);
+            }
+        }
+    }
+
 }

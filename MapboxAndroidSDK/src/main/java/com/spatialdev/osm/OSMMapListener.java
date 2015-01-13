@@ -13,12 +13,15 @@ import com.mapbox.mapboxsdk.events.RotateEvent;
 import com.mapbox.mapboxsdk.events.ScrollEvent;
 import com.mapbox.mapboxsdk.events.ZoomEvent;
 import com.mapbox.mapboxsdk.overlay.Marker;
+import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.MapViewListener;
 import com.spatialdev.osm.model.JTSModel;
 import com.spatialdev.osm.model.OSMElement;
 import com.vividsolutions.jts.geom.Envelope;
+
+import java.util.List;
 
 public class OSMMapListener implements MapViewListener, MapListener {
 
@@ -29,6 +32,7 @@ public class OSMMapListener implements MapViewListener, MapListener {
     private JTSModel jtsModel;
 
     private PathOverlay debugTapEnvelopePath;
+    private OSMElement selectedElement;
 
     public OSMMapListener(MapView mapView, JTSModel jtsModel) {
         this.mapView = mapView;
@@ -66,12 +70,25 @@ public class OSMMapListener implements MapViewListener, MapListener {
     public void onTapMap(MapView pMapView, ILatLng pPosition) {
         float zoom = pMapView.getZoomLevel();
 
+        if (selectedElement != null) {
+            selectedElement.deselect();
+        }
+
+        OSMElement element = jtsModel.queryFromTap(pPosition, zoom);
+        if (element != null) {
+            selectedElement = element;
+            element.select();
+            PathOverlay path = (PathOverlay) element.getOverlay();
+            List<Overlay> overlays = pMapView.getOverlays();
+            overlays.add(path);
+        }
+
         // DEBUG MODE - SHOW ENVELOPE AROUND TAP ON MAP
         if (DEBUG) {
             drawDebugTapEnvelope(pMapView, pPosition, zoom);
         }
 
-        OSMElement element = jtsModel.queryFromTap(pPosition, zoom);
+        mapView.invalidate();
     }
 
     private void drawDebugTapEnvelope(MapView pMapView, ILatLng pPosition, float zoom) {
@@ -97,13 +114,12 @@ public class OSMMapListener implements MapViewListener, MapListener {
         path.addPoint(maxY, maxX);
         path.addPoint(minY, maxX);
         path.addPoint(minY, minX);
-        mapView.invalidate();
     }
 
     @Override
     public void onLongPressMap(MapView pMapView, ILatLng pPosition) {
-        float zoom = pMapView.getZoomLevel();
-        jtsModel.queryFromTap(pPosition, zoom);
+//        float zoom = pMapView.getZoomLevel();
+//        jtsModel.queryFromTap(pPosition, zoom);
     }
 
     /**
