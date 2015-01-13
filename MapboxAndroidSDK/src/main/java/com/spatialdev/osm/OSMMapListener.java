@@ -17,6 +17,7 @@ import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.MapViewListener;
 import com.spatialdev.osm.model.JTSModel;
+import com.spatialdev.osm.model.OSMElement;
 import com.vividsolutions.jts.geom.Envelope;
 
 public class OSMMapListener implements MapViewListener, MapListener {
@@ -70,7 +71,7 @@ public class OSMMapListener implements MapViewListener, MapListener {
             drawDebugTapEnvelope(pMapView, pPosition, zoom);
         }
 
-//        jtsModel.queryFromTap(pPosition, zoom);
+        OSMElement element = jtsModel.queryFromTap(pPosition, zoom);
     }
 
     private void drawDebugTapEnvelope(MapView pMapView, ILatLng pPosition, float zoom) {

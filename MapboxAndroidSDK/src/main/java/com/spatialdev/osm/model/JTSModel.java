@@ -13,6 +13,7 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.index.strtree.STRtree;
 
@@ -52,6 +53,10 @@ public class JTSModel {
 
     public Envelope createTapEnvelope(double lat, double lng, float zoom) {
         Coordinate coord = new Coordinate(lng, lat);
+        return createTapEnvelope(coord, lat, lng, zoom);
+    }
+
+    private Envelope createTapEnvelope(Coordinate coord, double lat, double lng, float zoom) {
         Envelope envelope = new Envelope(coord);
 
         // Creating a reasonably sized envelope around the tap location.
@@ -63,26 +68,74 @@ public class JTSModel {
         return envelope;
     }
 
-    public List<OSMElement> queryFromTap(ILatLng latLng, float zoom) {
+    public OSMElement queryFromTap(ILatLng latLng, float zoom) {
         double lat = latLng.getLatitude();
         double lng = latLng.getLongitude();
-        Envelope envelope = createTapEnvelope(lat, lng, zoom);
+        Coordinate coord = new Coordinate(lng, lat);
+        Envelope envelope = createTapEnvelope(coord, lat, lng, zoom);
 
         List<OSMElement> matches = new ArrayList<>();
         List results = rtree.query(envelope);
 
+        int len = results.size();
+        if (len == 0 ) {
+           return null;
+        }
+        if (len == 1) {
+            return (OSMElement) results.get(0);
+        }
 
-
+        Point clickPoint = geometryFactory.createPoint(coord);
+        OSMElement closestElement = null;
+        double closestDist = Double.POSITIVE_INFINITY; // should be replaced in first for loop iteration
         for (Object res : results) {
             OSMElement el = (OSMElement) res;
-            Geometry geom = el.getJTSGeom();
-            boolean inside = geom.contains(geometryFactory.createPoint(new Coordinate(lng, lat)));
-            if (inside) {
-                matches.add(el);
+            if (closestElement == null) {
+                closestElement = el;
+                closestDist = el.getJTSGeom().distance(clickPoint);
+                continue;
             }
+            Geometry geom = el.getJTSGeom();
+            double dist = geom.distance(clickPoint);
+
+            if (dist > closestDist) {
+                continue;
+            }
+
+            if (dist < closestDist) {
+                closestElement = el;
+                closestDist = dist;
+                continue;
+            }
+
+            // If we are here, then the distances are the same,
+            // so we prioritize which element is better based on their type.
+            closestElement = prioritizeElementByType(closestElement, el);
+
         }
-        Log.i("queryFromTap", matches.toString());
-        return matches;
+
+        Log.i("queryFromTap closestElement", closestElement.toString());
+        return closestElement;
+    }
+
+    /**
+     * Prioritizes points over lines over polygons.
+     * @param el1
+     * @param el2
+     * @return the priority OSMElement type
+     */
+    private OSMElement prioritizeElementByType(OSMElement el1, OSMElement el2) {
+        if (el1 instanceof Node) {
+            return el1;
+        }
+        if (el2 instanceof Node) {
+            return el2;
+        }
+        // It's gotta be a Way at this point...
+        if ( ! ((Way)el1).isClosed() ) {
+            return el1;
+        }
+        return el2;
     }
 
     private void addOSMClosedWays(OSMDataSet ds) {
