@@ -97,7 +97,7 @@ android.libraryVariants.all { variant ->
     checkstyle.exclude('**/BuildConfig.java')
     checkstyle.exclude('**/R.java')
     checkstyle.exclude('**/uk/co/senab/bitmapcache/*')
-    checkstyle.exclude('**/com/cocoahero/android/geojson/*')
+    checkstyle.exclude('**/com/cocoahero/android/geojson/**')
     project.tasks.getByName("check").dependsOn checkstyle
 }
 
