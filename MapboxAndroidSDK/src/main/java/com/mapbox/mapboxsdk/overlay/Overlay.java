@@ -33,6 +33,10 @@ public abstract class Overlay {
     private boolean mEnabled = true;
     private int mOverlayIndex = 3;
 
+    public static final int MAPEVENTSOVERLAY_INDEX = 0;
+    public static final int PATHOVERLAY_INDEX = 1;
+    public static final int USERLOCATIONOVERLAY_INDEX = 2;
+
     public Overlay() {
     }
 

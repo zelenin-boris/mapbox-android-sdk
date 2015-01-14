@@ -110,7 +110,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         }
 
         setMyLocationProvider(myLocationProvider);
-        setOverlayIndex(2);
+        setOverlayIndex(USERLOCATIONOVERLAY_INDEX);
     }
 
     public UserLocationOverlay(GpsLocationProvider myLocationProvider, MapView mapView) {
