@@ -185,9 +185,11 @@ public class MapView extends ViewGroup
                       final AttributeSet attrs) {
         super(aContext, attrs);
 
+/*
         if (!Glide.isSetup()) {
             Glide.setup(new GlideBuilder(getContext()));
         }
+*/
 
         setWillNotDraw(false);
         mLayedOut = false;

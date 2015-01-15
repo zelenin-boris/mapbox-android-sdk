@@ -125,7 +125,7 @@ public class Icon implements MapboxConstants {
 
     private void downloadBitmap(String url) {
 
-        Glide.with(mContext).load(url).into(new SimpleTarget<GlideDrawable>() {
+        Glide.with(mContext).load(url).into(new SimpleTarget<GlideDrawable>(50, 100) {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 marker.setMarker(resource);
