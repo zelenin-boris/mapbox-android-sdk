@@ -24,6 +24,9 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.api.ILatLng;
@@ -181,6 +184,11 @@ public class MapView extends ViewGroup
                       MapTileLayerBase tileProvider, final Handler tileRequestCompleteHandler,
                       final AttributeSet attrs) {
         super(aContext, attrs);
+
+        if (!Glide.isSetup()) {
+            Glide.setup(new GlideBuilder(getContext()));
+        }
+
         setWillNotDraw(false);
         mLayedOut = false;
         mConstraintRegionFit = false;
