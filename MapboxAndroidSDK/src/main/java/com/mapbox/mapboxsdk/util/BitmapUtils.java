@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class BitmapUtils {
     private static final String TAG = "BitmapUtils";
@@ -32,12 +31,6 @@ public class BitmapUtils {
             return true;
         }
         return false;
-    }
-
-    public static void setCacheDrawableExpired(CacheableBitmapDrawable drawable) {
-        if (drawable != null) {
-            drawable.setState(EXPIRED);
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

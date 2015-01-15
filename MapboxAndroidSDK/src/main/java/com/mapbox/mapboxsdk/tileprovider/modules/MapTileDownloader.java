@@ -14,7 +14,6 @@ import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import java.util.concurrent.atomic.AtomicReference;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server.
@@ -157,9 +156,5 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
             Log.d(TAG, "tileLayer.getDrawable() returning result = '" + result + "'");
             return result;
         }
-    }
-
-    private CacheableBitmapDrawable onTileLoaded(CacheableBitmapDrawable pDrawable) {
-        return mapView.getTileLoadedListener().onTileLoaded(pDrawable);
     }
 }

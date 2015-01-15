@@ -3,6 +3,7 @@ package com.mapbox.mapboxsdk.tileprovider;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -13,8 +14,6 @@ import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
-import com.mapbox.mapboxsdk.util.BitmapUtils;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * This is an abstract class. The tile provider is responsible for:
@@ -39,11 +38,11 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
     /**
      * Attempts to get a Drawable that represents a {@link MapTile}. If the tile is not immediately
      * available this will return null and attempt to get the tile from known tile sources for
-     * subsequent future requests. Note that this may return a {@link CacheableBitmapDrawable} in
+     * subsequent future requests. Note that this may return a {@link Drawable} in
      * which case you should follow proper handling procedures for using that Drawable or it may
      * reused while you are working with it.
      *
-     * @see CacheableBitmapDrawable
+     * @see Drawable
      */
     public abstract Drawable getMapTile(MapTile pTile, boolean allowRemote);
 
@@ -204,10 +203,9 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
      * @param pDrawable the Drawable of the map tile
      */
     @Override
-    public void mapTileRequestExpiredTile(MapTileRequestState pState,
-            CacheableBitmapDrawable pDrawable) {
+    public void mapTileRequestExpiredTile(MapTileRequestState pState, Drawable pDrawable) {
         // Put the expired tile into the cache
-        putExpiredTileIntoCache(pState.getMapTile(), pDrawable.getBitmap());
+        putExpiredTileIntoCache(pState.getMapTile(), ((BitmapDrawable)pDrawable).getBitmap());
 
         // tell our caller we've finished and it should update its view
         if (mTileRequestCompleteHandler != null) {
@@ -254,8 +252,7 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
         if (bitmap == null) {
             return;
         }
-        CacheableBitmapDrawable drawable = mTileCache.putTileInMemoryCache(pTile, bitmap);
-        BitmapUtils.setCacheDrawableExpired(drawable);
+        mTileCache.putTileInMemoryCache(pTile, bitmap);
     }
 
     public void setTileRequestCompleteHandler(final Handler handler) {
@@ -296,13 +293,12 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
         return mTileSource == null;
     }
 
-    public CacheableBitmapDrawable getMapTileFromMemory(MapTile pTile) {
+    public Drawable getMapTileFromMemory(MapTile pTile) {
         return (mTileCache != null) ? mTileCache.getMapTileFromMemory(pTile) : null;
     }
 
-    public CacheableBitmapDrawable createCacheableBitmapDrawable(Bitmap bitmap, MapTile aTile) {
-        return (mTileCache != null) ? mTileCache.createCacheableBitmapDrawable(bitmap, aTile)
-                : null;
+    public Drawable createCacheableBitmapDrawable(Bitmap bitmap, MapTile aTile) {
+        return (mTileCache != null) ? mTileCache.createCacheableBitmapDrawable(bitmap, aTile) : null;
     }
 
     public Bitmap getBitmapFromRemoved(final int width, final int height) {
