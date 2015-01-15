@@ -3,12 +3,12 @@ package com.mapbox.mapboxsdk.util;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import java.util.ArrayList;
 import java.util.List;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * A class that will loop around all the map tiles in the given viewport.
@@ -18,8 +18,7 @@ public abstract class TileLooper {
     protected final Point mUpperLeft = new Point();
     protected final Point mLowerRight = new Point();
     protected final Point center = new Point();
-    protected List<CacheableBitmapDrawable> mBeingUsedDrawables =
-            new ArrayList<CacheableBitmapDrawable>();
+    protected List<Drawable> mBeingUsedDrawables = new ArrayList<Drawable>();
 
     public final void loop(final Canvas pCanvas, final String pCacheKey, final float pZoomLevel,
             final int pTileSizePx, final Rect pViewPort, final Rect pClipRect) {
@@ -59,9 +58,11 @@ public abstract class TileLooper {
         (new Handler()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (CacheableBitmapDrawable drawable : mBeingUsedDrawables) {
+/*
+                for (Drawable drawable : mBeingUsedDrawables) {
                     drawable.setBeingUsed(false);
                 }
+*/
                 mBeingUsedDrawables.clear();
             }
         }, 1);
