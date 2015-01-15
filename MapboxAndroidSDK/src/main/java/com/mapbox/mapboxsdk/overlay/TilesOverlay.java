@@ -22,7 +22,6 @@ import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas;
 import com.mapbox.mapboxsdk.views.safecanvas.SafePaint;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import java.util.HashMap;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * These objects are the principle consumer of map tiles.
@@ -223,11 +222,11 @@ public class TilesOverlay extends SafeDrawOverlay {
             }
             pTile.setTileRect(mTileRect);
             Drawable drawable = mTileProvider.getMapTile(pTile, !isAnimating);
-            boolean isReusable = drawable instanceof CacheableBitmapDrawable;
+            boolean isReusable = drawable instanceof Drawable;
 
             if (drawable != null) {
                 if (isReusable) {
-                    mBeingUsedDrawables.add((CacheableBitmapDrawable) drawable);
+                    mBeingUsedDrawables.add(drawable);
                 }
                 drawable.setBounds(mTileRect);
                 drawable.draw(pCanvas);
@@ -432,10 +431,10 @@ public class TilesOverlay extends SafeDrawOverlay {
             final Drawable oldDrawable = mTileProvider.getMapTileFromMemory(oldTile);
 
             if (oldDrawable instanceof BitmapDrawable) {
-                final boolean isReusable = oldDrawable instanceof CacheableBitmapDrawable;
+                final boolean isReusable = oldDrawable instanceof Drawable;
                 if (isReusable) {
-                    ((CacheableBitmapDrawable) oldDrawable).setBeingUsed(true);
-                    mBeingUsedDrawables.add((CacheableBitmapDrawable) oldDrawable);
+//                    (oldDrawable).setBeingUsed(true);
+                    mBeingUsedDrawables.add(oldDrawable);
                 }
 
                 final Bitmap oldBitmap = ((BitmapDrawable) oldDrawable).getBitmap();
@@ -493,10 +492,10 @@ public class TilesOverlay extends SafeDrawOverlay {
                     Drawable oldDrawable = mTileProvider.getMapTileFromMemory(oldTile);
 
                     if (oldDrawable instanceof BitmapDrawable) {
-                        final boolean isReusable = oldDrawable instanceof CacheableBitmapDrawable;
+                        final boolean isReusable = oldDrawable instanceof Drawable;
                         if (isReusable) {
-                            ((CacheableBitmapDrawable) oldDrawable).setBeingUsed(true);
-                            mBeingUsedDrawables.add((CacheableBitmapDrawable) oldDrawable);
+//                            (oldDrawable).setBeingUsed(true);
+                            mBeingUsedDrawables.add(oldDrawable);
                         }
                         final Bitmap oldBitmap = ((BitmapDrawable) oldDrawable).getBitmap();
                         if (oldBitmap != null) {
