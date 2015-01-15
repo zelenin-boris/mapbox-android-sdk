@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * An abstract base class for modular tile providers
@@ -276,7 +275,7 @@ public abstract class MapTileModuleLayerBase implements TileLayerConstants {
          * Return it <b>and</b> send request to next provider.
          */
         protected void tileLoadedExpired(final MapTileRequestState pState,
-                final CacheableBitmapDrawable pDrawable) {
+                final Drawable pDrawable) {
             if (DEBUG_TILE_PROVIDERS) {
                 Log.d(TAG, "TileLoader.tileLoadedExpired() on provider: "
                         + getName()
@@ -324,7 +323,7 @@ public abstract class MapTileModuleLayerBase implements TileLayerConstants {
                 if (result == null) {
                     tileLoadedFailed(state);
                 } else if (BitmapUtils.isCacheDrawableExpired(result)) {
-                    tileLoadedExpired(state, (CacheableBitmapDrawable) result);
+                    tileLoadedExpired(state, result);
                 } else {
                     tileLoaded(state, result);
                 }
