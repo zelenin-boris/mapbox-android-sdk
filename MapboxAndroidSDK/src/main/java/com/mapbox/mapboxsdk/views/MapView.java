@@ -208,7 +208,7 @@ public class MapView extends ViewGroup
         mTileProvider = tileProvider;
         mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-        mTilesOverlay = new TilesOverlay(mTileProvider);
+        mTilesOverlay = new TilesOverlay(mTileProvider, getContext());
         mOverlayManager = new OverlayManager(mTilesOverlay);
 
         this.mGestureDetector =

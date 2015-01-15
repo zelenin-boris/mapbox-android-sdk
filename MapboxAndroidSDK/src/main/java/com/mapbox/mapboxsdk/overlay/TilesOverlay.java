@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.overlay;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -12,8 +13,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase;
+import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.util.TileLooper;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
@@ -32,6 +39,8 @@ import java.util.HashMap;
 public class TilesOverlay extends SafeDrawOverlay {
 
     public static final int MENU_OFFLINE = getSafeMenuId();
+
+    private Context mContext;
 
     /**
      * Current tile source
@@ -56,8 +65,9 @@ public class TilesOverlay extends SafeDrawOverlay {
     private int mLoadingBackgroundColor = Color.rgb(216, 208, 208);
     private int mLoadingLineColor = Color.rgb(200, 192, 192);
 
-    public TilesOverlay(final MapTileLayerBase aTileProvider) {
+    public TilesOverlay(final MapTileLayerBase aTileProvider, Context context) {
         super();
+        mContext = context;
         if (aTileProvider == null) {
             throw new IllegalArgumentException("You must pass a valid tile provider to the tiles overlay.");
         }
@@ -221,6 +231,18 @@ public class TilesOverlay extends SafeDrawOverlay {
                 return;
             }
             pTile.setTileRect(mTileRect);
+
+            String url = MapboxConstants.MAPBOX_BASE_URL + pTile.getCacheKey() + ".png";
+
+            Glide.with(mContext).load(url).into(new SimpleTarget<GlideDrawable>(TileLayerConstants.DEFAULT_TILE_SIZE, TileLayerConstants.DEFAULT_TILE_SIZE) {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    resource.setBounds(mTileRect);
+                    resource.draw(pCanvas);
+                }
+            });
+
+/*
             Drawable drawable = mTileProvider.getMapTile(pTile, !isAnimating);
             boolean isReusable = drawable instanceof Drawable;
 
@@ -233,6 +255,7 @@ public class TilesOverlay extends SafeDrawOverlay {
             } else {
                 Log.w(TAG, "tile should have been drawn to canvas, but it was null.  tile = '" + pTile + "'");
             }
+*/
 
             if (UtilConstants.DEBUGMODE) {
                 ISafeCanvas canvas = (ISafeCanvas) pCanvas;

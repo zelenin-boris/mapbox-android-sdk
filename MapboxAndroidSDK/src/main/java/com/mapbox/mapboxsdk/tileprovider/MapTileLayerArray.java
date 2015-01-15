@@ -2,7 +2,14 @@ package com.mapbox.mapboxsdk.tileprovider;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestFutureTarget;
+import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileModuleLayerBase;
@@ -13,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -114,11 +122,31 @@ public class MapTileLayerArray extends MapTileLayerBase {
     @Override
     public Drawable getMapTile(final MapTile pTile, final boolean allowRemote) {
         Log.d(TAG, "getMapTile() with pTile (CacheKey) = '" + pTile.getCacheKey() + "'; allowRemote = '" + allowRemote + "'");
+        return null;
+/*
         if (tileUnavailable(pTile)) {
             Log.d(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
             return null;
         }
+*/
 
+
+/*
+        try {
+            String url = MapboxConstants.MAPBOX_BASE_URL + pTile.getCacheKey() + ".png";
+
+            FutureTarget<GlideDrawable> fd = Glide.with(context).load(url).into(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE);
+            Drawable tileDrawable = fd.get();
+            Glide.clear(fd);
+
+            return tileDrawable;
+        } catch (Exception e) {
+            Log.e(TAG, "Error in getMapTile() for " + pTile.getCacheKey() + "; Error = " + e.toString());
+            return null;
+        }
+*/
+
+/*
         Drawable tileDrawable = mTileCache.getMapTileFromMemory(pTile);
 
         if (tileDrawable != null &&  !BitmapUtils.isCacheDrawableExpired(tileDrawable)) {
@@ -163,6 +191,7 @@ public class MapTileLayerArray extends MapTileLayerBase {
             Log.w(TAG, "Tile not found in memory, and not allowed to load from remote source.");
         }
         return null;
+*/
     }
 
     @Override
