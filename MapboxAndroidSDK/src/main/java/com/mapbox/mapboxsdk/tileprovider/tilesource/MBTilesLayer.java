@@ -3,6 +3,7 @@ package com.mapbox.mapboxsdk.tileprovider.tilesource;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
@@ -15,7 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * A layer that pulls resources from an MBTiles file. Used for offline map tiles,
@@ -179,12 +179,12 @@ public class MBTilesLayer extends TileLayer implements MapViewConstants, MapboxC
     }
 
     @Override
-    public CacheableBitmapDrawable getDrawableFromTile(final MapTileDownloader downloader,
+    public Drawable getDrawableFromTile(final MapTileDownloader downloader,
             final MapTile aTile, boolean hdpi) {
         if (mbTilesFileArchive != null) {
             InputStream stream = mbTilesFileArchive.getInputStream(this, aTile);
             if (stream != null) {
-                CacheableBitmapDrawable result =
+                Drawable result =
                         downloader.getCache().putTileStream(aTile, stream, null);
                 if (result == null) {
                     Log.d(TAG, "error reading stream from mbtiles");
