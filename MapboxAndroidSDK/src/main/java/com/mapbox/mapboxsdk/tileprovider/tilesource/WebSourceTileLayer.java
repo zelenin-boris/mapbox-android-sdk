@@ -1,21 +1,19 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.FutureTarget;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
-import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileDownloader;
-import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * An implementation of {@link TileLayer} that pulls tiles from the internet.
@@ -98,47 +96,40 @@ public class WebSourceTileLayer extends TileLayer {
     }
 
     @Override
-    public CacheableBitmapDrawable getDrawableFromTile(final MapTileDownloader downloader,
-            final MapTile aTile, boolean hdpi) {
+    public Drawable getDrawableFromTile(final MapTileDownloader downloader, final MapTile aTile, boolean hdpi) {
         if (downloader.isNetworkAvailable()) {
-            TilesLoadedListener listener = downloader.getTilesLoadedListener();
+            try {
+                TilesLoadedListener listener = downloader.getTilesLoadedListener();
 
-            String[] urls = getTileURLs(aTile, hdpi);
-            CacheableBitmapDrawable result = null;
-            Bitmap resultBitmap = null;
-            if (urls != null) {
-                MapTileCache cache = downloader.getCache();
-                if (listener != null) {
-                    listener.onTilesLoadStarted();
-                }
-                for (final String url : urls) {
-                    Bitmap bitmap = getBitmapFromURL(aTile, url, cache);
-                    if (bitmap == null) {
-                        continue;
-                    }
-                    if (resultBitmap == null) {
-                        resultBitmap = bitmap;
-                    } else {
-                        resultBitmap = compositeBitmaps(bitmap, resultBitmap);
-                    }
-                }
-                if (resultBitmap != null) {
-                    //get drawable by putting it into cache (memory and disk)
-                    result = cache.putTileBitmap(aTile, resultBitmap);
-                }
-                if (checkThreadControl()) {
+                String[] urls = getTileURLs(aTile, hdpi);
+                Drawable result = null;
+                if (urls != null) {
                     if (listener != null) {
-                        listener.onTilesLoaded();
+                        listener.onTilesLoadStarted();
+                    }
+                    // Will only be one URL
+                    String url = urls[0];
+                    FutureTarget<GlideDrawable> fd = Glide.with(getContext()).load(url).into(DEFAULT_TILE_SIZE, DEFAULT_TILE_SIZE);
+                    result = fd.get();
+                    Glide.clear(fd);
+
+                    if (checkThreadControl()) {
+                        if (listener != null) {
+                            listener.onTilesLoaded();
+                        }
                     }
                 }
-            }
 
-            if (result != null) {
-                TileLoadedListener listener2 = downloader.getTileLoadedListener();
-                result = listener2 != null ? listener2.onTileLoaded(result) : result;
-            }
+                if (result != null) {
+                    TileLoadedListener listener2 = downloader.getTileLoadedListener();
+                    result = listener2 != null ? listener2.onTileLoaded(result) : result;
+                }
 
-            return result;
+                return result;
+            } catch (Exception e) {
+                Log.e(TAG, "Exception while trying to load tile: " + e.toString());
+                return null;
+            }
         } else {
             Log.d(TAG, "Skipping tile " + aTile.toString() + " due to NetworkAvailabilityCheck.");
         }
@@ -154,6 +145,7 @@ public class WebSourceTileLayer extends TileLayer {
      * @param aCache a cache, an instance of MapTileCache
      * @return the tile if valid, otherwise null
      */
+/*
     public Bitmap getBitmapFromURL(MapTile mapTile, final String url, final MapTileCache aCache) {
         // We track the active threads here, every exit point should decrement this value.
         Log.d(getClass().getCanonicalName(), "getBitmapFormURL() called with url = '" + url + "'");
@@ -178,4 +170,5 @@ public class WebSourceTileLayer extends TileLayer {
         }
         return null;
     }
+*/
 }
