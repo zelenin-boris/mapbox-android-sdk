@@ -98,7 +98,18 @@ public class Icon implements MapboxConstants {
         } else {
             url += "+" + aColor.replace("#", "") + "@2x.png";
         }
-        downloadBitmap(url);
+
+        int width = 40;
+        int height = 100;
+        if (size.equals(Size.LARGE)) {
+            width = 70;
+            height = 180;
+        } else if (size.equals(Size.MEDIUM)) {
+            width = 60;
+            height = 140;
+        }
+
+        downloadBitmap(url, width, height);
     }
 
     /**
@@ -123,9 +134,9 @@ public class Icon implements MapboxConstants {
         return this;
     }
 
-    private void downloadBitmap(String url) {
+    private void downloadBitmap(String url, int width, int height) {
 
-        Glide.with(mContext).load(url).into(new SimpleTarget<GlideDrawable>(50, 100) {
+        Glide.with(mContext).load(url).into(new SimpleTarget<GlideDrawable>(width, height) {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 marker.setMarker(resource);
