@@ -297,10 +297,6 @@ public abstract class MapTileLayerBase implements IMapTileProviderCallback, Tile
         return (mTileCache != null) ? mTileCache.getMapTileFromMemory(pTile) : null;
     }
 
-    public Drawable createCacheableBitmapDrawable(Bitmap bitmap, MapTile aTile) {
-        return (mTileCache != null) ? mTileCache.createCacheableBitmapDrawable(bitmap, aTile) : null;
-    }
-
     public Bitmap getBitmapFromRemoved(final int width, final int height) {
         return (mTileCache != null) ? mTileCache.getBitmapFromRemoved(width, height) : null;
     }

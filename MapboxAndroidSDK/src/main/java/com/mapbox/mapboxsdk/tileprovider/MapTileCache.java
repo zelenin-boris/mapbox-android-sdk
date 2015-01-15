@@ -8,12 +8,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
+import com.bumptech.glide.util.LruCache;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.util.BitmapUtils;
 import java.io.File;
 import java.io.InputStream;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * A wrapper around a BitmapLruCache that stores tiles on disk in order
@@ -21,7 +20,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
  */
 public class MapTileCache implements TileLayerConstants {
 
-    protected static BitmapLruCache sCachedTiles = null;
+    protected static LruCache sCachedTiles = null;
     private Context context;
     static final String TAG = "MapTileCache";
     private static final String DISK_CACHE_SUBDIR = "mapbox_tiles_cache";
@@ -39,13 +38,16 @@ public class MapTileCache implements TileLayerConstants {
     }
 
     /**
-     * Get the BitmapLruCache that belongs to this tile cache, creating it first
+     * Get the LruCache that belongs to this tile cache, creating it first
      * if there isn't one yet.
      *
-     * @return BitmapLruCache the cache
+     * @return LruCache the cache
      */
-    protected BitmapLruCache getCache() {
+    protected LruCache getCache() {
+
         if (sCachedTiles == null) {
+            sCachedTiles = new LruCache(BitmapUtils.calculateMemoryCacheSize(context));
+/*
             File cacheDir = getDiskCacheDir(context, DISK_CACHE_SUBDIR);
             if (!cacheDir.exists()) {
                 if (cacheDir.mkdirs()) {
@@ -63,6 +65,7 @@ public class MapTileCache implements TileLayerConstants {
                     .setDiskCacheLocation(cacheDir)
                     .build();
             Log.i(TAG, "Disk Cache Enabled: '" + sCachedTiles.isDiskCacheEnabled() + "'; Memory Cache Enabled: '" + sCachedTiles.isMemoryCacheEnabled() + "'");
+*/
         }
         return sCachedTiles;
     }
@@ -77,36 +80,40 @@ public class MapTileCache implements TileLayerConstants {
         return aTile.getCacheKey();
     }
 
-    public CacheableBitmapDrawable getMapTile(final MapTile aTile) {
+    public Drawable getMapTile(final MapTile aTile) {
+        return new BitmapDrawable();
+
+/*
         String key = getCacheKey(aTile);
-        CacheableBitmapDrawable result = getCache().getFromMemoryCache(key);
+        Drawable result = getCache().getFromMemoryCache(key);
         if (result == null) {
             result = getCache().getFromDiskCache(key, null);
         }
         return result;
+*/
     }
 
-    public CacheableBitmapDrawable getMapTileFromMemory(final MapTile aTile) {
-        return getCache().getFromMemoryCache(getCacheKey(aTile));
+    public Drawable getMapTileFromMemory(final MapTile aTile) {
+        return new BitmapDrawable();
+//        return getCache().getFromMemoryCache(getCacheKey(aTile));
     }
 
-    public CacheableBitmapDrawable getMapTileFromDisk(final MapTile aTile) {
-        return getCache().getFromDiskCache(getCacheKey(aTile), null);
+    public Drawable getMapTileFromDisk(final MapTile aTile) {
+        return new BitmapDrawable();
+//        return getCache().getFromDiskCache(getCacheKey(aTile), null);
     }
 
-    public CacheableBitmapDrawable putTileStream(final MapTile aTile, final InputStream inputStream,
+    public Drawable putTileStream(final MapTile aTile, final InputStream inputStream,
             final BitmapFactory.Options decodeOpts) {
-        return getCache().put(getCacheKey(aTile), inputStream, decodeOpts);
+        return new BitmapDrawable();
+//        return getCache().put(getCacheKey(aTile), inputStream, decodeOpts);
     }
 
-    public CacheableBitmapDrawable putTileBitmap(final MapTile aTile, final Bitmap bitmap) {
-        return getCache().put(getCacheKey(aTile), bitmap);
-    }
-
-    public CacheableBitmapDrawable putTile(final MapTile aTile, final Drawable aDrawable) {
+    public Drawable putTile(final MapTile aTile, final Drawable aDrawable) {
+/*
         if (aDrawable != null && aDrawable instanceof BitmapDrawable) {
             String key = getCacheKey(aTile);
-            CacheableBitmapDrawable drawable = null;
+            Drawable drawable = null;
             if (!getCache().containsInMemoryCache(key)) {
                 drawable = getCache().putInMemoryCache(getCacheKey(aTile),
                         ((BitmapDrawable) aDrawable).getBitmap());
@@ -121,18 +128,22 @@ public class MapTileCache implements TileLayerConstants {
             }
             return drawable;
         }
+*/
         return null;
     }
 
-    public CacheableBitmapDrawable putTileInMemoryCache(final MapTile aTile, final Bitmap aBitmap) {
+    public Drawable putTileInMemoryCache(final MapTile aTile, final Bitmap aBitmap) {
+/*
         if (aBitmap != null) {
             return getCache().putInMemoryCache(getCacheKey(aTile), aBitmap);
         }
+*/
         return null;
     }
 
-    public CacheableBitmapDrawable putTileInMemoryCache(final MapTile aTile,
+    public Drawable putTileInMemoryCache(final MapTile aTile,
             final Drawable aDrawable) {
+/*
         if (aDrawable != null && aDrawable instanceof BitmapDrawable) {
             String key = getCacheKey(aTile);
             if (aDrawable instanceof CacheableBitmapDrawable) {
@@ -141,11 +152,13 @@ public class MapTileCache implements TileLayerConstants {
                 return getCache().putInMemoryCache(key, ((BitmapDrawable) aDrawable).getBitmap());
             }
         }
+*/
         return null;
     }
 
-    public CacheableBitmapDrawable putTileInDiskCache(final MapTile aTile,
+    public Drawable putTileInDiskCache(final MapTile aTile,
             final Drawable aDrawable) {
+/*
         if (aDrawable != null && aDrawable instanceof BitmapDrawable) {
             String key = getCacheKey(aTile);
             if (getCache().isDiskCacheEnabled() && !getCache().containsInDiskCache(key)) {
@@ -153,6 +166,7 @@ public class MapTileCache implements TileLayerConstants {
                         ((BitmapDrawable) aDrawable).getBitmap());
             }
         }
+*/
         return null;
     }
 
@@ -161,7 +175,8 @@ public class MapTileCache implements TileLayerConstants {
     }
 
     public boolean containsTileInDiskCache(final MapTile aTile) {
-        return getCache().isDiskCacheEnabled() && getCache().containsInDiskCache(getCacheKey(aTile));
+            return true;
+//        return getCache().isDiskCacheEnabled() && getCache().containsInDiskCache(getCacheKey(aTile));
     }
 
     public void removeTile(final MapTile aTile) {
@@ -170,33 +185,20 @@ public class MapTileCache implements TileLayerConstants {
 
     public void removeTileFromMemory(final MapTile aTile) {
         String key = getCacheKey(aTile);
-        getCache().removeFromMemoryCache(key);
+//        getCache().removeFromMemoryCache(key);
     }
 
     public void purgeMemoryCache() {
-        getCache().purgeMemoryCache();
+//        getCache().purgeMemoryCache();
     }
 
     public void purgeDiskCache() {
-        getCache().purgeDiskCache();
-    }
-
-    public CacheableBitmapDrawable createCacheableBitmapDrawable(Bitmap bitmap, MapTile aTile) {
-        return getCache().createCacheableBitmapDrawable(bitmap, getCacheKey(aTile),
-                CacheableBitmapDrawable.SOURCE_UNKNOWN);
+//        getCache().purgeDiskCache();
     }
 
     public Bitmap getBitmapFromRemoved(final int width, final int height) {
-        return getCache().getBitmapFromRemoved(width, height);
-    }
-
-    public Bitmap decodeBitmap(final byte[] data, final BitmapFactory.Options opts) {
-        return getCache().decodeBitmap(new BitmapLruCache.ByteArrayInputStreamProvider(data), opts);
-    }
-
-    public Bitmap decodeBitmap(final BitmapLruCache.InputStreamProvider ip,
-            final BitmapFactory.Options opts) {
-        return getCache().decodeBitmap(ip, opts);
+            return new BitmapDrawable().getBitmap();
+//        return getCache().getBitmapFromRemoved(width, height);
     }
 
     /**
