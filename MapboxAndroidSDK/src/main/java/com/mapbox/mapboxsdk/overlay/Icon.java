@@ -2,21 +2,11 @@ package com.mapbox.mapboxsdk.overlay;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
-import com.mapbox.mapboxsdk.util.BitmapUtils;
-import com.mapbox.mapboxsdk.util.NetworkUtils;
-import com.mapbox.mapboxsdk.util.constants.UtilConstants;
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * An Icon provided by the Mapbox marker API, optionally
@@ -24,16 +14,15 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
  */
 public class Icon implements MapboxConstants {
 
+    private static final String TAG = "Icon";
+
+    private Context mContext;
     private Marker marker;
     private Drawable drawable;
 
-    protected static BitmapLruCache sIconCache;
-    private static final String DISK_CACHE_SUBDIR = "mapbox_icon_cache";
-
     // Well, we only want to download the same URL once. If we request the same url rapidly
     // We place it in this queue..
-    private static ConcurrentHashMap<String, ArrayList<Icon>> downloadQueue =
-            new ConcurrentHashMap<String, ArrayList<Icon>>();
+//    private static ConcurrentHashMap<String, ArrayList<Icon>> downloadQueue = new ConcurrentHashMap<String, ArrayList<Icon>>();
 
     public enum Size {
         LARGE("l"), MEDIUM("m"), SMALL("s");
@@ -49,10 +38,8 @@ public class Icon implements MapboxConstants {
         }
     }
 
-    protected BitmapLruCache getCache() {
-        return getCache(null);
-    }
 
+/*
     // TODO: This is common code from MapTileCache, ideally this would be extracted
     // and used by both classes.
     protected BitmapLruCache getCache(Context context) {
@@ -75,11 +62,13 @@ public class Icon implements MapboxConstants {
         }
         return sIconCache;
     }
+*/
 
     /**
      * Creates a unique subdirectory of the designated app cache directory. Tries to use external
      * but if not mounted, falls back on internal storage.
      */
+/*
     public static File getDiskCacheDir(Context context, String uniqueName) {
         // Check if media is mounted or storage is built-in, if so, try and use external cache dir
         // otherwise use internal cache dir
@@ -90,6 +79,7 @@ public class Icon implements MapboxConstants {
                         : context.getFilesDir().getPath();
         return new File(cachePath, uniqueName);
     }
+*/
 
     /**
      * Initialize an icon with size, symbol, and color, and start a
@@ -101,13 +91,14 @@ public class Icon implements MapboxConstants {
      * @param aColor  Color of Icon
      */
     public Icon(Context context, Size size, String symbol, String aColor) {
+        mContext = context;
         String url = MAPBOX_BASE_URL + "marker/pin-" + size.getApiString();
         if (!symbol.equals("")) {
             url += "-" + symbol + "+" + aColor.replace("#", "") + "@2x.png";
         } else {
             url += "+" + aColor.replace("#", "") + "@2x.png";
         }
-        downloadBitmap(context, url);
+        downloadBitmap(url);
     }
 
     /**
@@ -132,8 +123,17 @@ public class Icon implements MapboxConstants {
         return this;
     }
 
-    private void downloadBitmap(Context context, String url) {
-        CacheableBitmapDrawable bitmap = getCache(context).getFromMemoryCache(url);
+    private void downloadBitmap(String url) {
+
+        Glide.with(mContext).load(url).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                marker.setMarker(resource);
+            }
+        });
+
+
+/*        CacheableBitmapDrawable bitmap = getCache(context).getFromMemoryCache(url);
 
         // Cache hit! We're done..
         if (bitmap != null) {
@@ -194,17 +194,18 @@ public class Icon implements MapboxConstants {
                 // We can safely add ourselves to the list to be notified of the retrieved bitmap.
                 list.add(this);
             }
-        }
+        }*/
     }
 
-    class BitmapLoader extends AsyncTask<String, Void, CacheableBitmapDrawable> {
+/*
+    class BitmapLoader extends AsyncTask<String, Void, Drawable> {
 
         private String url;
 
         @Override
-        protected CacheableBitmapDrawable doInBackground(String... src) {
+        protected Drawable doInBackground(String... src) {
             this.url = src[0];
-            CacheableBitmapDrawable result = getCache().getFromDiskCache(this.url, null);
+            Drawable result = getCache().getFromDiskCache(this.url, null);
             if (result == null) {
                 try {
                     if (UtilConstants.DEBUGMODE) {
@@ -221,7 +222,7 @@ public class Icon implements MapboxConstants {
         }
 
         @Override
-        protected void onPostExecute(CacheableBitmapDrawable bitmap) {
+        protected void onPostExecute(Drawable bitmap) {
             if (bitmap != null && marker != null) {
                 ArrayList<Icon> list = Icon.downloadQueue.get(this.url);
                 synchronized (list) {
@@ -238,6 +239,5 @@ public class Icon implements MapboxConstants {
             }
         }
     }
-
-    private static final String TAG = "Icon";
+*/
 }
