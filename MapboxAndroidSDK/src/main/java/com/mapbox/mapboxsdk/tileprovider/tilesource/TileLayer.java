@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -23,9 +24,19 @@ public class TileLayer implements ITileLayer, TileLayerConstants, MapViewConstan
     protected LatLng mCenter = new LatLng(0, 0);
     private final int mTileSizePixels = DEFAULT_TILE_SIZE;
 
+    protected Context mContext;
+
     public TileLayer(final String pId, final String aUrl) {
         mUrl = aUrl;
         mCacheKey = pId;
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+    public void setContext(Context mContext) {
+        this.mContext = mContext;
     }
 
     /**
