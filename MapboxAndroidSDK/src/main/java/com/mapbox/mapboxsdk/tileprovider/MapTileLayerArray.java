@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -120,10 +119,10 @@ public class MapTileLayerArray extends MapTileLayerBase {
             return null;
         }
 
-        CacheableBitmapDrawable tileDrawable = mTileCache.getMapTileFromMemory(pTile);
+        Drawable tileDrawable = mTileCache.getMapTileFromMemory(pTile);
 
-        if (tileDrawable != null && tileDrawable.isBitmapValid() && !BitmapUtils.isCacheDrawableExpired(tileDrawable)) {
-            tileDrawable.setBeingUsed(true);
+        if (tileDrawable != null &&  !BitmapUtils.isCacheDrawableExpired(tileDrawable)) {
+//            tileDrawable.setBeingUsed(true);
             Log.d(TAG, "Found tile(" + pTile.getCacheKey() + ") in memory, so returning for drawing.");
             return tileDrawable;
         } else if (allowRemote) {
@@ -192,8 +191,7 @@ public class MapTileLayerArray extends MapTileLayerBase {
     }
 
     @Override
-    public void mapTileRequestExpiredTile(MapTileRequestState aState,
-            CacheableBitmapDrawable aDrawable) {
+    public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
         // Call through to the super first so aState.getCurrentProvider() still contains the proper
         // provider.
         super.mapTileRequestExpiredTile(aState, aDrawable);
