@@ -775,7 +775,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                             String color = feature.getJSONObject("properties").getString("marker-color");
                             String symbol = feature.getJSONObject("properties").getString("marker-symbol");
                             if (!TextUtils.isEmpty(size) && !TextUtils.isEmpty(color) && !TextUtils.isEmpty(symbol)) {
-                                String markerURL = MapboxUtils.markerIconURL(size, symbol, color);
+                                String markerURL = MapboxUtils.markerIconURL(context, size, symbol, color);
                                 if (!TextUtils.isEmpty(markerURL)) {
                                     iconURLStrings.add(markerURL);
 

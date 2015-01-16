@@ -1,7 +1,7 @@
 package com.mapbox.mapboxsdk.util;
 
+import android.content.Context;
 import android.text.TextUtils;
-
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.constants.MathConstants;
@@ -40,7 +40,7 @@ public class MapboxUtils implements MapboxConstants {
         return qualityExtension;
     }
 
-    public static String markerIconURL(String size, String symbol, String color) {
+    public static String markerIconURL(Context context, String size, String symbol, String color) {
         // Make a string which follows the MapBox Core API spec for stand-alone markers. This relies on the MapBox API
         // for error checking.
         //
@@ -62,8 +62,10 @@ public class MapboxUtils implements MapboxConstants {
 
         marker.append(color.replaceAll("#", ""));
 
-        // Get hi res version by default
-        marker.append("@2x.png");
+        if (AppUtils.isRunningOn2xOrGreaterScreen(context)) {
+            marker.append("@2x");
+        }
+        marker.append(".png");
 
         marker.append("?access_token=" + ACCESS_TOKEN_DEBUG);
 

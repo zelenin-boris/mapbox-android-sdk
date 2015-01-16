@@ -103,7 +103,7 @@ public class Icon implements MapboxConstants {
      */
     public Icon(Context context, Size size, String symbol, String aColor) {
 
-        String url = MapboxUtils.markerIconURL(size.apiString, symbol, aColor);
+        String url = MapboxUtils.markerIconURL(context, size.apiString, symbol, aColor);
 
         downloadBitmap(context, url);
     }
