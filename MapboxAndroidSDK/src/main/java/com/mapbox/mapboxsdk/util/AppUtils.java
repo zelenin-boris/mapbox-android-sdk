@@ -19,7 +19,7 @@ public class AppUtils {
         }
         int density = context.getResources().getDisplayMetrics().densityDpi;
         boolean result = density >= DisplayMetrics.DENSITY_HIGH;
-        Log.i(TAG, String.format("Device density is %d, and result of @2x check is %b", density, result));
+        Log.d(TAG, String.format("Device density is %d, and result of @2x check is %b", density, result));
         return result;
     }
 }
