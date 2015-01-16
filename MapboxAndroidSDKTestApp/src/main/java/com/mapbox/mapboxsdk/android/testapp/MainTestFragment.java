@@ -56,15 +56,15 @@ public class MainTestFragment extends Fragment {
         // Smaller GeoJSON Test
         mv.loadFromGeoJSONURL("https://gist.githubusercontent.com/bleege/133920f60eb7a334430f/raw/5392bad4e09015d3995d6153db21869b02f34d27/map.geojson");
         Marker m = new Marker(mv, "Edinburgh", "Scotland", new LatLng(55.94629, -3.20777));
-        m.setIcon(new Icon(getActivity(), Icon.Size.SMALL, "marker-stroked", "FF0000", null));
+        m.setIcon(new Icon(getActivity(), Icon.Size.SMALL, "marker-stroked", "FF0000"));
         mv.addMarker(m);
 
         m = new Marker(mv, "Stockholm", "Sweden", new LatLng(59.32995, 18.06461));
-        m.setIcon(new Icon(getActivity(), Icon.Size.MEDIUM, "city", "FFFF00", null));
+        m.setIcon(new Icon(getActivity(), Icon.Size.MEDIUM, "city", "FFFF00"));
         mv.addMarker(m);
 
         m = new Marker(mv, "Prague", "Czech Republic", new LatLng(50.08734, 14.42112));
-        m.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "land-use", "00FFFF", null));
+        m.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "land-use", "00FFFF"));
         mv.addMarker(m);
 
         m = new Marker(mv, "Athens", "Greece", new LatLng(37.97885, 23.71399));

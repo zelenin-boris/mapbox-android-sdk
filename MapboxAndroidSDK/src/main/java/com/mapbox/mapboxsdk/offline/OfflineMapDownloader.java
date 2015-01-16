@@ -638,7 +638,7 @@ public class OfflineMapDownloader implements MapboxConstants {
             maxY = Double.valueOf(Math.floor((1.0 - (Math.log(Math.tan(minLat * MathConstants.PI / 180.0) + 1.0 / Math.cos(minLat * MathConstants.PI / 180.0)) / MathConstants.PI)) / 2.0 * tilesPerSide)).intValue();
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
-                    urls.add(MapboxUtils.getMapTileURL(context, this.mapID, zoom, x, y, this.imageQuality, null));
+                    urls.add(MapboxUtils.getMapTileURL(context, this.mapID, zoom, x, y, this.imageQuality));
                 }
             }
         }
@@ -775,7 +775,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                             String color = feature.getJSONObject("properties").getString("marker-color");
                             String symbol = feature.getJSONObject("properties").getString("marker-symbol");
                             if (!TextUtils.isEmpty(size) && !TextUtils.isEmpty(color) && !TextUtils.isEmpty(symbol)) {
-                                String markerURL = MapboxUtils.markerIconURL(context, size, symbol, color, null);
+                                String markerURL = MapboxUtils.markerIconURL(context, size, symbol, color);
                                 if (!TextUtils.isEmpty(markerURL)) {
                                     iconURLStrings.add(markerURL);
 

@@ -37,7 +37,7 @@ public class MarkersTestFragment extends Fragment {
 
     public void addMarker(LatLng position) {
         Marker marker = new Marker(mapView, "", "", position);
-        marker.setIcon(new Icon(getActivity(), Icon.Size.SMALL, "marker-stroked", "FF0000", null));
+        marker.setIcon(new Icon(getActivity(), Icon.Size.SMALL, "marker-stroked", "FF0000"));
         mapView.addMarker(marker);
     }
 }

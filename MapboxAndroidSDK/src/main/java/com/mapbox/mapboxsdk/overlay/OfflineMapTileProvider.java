@@ -27,7 +27,7 @@ public class OfflineMapTileProvider extends MapTileLayerBase {
         Log.d(TAG, String.format("getMapTile() with maptile path = '%s'", pTile.getPath()));
         try {
             // Build URL to match url in database
-            String url = MapboxUtils.getMapTileURL(context, offlineMapDatabase.getMapID(), pTile.getZ(), pTile.getX(), pTile.getY(), offlineMapDatabase.getImageQuality(), null);
+            String url = MapboxUtils.getMapTileURL(context, offlineMapDatabase.getMapID(), pTile.getZ(), pTile.getX(), pTile.getY(), offlineMapDatabase.getImageQuality());
             byte[] data = offlineMapDatabase.dataForURL(url);
 
             if (data == null || data.length == 0) {

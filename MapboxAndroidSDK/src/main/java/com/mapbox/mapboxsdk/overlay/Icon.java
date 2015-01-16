@@ -95,16 +95,14 @@ public class Icon implements MapboxConstants {
     /**
      * Initialize an icon with size, symbol, and color, and start a
      * download process to load it from the API.
-     *
      * @param context Android context - Used for proper Bitmap Density generation
      * @param size    Size of Icon
      * @param symbol  Maki Symbol
      * @param aColor  Color of Icon
-     * @param accessToken V4 Access Token
      */
-    public Icon(Context context, Size size, String symbol, String aColor, String accessToken) {
+    public Icon(Context context, Size size, String symbol, String aColor) {
 
-        String url = MapboxUtils.markerIconURL(context, size.apiString, symbol, aColor, accessToken);
+        String url = MapboxUtils.markerIconURL(context, size.apiString, symbol, aColor);
 
         downloadBitmap(context, url);
     }

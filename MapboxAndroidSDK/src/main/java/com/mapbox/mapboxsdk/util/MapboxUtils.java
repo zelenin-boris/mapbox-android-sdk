@@ -8,6 +8,17 @@ import com.mapbox.mapboxsdk.constants.MathConstants;
 
 public class MapboxUtils implements MapboxConstants {
 
+    // Access Token For V4 of API.  If it doesn't exist, SDK will fall back to use V3
+    private static String accessToken = null;
+
+    public static String getAccessToken() {
+        return accessToken;
+    }
+
+    public static void setAccessToken(String accessToken) {
+        MapboxUtils.accessToken = accessToken;
+    }
+
     public static String qualityExtensionForImageQuality(RasterImageQuality imageQuality) {
         String qualityExtension;
         switch (imageQuality) {
@@ -40,7 +51,7 @@ public class MapboxUtils implements MapboxConstants {
         return qualityExtension;
     }
 
-    public static String markerIconURL(Context context, String size, String symbol, String color, String accessToken) {
+    public static String markerIconURL(Context context, String size, String symbol, String color) {
         // Make a string which follows the MapBox Core API spec for stand-alone markers. This relies on the MapBox API
         // for error checking.
         //
@@ -67,18 +78,18 @@ public class MapboxUtils implements MapboxConstants {
         }
         marker.append(".png");
 
-        if (!TextUtils.isEmpty(accessToken)) {
+        if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
             marker.append("?access_token=");
-            marker.append(accessToken);
+            marker.append(MapboxUtils.getAccessToken());
             return String.format(MapboxConstants.MAPBOX_BASE_URL_V4 + "marker/%s", marker);
         }
 
         return String.format(MapboxConstants.MAPBOX_BASE_URL_V3 + "marker/%s", marker);
     }
 
-    public static String getMapTileURL(Context context, String mapID, int zoom, int x, int y, RasterImageQuality imageQuality, String accessToken) {
-        if (!TextUtils.isEmpty(accessToken)) {
-            return String.format(MAPBOX_BASE_URL_V4 + "%s/%d/%d/%d%s.%s?access_token=%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality), accessToken);
+    public static String getMapTileURL(Context context, String mapID, int zoom, int x, int y, RasterImageQuality imageQuality) {
+        if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
+            return String.format(MAPBOX_BASE_URL_V4 + "%s/%d/%d/%d%s.%s?access_token=%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality), MapboxUtils.getAccessToken());
         }
         return String.format(MAPBOX_BASE_URL_V3 + "%s/%d/%d/%d%s.%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality));
     }
