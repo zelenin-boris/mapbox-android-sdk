@@ -2,8 +2,8 @@ package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
 import android.text.TextUtils;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
+import com.mapbox.mapboxsdk.util.MapboxUtils;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
-
 import java.util.Locale;
 
 /**
@@ -14,7 +14,6 @@ import java.util.Locale;
 public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstants, MapboxConstants {
     private static final String TAG = "MapboxTileLayer";
     private String mId;
-    private String accessToken;
 
     /**
      * Initialize a new tile layer, directed at a hosted Mapbox tilesource.
@@ -32,7 +31,7 @@ public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstan
      */
     public MapboxTileLayer(String mapId,  String accessToken) {
         this(mapId);
-        this.accessToken = accessToken;
+        MapboxUtils.setAccessToken(accessToken);
     }
 
     public MapboxTileLayer(String mapId, boolean enableSSL) {
@@ -49,8 +48,8 @@ public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstan
     public TileLayer setURL(final String aUrl) {
         if (!TextUtils.isEmpty(aUrl) && !aUrl.toLowerCase(Locale.US).contains("http://")
                 && !aUrl.toLowerCase(Locale.US).contains("https://")) {
-            if (!TextUtils.isEmpty(accessToken)) {
-                super.setURL(MAPBOX_BASE_URL_V4 + aUrl + "/{z}/{x}/{y}{2x}.png?access_token=" + accessToken);
+            if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
+                super.setURL(MAPBOX_BASE_URL_V4 + aUrl + "/{z}/{x}/{y}{2x}.png?access_token=" + MapboxUtils.getAccessToken());
             } else {
                 super.setURL(MAPBOX_BASE_URL_V3 + aUrl + "/{z}/{x}/{y}{2x}.png");
             }
@@ -62,9 +61,9 @@ public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstan
 
     @Override
     protected String getBrandedJSONURL() {
-        if (!TextUtils.isEmpty(accessToken)) {
+        if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
             return String.format("http%s://api.tiles.mapbox.com/v4/%s.json?access_token=%s%s", (mEnableSSL ? "s" : ""),
-                    mId, accessToken, (mEnableSSL ? "&secure" : ""));
+                    mId, MapboxUtils.getAccessToken(), (mEnableSSL ? "&secure" : ""));
         }
 
         return String.format("http%s://api.tiles.mapbox.com/v3/%s.json%s", (mEnableSSL ? "s" : ""),

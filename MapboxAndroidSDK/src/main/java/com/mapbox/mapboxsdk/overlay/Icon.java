@@ -130,6 +130,7 @@ public class Icon implements MapboxConstants {
     }
 
     private void downloadBitmap(Context context, String url) {
+        Log.d(TAG, String.format("downloadBitmap() with url = '%s'", url));
         CacheableBitmapDrawable bitmap = getCache(context).getFromMemoryCache(url);
 
         // Cache hit! We're done..
