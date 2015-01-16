@@ -28,5 +28,6 @@
     <string name="loadMapButtonText">Load Map</string>
     <string name="deleteMapsButtonText">Delete Map</string>
     <string name="resetMapButtonText">Reset</string>
+    <string name="testAccessToken">pk.eyJ1IjoiYmxlZWdlIiwiYSI6IkRGLTFPU00ifQ.qJpq3jytAL9A-z_tkNypqg</string>
 
 </resources>
