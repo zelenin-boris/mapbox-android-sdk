@@ -40,7 +40,7 @@ public class MapboxUtils implements MapboxConstants {
         return qualityExtension;
     }
 
-    public static String markerIconURL(Context context, String size, String symbol, String color) {
+    public static String markerIconURL(Context context, String size, String symbol, String color, String accessToken) {
         // Make a string which follows the MapBox Core API spec for stand-alone markers. This relies on the MapBox API
         // for error checking.
         //
@@ -67,14 +67,20 @@ public class MapboxUtils implements MapboxConstants {
         }
         marker.append(".png");
 
-        marker.append("?access_token=" + ACCESS_TOKEN_DEBUG);
+        if (!TextUtils.isEmpty(accessToken)) {
+            marker.append("?access_token=");
+            marker.append(accessToken);
+            return String.format(MapboxConstants.MAPBOX_BASE_URL_V4 + "marker/%s", marker);
+        }
 
-        // Using API 3 for now
-        return String.format(MapboxConstants.MAPBOX_BASE_URL + "marker/%s", marker);
+        return String.format(MapboxConstants.MAPBOX_BASE_URL_V3 + "marker/%s", marker);
     }
 
-    public static String getMapTileURL(String mapID, int zoom, int x, int y, RasterImageQuality imageQuality) {
-        return String.format(MAPBOX_BASE_URL + "%s/%d/%d/%d%s.%s%s", mapID, zoom, x, y, "@2x", MapboxUtils.qualityExtensionForImageQuality(imageQuality), "?access_token=" + ACCESS_TOKEN_DEBUG);
+    public static String getMapTileURL(Context context, String mapID, int zoom, int x, int y, RasterImageQuality imageQuality, String accessToken) {
+        if (!TextUtils.isEmpty(accessToken)) {
+            return String.format(MAPBOX_BASE_URL_V4 + "%s/%d/%d/%d%s.%s?access_token=%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality), accessToken);
+        }
+        return String.format(MAPBOX_BASE_URL_V3 + "%s/%d/%d/%d%s.%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality));
     }
 
     /**

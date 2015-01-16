@@ -100,10 +100,11 @@ public class Icon implements MapboxConstants {
      * @param size    Size of Icon
      * @param symbol  Maki Symbol
      * @param aColor  Color of Icon
+     * @param accessToken V4 Access Token
      */
-    public Icon(Context context, Size size, String symbol, String aColor) {
+    public Icon(Context context, Size size, String symbol, String aColor, String accessToken) {
 
-        String url = MapboxUtils.markerIconURL(context, size.apiString, symbol, aColor);
+        String url = MapboxUtils.markerIconURL(context, size.apiString, symbol, aColor, accessToken);
 
         downloadBitmap(context, url);
     }
