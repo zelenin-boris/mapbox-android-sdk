@@ -37,6 +37,7 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
         this.mTileCache.set(pTileCache);
 
         hdpi = AppUtils.isRunningOn2xOrGreaterScreen(mapView.getContext());
+        Log.d(TAG, String.format("Going to use @2x tiles? '%b'", hdpi));
 
         mNetworkAvailabilityCheck = pNetworkAvailabilityCheck;
         setTileSource(pTileSource);
