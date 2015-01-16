@@ -65,12 +65,14 @@ public class MapboxUtils implements MapboxConstants {
         // Get hi res version by default
         marker.append("@2x.png");
 
+        marker.append("?access_token=" + ACCESS_TOKEN_DEBUG);
+
         // Using API 3 for now
-        return String.format(MapboxConstants.MAPBOX_BASE_URL + "/marker/%s", marker);
+        return String.format(MapboxConstants.MAPBOX_BASE_URL + "marker/%s", marker);
     }
 
     public static String getMapTileURL(String mapID, int zoom, int x, int y, RasterImageQuality imageQuality) {
-        return String.format(MAPBOX_BASE_URL + "%s/%d/%d/%d%s.%s%s", mapID, zoom, x, y, "@2x", MapboxUtils.qualityExtensionForImageQuality(imageQuality), "");
+        return String.format(MAPBOX_BASE_URL + "%s/%d/%d/%d%s.%s%s", mapID, zoom, x, y, "@2x", MapboxUtils.qualityExtensionForImageQuality(imageQuality), "?access_token=" + ACCESS_TOKEN_DEBUG);
     }
 
     /**

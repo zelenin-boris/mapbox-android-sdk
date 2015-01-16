@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.util.Log;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.util.BitmapUtils;
+import com.mapbox.mapboxsdk.util.MapboxUtils;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
 import java.io.File;
@@ -101,12 +102,9 @@ public class Icon implements MapboxConstants {
      * @param aColor  Color of Icon
      */
     public Icon(Context context, Size size, String symbol, String aColor) {
-        String url = MAPBOX_BASE_URL + "marker/pin-" + size.getApiString();
-        if (!symbol.equals("")) {
-            url += "-" + symbol + "+" + aColor.replace("#", "") + "@2x.png";
-        } else {
-            url += "+" + aColor.replace("#", "") + "@2x.png";
-        }
+
+        String url = MapboxUtils.markerIconURL(size.apiString, symbol, aColor);
+
         downloadBitmap(context, url);
     }
 
