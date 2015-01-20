@@ -158,6 +158,11 @@ If you're interested in running the TestApp yourself (which is also highly recom
 3. Create a Run configuration via `Run | Edit Configurations`, select `Android Application`, and select `MapboxAndroidSDKTestApp` in the Module UI.
 4. Run the TestApp!
 
+![Image Of Importing Project To Android Studio](/images/android-studio-import-project.png)
+
+![Image Of Creating Run Configuration For TestApp](/images/android-studio-create-run-configuration.png)
+
+
 ### Including SDK JavaDoc
 
 JavaDocs are automatically generated and distributed with each official and
