@@ -88,7 +88,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>android.graphics.Point</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#fromMapPixels(int, int, android.graphics.Point)">fromMapPixels</a></strong>(int&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#fromMapPixels(int,%20int,%20android.graphics.Point)">fromMapPixels</a></strong>(int&nbsp;x,
              int&nbsp;y,
              android.graphics.Point&nbsp;reuse)</code>
 <div class="block">Converts from map pixels to a Point value.</div>
@@ -96,14 +96,14 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a></code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#fromPixels(float, float)">fromPixels</a></strong>(float&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#fromPixels(float,%20float)">fromPixels</a></strong>(float&nbsp;x,
           float&nbsp;y)</code>
 <div class="block">Converts <I>screen coordinates</I> to the underlying LatLng.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a></code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#fromPixels(int, int)">fromPixels</a></strong>(int&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#fromPixels(int,%20int)">fromPixels</a></strong>(int&nbsp;x,
           int&nbsp;y)</code>
 <div class="block">Converts <I>screen coordinates</I> to the underlying LatLng.</div>
 </td>
@@ -167,7 +167,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static double</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#groundResolution(double, float)">groundResolution</a></strong>(double&nbsp;latitude,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#groundResolution(double,%20float)">groundResolution</a></strong>(double&nbsp;latitude,
                 float&nbsp;levelOfDetail)</code>
 <div class="block">Determines the ground resolution (in meters per pixel) at a specified latitude and level of
  detail.</div>
@@ -175,7 +175,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#latLongToPixelXY(double, double, float, android.graphics.PointF)">latLongToPixelXY</a></strong>(double&nbsp;latitude,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#latLongToPixelXY(double,%20double,%20float,%20android.graphics.PointF)">latLongToPixelXY</a></strong>(double&nbsp;latitude,
                 double&nbsp;longitude,
                 float&nbsp;levelOfDetail,
                 android.graphics.PointF&nbsp;reuse)</code>
@@ -185,7 +185,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static double</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#mapScale(double, int, int)">mapScale</a></strong>(double&nbsp;latitude,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#mapScale(double,%20int,%20int)">mapScale</a></strong>(double&nbsp;latitude,
         int&nbsp;levelOfDetail,
         int&nbsp;screenDpi)</code>
 <div class="block">Determines the map scale at a specified latitude, level of detail, and screen resolution.</div>
@@ -199,7 +199,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LLatLng" title="class in com.mapbox.mapboxsdk.geometry">LatLng</a></code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#pixelXYToLatLong(double, double)">pixelXYToLatLong</a></strong>(double&nbsp;pixelX,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#pixelXYToLatLong(double,%20double)">pixelXYToLatLong</a></strong>(double&nbsp;pixelX,
                 double&nbsp;pixelY)</code>
 <div class="block">Converts a pixel from pixel XY coordinates at a specified level of detail into
  latitude/longitude WGS-84 coordinates (in degrees).</div>
@@ -207,7 +207,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="{{site.baseurl}}/api/LLatLng" title="class in com.mapbox.mapboxsdk.geometry">LatLng</a></code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#pixelXYToLatLong(double, double, float)">pixelXYToLatLong</a></strong>(double&nbsp;pixelX,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#pixelXYToLatLong(double,%20double,%20float)">pixelXYToLatLong</a></strong>(double&nbsp;pixelX,
                 double&nbsp;pixelY,
                 float&nbsp;levelOfDetail)</code>
 <div class="block">Converts a pixel from pixel XY coordinates at a specified level of detail into
@@ -216,7 +216,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static android.graphics.Point</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#pixelXYToTileXY(int, int, android.graphics.Point)">pixelXYToTileXY</a></strong>(int&nbsp;pixelX,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#pixelXYToTileXY(int,%20int,%20android.graphics.Point)">pixelXYToTileXY</a></strong>(int&nbsp;pixelX,
                int&nbsp;pixelY,
                android.graphics.Point&nbsp;reuse)</code>
 <div class="block">Converts pixel XY coordinates into tile XY coordinates of the tile containing the specified
@@ -237,7 +237,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static android.graphics.Point</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#tileXYToPixelXY(int, int, android.graphics.Point)">tileXYToPixelXY</a></strong>(int&nbsp;tileX,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#tileXYToPixelXY(int,%20int,%20android.graphics.Point)">tileXYToPixelXY</a></strong>(int&nbsp;tileX,
                int&nbsp;tileY,
                android.graphics.Point&nbsp;reuse)</code>
 <div class="block">Converts tile XY coordinates into pixel XY coordinates of the upper-left pixel of the
@@ -252,7 +252,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixels(double, double, float, double, double, android.graphics.PointF)">toMapPixels</a></strong>(double&nbsp;latitude,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixels(double,%20double,%20float,%20double,%20double,%20android.graphics.PointF)">toMapPixels</a></strong>(double&nbsp;latitude,
            double&nbsp;longitude,
            float&nbsp;zoom,
            double&nbsp;centerX,
@@ -261,7 +261,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixels(double, double, android.graphics.PointF)">toMapPixels</a></strong>(double&nbsp;latitude,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixels(double,%20double,%20android.graphics.PointF)">toMapPixels</a></strong>(double&nbsp;latitude,
            double&nbsp;longitude,
            android.graphics.PointF&nbsp;reuse)</code>&nbsp;</td>
 </tr>
@@ -274,7 +274,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixelsProjected(double, double, android.graphics.PointF)">toMapPixelsProjected</a></strong>(double&nbsp;latitude,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixelsProjected(double,%20double,%20android.graphics.PointF)">toMapPixelsProjected</a></strong>(double&nbsp;latitude,
                     double&nbsp;longitude,
                     android.graphics.PointF&nbsp;reuse)</code>
 <div class="block">Performs only the first computationally heavy part of the projection.</div>
@@ -282,7 +282,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixelsTranslated(android.graphics.PointF, android.graphics.PointF)">toMapPixelsTranslated</a></strong>(android.graphics.PointF&nbsp;in,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toMapPixelsTranslated(android.graphics.PointF,%20android.graphics.PointF)">toMapPixelsTranslated</a></strong>(android.graphics.PointF&nbsp;in,
                      android.graphics.PointF&nbsp;reuse)</code>
 <div class="block">Performs the second computationally light part of the projection.</div>
 </td>
@@ -296,7 +296,7 @@ implements <a href="{{site.baseurl}}/api/LGeoConstants" title="interface in com.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toPixels(android.graphics.PointF, android.graphics.PointF)">toPixels</a></strong>(android.graphics.PointF&nbsp;mapPos,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection#toPixels(android.graphics.PointF,%20android.graphics.PointF)">toPixels</a></strong>(android.graphics.PointF&nbsp;mapPos,
         android.graphics.PointF&nbsp;reuse)</code>
 <div class="block">Converts a map position in pixel to its <I>screen coordinates</I>.</div>
 </td>

@@ -209,18 +209,18 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#MapView(android.content.Context, android.util.AttributeSet)">MapView</a></strong>(android.content.Context&nbsp;aContext,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#MapView(android.content.Context,%20android.util.AttributeSet)">MapView</a></strong>(android.content.Context&nbsp;aContext,
        android.util.AttributeSet&nbsp;attrs)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#MapView(android.content.Context, int, com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase)">MapView</a></strong>(android.content.Context&nbsp;aContext,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#MapView(android.content.Context,%20int,%20com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase)">MapView</a></strong>(android.content.Context&nbsp;aContext,
        int&nbsp;tileSizePixels,
        <a href="{{site.baseurl}}/api/LMapTileLayerBase" title="class in com.mapbox.mapboxsdk.tileprovider">MapTileLayerBase</a>&nbsp;aTileProvider)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected </code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#MapView(android.content.Context, int, com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase, android.os.Handler, android.util.AttributeSet)">MapView</a></strong>(android.content.Context&nbsp;aContext,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#MapView(android.content.Context,%20int,%20com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase,%20android.os.Handler,%20android.util.AttributeSet)">MapView</a></strong>(android.content.Context&nbsp;aContext,
        int&nbsp;tileSizePixels,
        <a href="{{site.baseurl}}/api/LMapTileLayerBase" title="class in com.mapbox.mapboxsdk.tileprovider">MapTileLayerBase</a>&nbsp;tileProvider,
        android.os.Handler&nbsp;tileRequestCompleteHandler,
@@ -278,7 +278,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#canGoTo(float, float)">canGoTo</a></strong>(float&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#canGoTo(float,%20float)">canGoTo</a></strong>(float&nbsp;x,
        float&nbsp;y)</code>
 <div class="block">Returns if the map can go to a specified point (in map coordinates)</div>
 </td>
@@ -600,17 +600,17 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onKeyDown(int, android.view.KeyEvent)">onKeyDown</a></strong>(int&nbsp;keyCode,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onKeyDown(int,%20android.view.KeyEvent)">onKeyDown</a></strong>(int&nbsp;keyCode,
          android.view.KeyEvent&nbsp;event)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onKeyUp(int, android.view.KeyEvent)">onKeyUp</a></strong>(int&nbsp;keyCode,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onKeyUp(int,%20android.view.KeyEvent)">onKeyUp</a></strong>(int&nbsp;keyCode,
        android.view.KeyEvent&nbsp;event)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onLayout(boolean, int, int, int, int)">onLayout</a></strong>(boolean&nbsp;changed,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onLayout(boolean,%20int,%20int,%20int,%20int)">onLayout</a></strong>(boolean&nbsp;changed,
         int&nbsp;l,
         int&nbsp;t,
         int&nbsp;r,
@@ -622,12 +622,12 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onMeasure(int, int)">onMeasure</a></strong>(int&nbsp;widthMeasureSpec,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onMeasure(int,%20int)">onMeasure</a></strong>(int&nbsp;widthMeasureSpec,
          int&nbsp;heightMeasureSpec)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onSizeChanged(int, int, int, int)">onSizeChanged</a></strong>(int&nbsp;w,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#onSizeChanged(int,%20int,%20int,%20int)">onSizeChanged</a></strong>(int&nbsp;w,
              int&nbsp;h,
              int&nbsp;oldw,
              int&nbsp;oldh)</code>&nbsp;</td>
@@ -646,13 +646,13 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a></code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#panBy(int, int)">panBy</a></strong>(int&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#panBy(int,%20int)">panBy</a></strong>(int&nbsp;x,
      int&nbsp;y)</code>
 <div class="block">Pan the map by a given number of pixels in the x and y dimensions.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>FeatureCollection</code></td>
+<td class="colFirst"><code><a href="../../../../com/cocoahero/android/geojson/FeatureCollection.html" title="class in com.cocoahero.android.geojson">FeatureCollection</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#parseFromGeoJSONURL(java.lang.String)">parseFromGeoJSONURL</a></strong>(java.lang.String&nbsp;url)</code>
 <div class="block">Parse a GeoJSON file at a given URL</div>
 </td>
@@ -686,17 +686,17 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#scrollBy(double, double)">scrollBy</a></strong>(double&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#scrollBy(double,%20double)">scrollBy</a></strong>(double&nbsp;x,
         double&nbsp;y)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#scrollTo(double, double)">scrollTo</a></strong>(double&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#scrollTo(double,%20double)">scrollTo</a></strong>(double&nbsp;x,
         double&nbsp;y)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#scrollTo(int, int)">scrollTo</a></strong>(int&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#scrollTo(int,%20int)">scrollTo</a></strong>(int&nbsp;x,
         int&nbsp;y)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -877,7 +877,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a></code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setZoomInternal(float, com.mapbox.mapboxsdk.api.ILatLng, android.graphics.PointF)">setZoomInternal</a></strong>(float&nbsp;aZoomLevel,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setZoomInternal(float,%20com.mapbox.mapboxsdk.api.ILatLng,%20android.graphics.PointF)">setZoomInternal</a></strong>(float&nbsp;aZoomLevel,
                <a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a>&nbsp;center,
                android.graphics.PointF&nbsp;decale)</code>&nbsp;</td>
 </tr>
@@ -1412,7 +1412,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 
 
 <h4>parseFromGeoJSONURL</h4>
-<pre>public&nbsp;FeatureCollection&nbsp;parseFromGeoJSONURL(java.lang.String&nbsp;url)
+<pre>public&nbsp;<a href="../../../../com/cocoahero/android/geojson/FeatureCollection.html" title="class in com.cocoahero.android.geojson">FeatureCollection</a>&nbsp;parseFromGeoJSONURL(java.lang.String&nbsp;url)
                                       throws java.io.IOException,
                                              org.json.JSONException</pre>
 <div class="block">Parse a GeoJSON file at a given URL</div>

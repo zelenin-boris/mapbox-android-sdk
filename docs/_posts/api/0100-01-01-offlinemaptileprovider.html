@@ -69,7 +69,7 @@ extends <a href="{{site.baseurl}}/api/LMapTileLayerBase" title="class in com.map
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LOfflineMapTileProvider#OfflineMapTileProvider(android.content.Context, com.mapbox.mapboxsdk.offline.OfflineMapDatabase)">OfflineMapTileProvider</a></strong>(android.content.Context&nbsp;context,
+<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LOfflineMapTileProvider#OfflineMapTileProvider(android.content.Context,%20com.mapbox.mapboxsdk.offline.OfflineMapDatabase)">OfflineMapTileProvider</a></strong>(android.content.Context&nbsp;context,
                       <a href="{{site.baseurl}}/api/LOfflineMapDatabase" title="class in com.mapbox.mapboxsdk.offline">OfflineMapDatabase</a>&nbsp;offlineMapDatabase)</code>&nbsp;</td>
 </tr>
 </table>
@@ -153,7 +153,7 @@ extends <a href="{{site.baseurl}}/api/LMapTileLayerBase" title="class in com.map
 <h4>getMapTile</h4>
 <pre>public&nbsp;android.graphics.drawable.Drawable&nbsp;getMapTile(<a href="{{site.baseurl}}/api/LMapTile" title="class in com.mapbox.mapboxsdk.tileprovider">MapTile</a>&nbsp;pTile,
                                             boolean&nbsp;allowRemote)</pre>
-<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LMapTileLayerBase#getMapTile(com.mapbox.mapboxsdk.tileprovider.MapTile, boolean)">MapTileLayerBase</a></code></strong></div>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LMapTileLayerBase#getMapTile(com.mapbox.mapboxsdk.tileprovider.MapTile,%20boolean)">MapTileLayerBase</a></code></strong></div>
 <div class="block">Attempts to get a Drawable that represents a <a href="{{site.baseurl}}/api/LMapTile" title="class in com.mapbox.mapboxsdk.tileprovider"><code>MapTile</code></a>. If the tile is not immediately
  available this will return null and attempt to get the tile from known tile sources for
  subsequent future requests. Note that this may return a <a href="../../../../uk/co/senab/bitmapcache/CacheableBitmapDrawable.html" title="class in uk.co.senab.bitmapcache"><code>CacheableBitmapDrawable</code></a> in

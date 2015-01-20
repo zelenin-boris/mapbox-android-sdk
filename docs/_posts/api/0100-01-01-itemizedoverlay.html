@@ -96,7 +96,7 @@ implements <a href="{{site.baseurl}}/api/LOverlay.Snappable" title="interface in
 <!--   -->
 </a>
 <h3>Fields inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapboxsdk.overlay">Overlay</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay#mScale">mScale</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay#USERLOCATIONOVERLAY_INDEX">USERLOCATIONOVERLAY_INDEX</a></code>
 
 
 
@@ -179,7 +179,7 @@ implements <a href="{{site.baseurl}}/api/LOverlay.Snappable" title="interface in
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LItemizedOverlay#onSingleTapConfirmed(android.view.MotionEvent, com.mapbox.mapboxsdk.views.MapView)">onSingleTapConfirmed</a></strong>(android.view.MotionEvent&nbsp;e,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LItemizedOverlay#onSingleTapConfirmed(android.view.MotionEvent,%20com.mapbox.mapboxsdk.views.MapView)">onSingleTapConfirmed</a></strong>(android.view.MotionEvent&nbsp;e,
                     <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView)</code>
 <div class="block">By default does nothing (<code>return false</code>).</div>
 </td>
@@ -231,7 +231,7 @@ implements <a href="{{site.baseurl}}/api/LOverlay.Snappable" title="interface in
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapboxsdk.overlay">Overlay</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay#setEnabled(boolean)">setEnabled</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay#setOverlayIndex(int)">setOverlayIndex</a></code>
 
 
 <a name="methods_inherited_from_class_java.lang.Object">
@@ -245,7 +245,7 @@ implements <a href="{{site.baseurl}}/api/LOverlay.Snappable" title="interface in
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay.Snappable" title="interface in com.mapbox.mapboxsdk.overlay">Overlay.Snappable</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay.Snappable#onSnapToItem(int, int, android.graphics.Point, com.mapbox.mapboxsdk.views.MapView)">onSnapToItem</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay.Snappable#onSnapToItem(int,%20int,%20android.graphics.Point,%20com.mapbox.mapboxsdk.views.MapView)">onSnapToItem</a></code>
 
 
 
@@ -408,7 +408,7 @@ implements <a href="{{site.baseurl}}/api/LOverlay.Snappable" title="interface in
 <h4>onSingleTapConfirmed</h4>
 <pre>public&nbsp;boolean&nbsp;onSingleTapConfirmed(android.view.MotionEvent&nbsp;e,
                            <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView)</pre>
-<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay#onSingleTapConfirmed(android.view.MotionEvent, com.mapbox.mapboxsdk.views.MapView)">Overlay</a></code></strong></div>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay#onSingleTapConfirmed(android.view.MotionEvent,%20com.mapbox.mapboxsdk.views.MapView)">Overlay</a></code></strong></div>
 <div class="block">By default does nothing (<code>return false</code>). If you handled the Event, return
  <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
  none of the following Overlays or the underlying <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views"><code>MapView</code></a> has the chance to handle

@@ -64,7 +64,7 @@ extends <a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapbo
 <!--   -->
 </a>
 <h3>Fields inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapboxsdk.overlay">Overlay</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay#mScale">mScale</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay#USERLOCATIONOVERLAY_INDEX">USERLOCATIONOVERLAY_INDEX</a></code>
 
 
 
@@ -99,7 +99,7 @@ extends <a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapbo
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LSafeDrawOverlay#draw(android.graphics.Canvas, com.mapbox.mapboxsdk.views.MapView, boolean)">draw</a></strong>(android.graphics.Canvas&nbsp;c,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LSafeDrawOverlay#draw(android.graphics.Canvas,%20com.mapbox.mapboxsdk.views.MapView,%20boolean)">draw</a></strong>(android.graphics.Canvas&nbsp;c,
     <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView,
     boolean&nbsp;shadow)</code>
 <div class="block">Draw the overlay over the map.</div>
@@ -125,7 +125,7 @@ extends <a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapbo
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapboxsdk.overlay">Overlay</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay#setEnabled(boolean)">setEnabled</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay#setOverlayIndex(int)">setOverlayIndex</a></code>
 
 
 <a name="methods_inherited_from_class_java.lang.Object">
@@ -185,7 +185,7 @@ extends <a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapbo
 <pre>protected&nbsp;void&nbsp;draw(android.graphics.Canvas&nbsp;c,
         <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView,
         boolean&nbsp;shadow)</pre>
-<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay#draw(android.graphics.Canvas, com.mapbox.mapboxsdk.views.MapView, boolean)">Overlay</a></code></strong></div>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay#draw(android.graphics.Canvas,%20com.mapbox.mapboxsdk.views.MapView,%20boolean)">Overlay</a></code></strong></div>
 <div class="block">Draw the overlay over the map. This will be called on all active overlays with shadow=true,
  to lay down the shadow layer, and then again on all overlays with shadow=false. Callers
  should check isEnabled() before calling draw(). By default, draws nothing.</div>
