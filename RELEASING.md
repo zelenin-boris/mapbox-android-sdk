@@ -20,10 +20,12 @@
 ### Publishing To Central Repository
 1. Add Nexus Repository and Signing Credentials To /MapboxAndroidSDK/gradle.properties (DO NOT COMMIT)
 1. In Terminal
+
         ```
         cd MapboxAndroidSDK
         ./deploy.sh
         ```
+
 1. Follow [instructions](http://central.sonatype.org/pages/releasing-the-deployment.html) to Close Staging Repository and Release To Central Repository
 1. Remove Nexus Repository and Signing Credentials From /MapboxAndroidSDK/gradle.properties
 
@@ -31,7 +33,7 @@
 1. Follow instructions in `/docs/README.md`
 
 ### Releasing New Demo App On Google Play
-1. Update Mapbox Android SDK dependency, Version Code, and Version Name in https://github.com/mapbox/mapbox-android-demo/blob/master/MapBoxAndroidDemo/build.gradle
+1. Update Mapbox Android SDK dependency, Version Code, and Version Name in [/MapBoxAndroidDemo/build.gradle](https://github.com/mapbox/mapbox-android-demo/blob/master/MapBoxAndroidDemo/build.gradle)
 1. Build .apk with `./gradlew clean assembleRelease` from command line
 1. Sign `MapBoxAndroidDemo/build/outputs/apk/MapBoxAndroidDemo-release-unsigned.apk` with same signing credentials used in Publishing To Central Repository
   See [Android documentation on doing this with Android Studio or Manually](http://developer.android.com/tools/publishing/app-signing.html)
