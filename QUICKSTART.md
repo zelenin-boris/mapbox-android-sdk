@@ -143,6 +143,21 @@ Alternatively you can override the methods `onSaveInstanceState()` and
 See this [StackOverflow question](http://stackoverflow.com/questions/4096169/onsaveinstancestate-and-onrestoreinstancestate) for
 more information on these methods
 
+### More Examples Via TestApp
+
+The Mapbox Android SDK is actually an [Android Library Module](https://developer.android.com/tools/projects/index.html#LibraryModules), 
+which means in order to test it out in an emulator or a device during development a [Test Module](https://developer.android.com/tools/projects/index.html#testing) is needed.  We call this test module
+the **TestApp**.  It contains many different examples of new functionality or just ways to do certain things.  We highly recommend checking it out.
+
+The source code for these tests / examples is located under the [MapboxAndroidSDKTestApp directory](https://github.com/mapbox/mapbox-android-sdk/tree/mb-pages/MapboxAndroidSDKTestApp/src/main/java/com/mapbox/mapboxsdk/android/testapp).
+
+If you're interested in running the TestApp yourself (which is also highly recommened!) here's how:
+
+1. Clone the [mapbox-android-sdk](https://github.com/mapbox/mapbox-android-sdk) to your local computer
+2. Open in [Android Studio](http://developer.android.com/tools/studio/index.html) by using `File | Import Project` and selecting the `mapbox-android-sdk` directory that you cloned in Step 1.
+3. Create a Run configuration via `Run | Edit Configurations`, select `Android Application`, and select `MapboxAndroidSDKTestApp` in the Module UI.
+4. Run the TestApp!
+
 ### Including SDK JavaDoc
 
 JavaDocs are automatically generated and distributed with each official and
