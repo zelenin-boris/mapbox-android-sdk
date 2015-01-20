@@ -54,6 +54,7 @@ import com.mapbox.mapboxsdk.tileprovider.util.SimpleInvalidationHandler;
 import com.mapbox.mapboxsdk.util.BitmapUtils;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.util.GeometryMath;
+import com.mapbox.mapboxsdk.util.MapboxUtils;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
 import com.mapbox.mapboxsdk.views.util.OnMapOrientationChangeListener;
@@ -219,6 +220,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapView);
         String mapid = a.getString(R.styleable.MapView_mapid);
+        MapboxUtils.setAccessToken(a.getString(R.styleable.MapView_accessToken));
         if (!TextUtils.isEmpty(mapid)) {
             setTileSource(new MapboxTileLayer(mapid));
         } else {

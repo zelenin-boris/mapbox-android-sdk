@@ -613,10 +613,10 @@ public class OfflineMapDownloader implements MapboxConstants {
         // Include URLs for the metadata and markers json if applicable
         //
         if (includeMetadata) {
-            urls.add(String.format(MAPBOX_BASE_URL + "%s.json?secure%s", this.mapID, ""));
+            urls.add(String.format(MAPBOX_BASE_URL_V3 + "%s.json?secure%s", this.mapID, ""));
         }
         if (includeMarkers) {
-            urls.add(String.format(MAPBOX_BASE_URL + "%s/%s%s", this.mapID, dataName, ""));
+            urls.add(String.format(MAPBOX_BASE_URL_V3 + "%s/%s%s", this.mapID, dataName, ""));
         }
 
         // Loop through the zoom levels and lat/lon bounds to generate a list of urls which should be included in the offline map
@@ -638,7 +638,7 @@ public class OfflineMapDownloader implements MapboxConstants {
             maxY = Double.valueOf(Math.floor((1.0 - (Math.log(Math.tan(minLat * MathConstants.PI / 180.0) + 1.0 / Math.cos(minLat * MathConstants.PI / 180.0)) / MathConstants.PI)) / 2.0 * tilesPerSide)).intValue();
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
-                    urls.add(MapboxUtils.getMapTileURL(this.mapID, zoom, x, y, this.imageQuality));
+                    urls.add(MapboxUtils.getMapTileURL(context, this.mapID, zoom, x, y, this.imageQuality));
                 }
             }
         }
@@ -648,7 +648,7 @@ public class OfflineMapDownloader implements MapboxConstants {
         //
         if (includeMarkers) {
             String dName = "markers.geojson";
-            final String geojson = String.format(MAPBOX_BASE_URL + "%s/%s", this.mapID, dName);
+            final String geojson = String.format(MAPBOX_BASE_URL_V3 + "%s/%s", this.mapID, dName);
 
             if (!NetworkUtils.isNetworkAvailable(context)) {
                 // We got a session level error which probably indicates a connectivity problem such as airplane mode.
@@ -775,7 +775,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                             String color = feature.getJSONObject("properties").getString("marker-color");
                             String symbol = feature.getJSONObject("properties").getString("marker-symbol");
                             if (!TextUtils.isEmpty(size) && !TextUtils.isEmpty(color) && !TextUtils.isEmpty(symbol)) {
-                                String markerURL = MapboxUtils.markerIconURL(size, symbol, color);
+                                String markerURL = MapboxUtils.markerIconURL(context, size, symbol, color);
                                 if (!TextUtils.isEmpty(markerURL)) {
                                     iconURLStrings.add(markerURL);
 
