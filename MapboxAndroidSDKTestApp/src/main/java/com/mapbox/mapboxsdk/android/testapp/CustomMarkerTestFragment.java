@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.views.MapView;
 
@@ -17,12 +18,16 @@ public class CustomMarkerTestFragment extends Fragment {
 
         MapView mv = (MapView) view.findViewById(R.id.customMarkerMapView);
         mv.setCenter(new LatLng(-3.07881, 37.31369));
-        mv.setZoom(10);
+        mv.setZoom(8);
 
         Marker marker = new Marker(mv, "Mount Kilimanjaro", "", new LatLng(-3.06372, 36.71356));
         marker.setMarker(getResources().getDrawable(R.drawable.right_arrow));
         mv.addMarker(marker);
         
+        Marker capital = new Marker(mv, "Dodoma", "", new LatLng(-6.17691, 35.74685));
+        capital.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));
+        mv.addMarker(capital);
+
         return view;
     }
 }
