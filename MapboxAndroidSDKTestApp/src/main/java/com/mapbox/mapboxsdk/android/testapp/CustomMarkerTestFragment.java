@@ -27,6 +27,9 @@ public class CustomMarkerTestFragment extends Fragment {
         Marker capital = new Marker(mv, "Dodoma", "", new LatLng(-6.17691, 35.74685));
         capital.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));
         mv.addMarker(capital);
+        
+        Marker bigCity = new Marker(mv, "Dar es Salaam", "", new LatLng(-6.80610, 39.27046));
+        mv.addMarker(bigCity);
 
         return view;
     }
