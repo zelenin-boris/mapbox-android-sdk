@@ -229,8 +229,8 @@ public class Marker {
     }
 
     /**
-     * Gets the drawable for the marker
-     * @param stateBitset
+     * Gets the custom image (Drawable) used for the Marker's image
+     * @param stateBitset State Of Marker (@see #ITEM_STATE_FOCUSED_MASK , @see #ITEM_STATE_PRESSED_MASK, @see #ITEM_STATE_SELECTED_MASK)
      * @return marker drawable corresponding to stateBitset
      */
     public Drawable getMarker(final int stateBitset) {
@@ -244,6 +244,10 @@ public class Marker {
         return mMarker;
     }
 
+    /**
+     * Set a custom image to be used as the Marker's image
+     * @param marker Drawable resource to be used as Marker image
+     */
     public void setMarker(final Drawable marker) {
         this.mMarker = marker;
         if (marker != null) {
