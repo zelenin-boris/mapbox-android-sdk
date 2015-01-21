@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.views.MapView;
 
 public class CustomMarkerTestFragment extends Fragment {
@@ -18,6 +19,9 @@ public class CustomMarkerTestFragment extends Fragment {
         mv.setCenter(new LatLng(-3.07881, 37.31369));
         mv.setZoom(10);
 
+        Marker marker = new Marker(mv, "Mount Kilimanjaro", "", new LatLng(-3.06372, 36.71356));
+        mv.addMarker(marker);
+        
         return view;
     }
 }
