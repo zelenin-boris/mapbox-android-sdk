@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mapbox.mapboxsdk.android.testapp.ui.CustomInfoWindow;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
@@ -29,6 +31,7 @@ public class CustomMarkerTestFragment extends Fragment {
         mv.addMarker(capital);
         
         Marker bigCity = new Marker(mv, "Dar es Salaam", "", new LatLng(-6.80610, 39.27046));
+        marker.setToolTip(new CustomInfoWindow(mv));
         mv.addMarker(bigCity);
 
         return view;

@@ -119,14 +119,18 @@ public class Marker {
 
     /**
      * Get this marker's tooltip, creating it if it doesn't exist yet.
-     * @param mv
-     * @return
+     * @param mv MapView
+     * @return InfoWindow
      */
     public InfoWindow getToolTip(MapView mv) {
         if (mToolTip == null || mToolTip.getMapView() != mv) {
             mToolTip = createTooltip(mv);
         }
         return mToolTip;
+    }
+
+    public void setToolTip(InfoWindow mToolTip) {
+        this.mToolTip = mToolTip;
     }
 
     public void closeToolTip() {
@@ -354,8 +358,8 @@ public class Marker {
 
     /**
      * Get the current position of the marker in pixels
-     * @param projection
-     * @param reuse
+     * @param projection Projection
+     * @param reuse PointF to reuse
      */
     public PointF getPositionOnScreen(final Projection projection, final PointF reuse) {
         return projection.toPixels(mCurMapCoords, reuse);
