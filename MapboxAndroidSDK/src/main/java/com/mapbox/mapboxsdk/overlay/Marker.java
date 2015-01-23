@@ -79,9 +79,9 @@ public class Marker {
     }
 
     /**
-     * Attach this marker to a given mapview and that mapview's context
-     * @param mv the mapview to add this marker to
-     * @return
+     * Attach this marker to a given MapView and that MapView's context
+     * @param mv the MapView to add this marker to
+     * @return Marker
      */
     public Marker addTo(MapView mv) {
         if (mMarker == null) {
