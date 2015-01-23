@@ -31,6 +31,7 @@ public class Marker {
     private Context context;
     private MapView mapView;
     private Icon icon;
+    private boolean isUsingMakiIcon = true;
 
     protected String mUid;
     protected LatLng mLatLng;
@@ -88,6 +89,7 @@ public class Marker {
             //if there is an icon it means it's not loaded yet
             //thus change the drawable while waiting
             setMarker(mv.getDefaultPinDrawable());
+            isUsingMakiIcon = true;
         }
         mapView = mv;
         context = mv.getContext();
@@ -252,6 +254,7 @@ public class Marker {
         this.mMarker = marker;
         if (marker != null) {
             marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
+            isUsingMakiIcon = false;
         }
         invalidate();
     }
@@ -343,7 +346,10 @@ public class Marker {
     }
 
     public int getHeight() {
-        return this.mMarker.getIntrinsicHeight() / 2;
+        if (isUsingMakiIcon) {
+            return this.mMarker.getIntrinsicHeight() / 2;
+        }
+        return this.mMarker.getIntrinsicHeight();
     }
 
     /**
@@ -463,7 +469,12 @@ public class Marker {
     public Marker setIcon(Icon aIcon) {
         this.icon = aIcon;
         icon.setMarker(this);
+        isUsingMakiIcon = true;
         return this;
+    }
+
+    public boolean isUsingMakiIcon() {
+        return isUsingMakiIcon;
     }
 
     public PointF getPositionOnMap() {
