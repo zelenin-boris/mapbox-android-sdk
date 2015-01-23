@@ -261,7 +261,7 @@ public class Marker {
 
     /**
      * Sets the marker hotspot
-     * @param place
+     * @param place Hotspot Location @see #HotspotPlace
      */
     public void setHotspot(HotspotPlace place) {
         if (place == null) {
