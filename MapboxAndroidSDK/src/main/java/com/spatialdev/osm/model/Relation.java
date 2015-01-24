@@ -4,19 +4,38 @@
  */
 package com.spatialdev.osm.model;
 
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class Relation extends OSMElement {
 
-    private LinkedList<Long> nodeRefs = new LinkedList<>();
-    private LinkedList<Long> wayRefs = new LinkedList<>();
-    private LinkedList<Long> relationRefs = new LinkedList<>();
+    // These are the members that refer to another OSM Element.
+    private class RelationMember {
+        public Long ref;
+        public String type;
+        public String role;
+        public OSMElement linkedElement;
+        
+        public RelationMember(Long ref, String type, String role) {
+            this.ref = ref;
+            this.type = type;
+            this.role = role;
+        }
+    }
+    
+    private LinkedList<RelationMember> nodeMembers = new LinkedList<>();
+    private LinkedList<RelationMember> wayMembers = new LinkedList<>();
+    private LinkedList<RelationMember> relationMembers = new LinkedList<>();
 
     private LinkedList<Node> linkedNodes = new LinkedList<>();
     private LinkedList<Way> linkedWays = new LinkedList<>();
     private LinkedList<Relation> linkedRelations = new LinkedList<>();
+    
+    private int unlinkedMembersCount = 0;
 
     public Relation( String idStr,
                      String versionStr,
@@ -28,71 +47,103 @@ public class Relation extends OSMElement {
         super(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
     }
 
-    public void addNodeRef(long id) {
-        nodeRefs.add(id);
+    @Override
+    void xml(XmlSerializer xmlSerializer) throws IOException {
+        xmlSerializer.startTag(null, "relation");
+        if (isModified()) {
+            xmlSerializer.attribute(null, "action", "modify");
+        }
+        setOsmElementXmlAttributes(xmlSerializer);
+        // generate members
+        setRelationXmlMembers(xmlSerializer);
+        // generate tags
+        super.xml(xmlSerializer);
+        xmlSerializer.endTag(null, "relation");
+    }
+    
+    private void setRelationXmlMembers(XmlSerializer xmlSerializer) throws IOException {
+        for (RelationMember mem: nodeMembers) {
+            writeXmlMember(mem, xmlSerializer);
+        }
+        for (RelationMember mem: wayMembers) {
+            writeXmlMember(mem, xmlSerializer);
+        }
+        for (RelationMember mem: relationMembers) {
+            writeXmlMember(mem, xmlSerializer);
+        }
+    }
+    
+    private void writeXmlMember(RelationMember mem, XmlSerializer xmlSerializer) throws IOException {
+        xmlSerializer.startTag(null, "member");
+        xmlSerializer.attribute(null, "type", mem.type);
+        xmlSerializer.attribute(null, "ref", String.valueOf(mem.ref));
+        xmlSerializer.attribute(null, "role", mem.role);
+        xmlSerializer.endTag(null, "member");
     }
 
-    public void addWayRef(long id) {
-        wayRefs.add(id);
+    public void addNodeRef(long id, String role) {
+        nodeMembers.add(new RelationMember(id, "node", role));
     }
 
-    public void addRelationRef(long id) {
-        relationRefs.add(id);
+    public void addWayRef(long id, String role) {
+        wayMembers.add(new RelationMember(id, "way", role));
+    }
+
+    public void addRelationRef(long id, String role) {
+        relationMembers.add(new RelationMember(id, "relation", role));
     }
 
     int link(Map<Long, Node> nodes, Map<Long, Way> ways, Map<Long, Relation> relations) {
         int unlinkedNodes = linkNodes(nodes);
         int unlinkedWays = linkWays(ways);
         int unlinkedRelations = linkRelations(relations);
-        return unlinkedNodes + unlinkedWays + unlinkedRelations;
+        unlinkedMembersCount = unlinkedNodes + unlinkedWays + unlinkedRelations;
+        return unlinkedMembersCount;
     }
 
     private int linkNodes(Map<Long, Node> nodes) {
-        LinkedList<Long> unlinkedRefs = new LinkedList<>();
-        while (nodeRefs.size() > 0) {
-            Long refId = nodeRefs.pop();
-            Node node = nodes.get(refId);
+        int unlinkedCount = 0;
+        for (RelationMember mem : nodeMembers) {
+            Node node = nodes.get(mem.ref);
             if (node == null) {
-                unlinkedRefs.push(refId);
+                ++unlinkedCount;
             } else {
                 node.addRelation(this);
+                mem.linkedElement = node;
                 linkedNodes.push(node);
             }
         }
-        nodeRefs = unlinkedRefs;
-        return nodeRefs.size();
+        return unlinkedCount;
     }
 
     private int linkWays(Map<Long, Way> ways) {
-        LinkedList<Long> unlinkedRefs = new LinkedList<>();
-        while (wayRefs.size() > 0) {
-            Long refId = wayRefs.pop();
-            Way way = ways.get(refId);
+        int unlinkedCount = 0;
+        for (RelationMember mem : wayMembers) {
+            Way way = ways.get(mem.ref);
             if (way == null) {
-                unlinkedRefs.push(refId);
+                ++unlinkedCount;
             } else {
                 way.addRelation(this);
+                mem.linkedElement = way;
                 linkedWays.push(way);
             }
         }
-        wayRefs = unlinkedRefs;
-        return wayRefs.size();
+        return unlinkedCount;
     }
 
     private int linkRelations(Map<Long, Relation> relations) {
-        LinkedList<Long> unlinkedRefs = new LinkedList<>();
-        while (relationRefs.size() > 0) {
-            Long refId = relationRefs.pop();
-            Relation relation = relations.get(refId);
-            if (relation == null) {
-                unlinkedRefs.push(refId);
+        int unlinkedCount = 0;
+        for (RelationMember mem: relationMembers) {
+            Relation rel = relations.get(mem.ref);
+            if (rel == null) {
+                ++unlinkedCount;
             } else {
-                relation.addRelation(this);
-                linkedRelations.push(relation);
+                rel.addRelation(this);
+                mem.linkedElement = rel;
+                linkedRelations.push(rel);
             }
         }
-        relationRefs = unlinkedRefs;
-        return relationRefs.size();
+        return unlinkedCount;
     }
 
     public void addRelation(Relation relation) {
@@ -104,7 +155,7 @@ public class Relation extends OSMElement {
     }
 
     public int getUnlinkedMemberCount() {
-        return nodeRefs.size() + wayRefs.size() + relationRefs.size();
+        return unlinkedMembersCount;
     }
 
     @Override

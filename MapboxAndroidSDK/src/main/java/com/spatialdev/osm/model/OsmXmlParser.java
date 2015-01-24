@@ -176,7 +176,7 @@ public class OSMXmlParser {
     private void readTags(OSMElement el) throws XmlPullParserException, IOException {
         String k = parser.getAttributeValue(ns, "k");
         String v = parser.getAttributeValue(ns, "v");
-        el.addTag(k, v);
+        el.addParsedTag(k, v);
         // we do this twice, because these are singular nodes that
         // function as start and end tags
         parser.nextTag();
@@ -208,17 +208,15 @@ public class OSMXmlParser {
     private void readMembers(Relation relation) throws XmlPullParserException, IOException {
         String type = parser.getAttributeValue(ns, "type");
         String ref = parser.getAttributeValue(ns, "ref");
-
-        // TODO: Implement roles.
-//        String role = parser.getAttributeValue(ns, "role");
+        String role = parser.getAttributeValue(ns, "role");
 
         long id = Long.valueOf(ref);
         if (type.equals("node")) {
-            relation.addNodeRef(id);
+            relation.addNodeRef(id, role);
         } else if (type.equals("way")) {
-            relation.addWayRef(id);
+            relation.addWayRef(id, role);
         } else if (type.equals("relation")) {
-            relation.addRelationRef(id);
+            relation.addRelationRef(id, role);
         }
 
         // we do this twice, because these are singular nodes that
