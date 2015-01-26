@@ -22,7 +22,7 @@ public class InfoWindow {
      */
     private MapView mMapView;
     private boolean mIsVisible;
-    private View mView;
+    protected View mView;
 
     static int mTitleId = 0;
     static int mDescriptionId = 0;
