@@ -11,6 +11,10 @@ public class CustomInfoWindow extends InfoWindow {
         super(R.layout.infowindow_custom, mv);
     }
 
+    /**
+     * Dynamically set the content in the CustomInfoWindow
+     * @param overlayItem The tapped Marker
+     */
     @Override
     public void onOpen(Marker overlayItem) {
         String title = overlayItem.getTitle();
