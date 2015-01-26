@@ -18,11 +18,13 @@ public class CustomInfoWindow extends InfoWindow {
         setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // Demonstrate custom onTouch() control
-                Toast.makeText(mView.getContext(), R.string.customInfoWindowOnTouchMessage, Toast.LENGTH_SHORT).show();
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Demonstrate custom onTouch() control
+                    Toast.makeText(mView.getContext(), R.string.customInfoWindowOnTouchMessage, Toast.LENGTH_SHORT).show();
 
-                // Still close the InfoWindow though
-                close();
+                    // Still close the InfoWindow though
+                    close();
+                }
 
                 // Return true as we're done processing this event
                 return true;
