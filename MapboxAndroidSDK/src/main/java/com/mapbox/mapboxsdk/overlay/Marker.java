@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.views.InfoWindow;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.Projection;
@@ -351,9 +350,14 @@ public class Marker {
     }
 
     public int getHeight() {
+        int result = getRealHeight();
         if (isUsingMakiIcon) {
-            return this.mMarker.getIntrinsicHeight() / 2;
+            result = result / 2;
         }
+        return result;
+    }
+
+    public int getRealHeight() {
         return this.mMarker.getIntrinsicHeight();
     }
 
@@ -379,14 +383,11 @@ public class Marker {
         }
         final PointF position = getPositionOnScreen(projection, null);
         final int w = getWidth();
-        final int h = getHeight();
+        final int h = isUsingMakiIcon ? getRealHeight() : getHeight();
         final float left = position.x - mAnchor.x * w;
         final float right = left + w;
         final float top = position.y - mAnchor.y * h;
         float bottom = top + h;
-        if (isUsingMakiIcon) {
-            bottom = top + h * 2;
-        }
         reuse.set(left, top, right, bottom);
 
         return reuse;
@@ -403,6 +404,11 @@ public class Marker {
         final float y = mCurMapCoords.y - mAnchor.y * h;
         reuse.set(x, y, x + w, y + h * 2);
         return reuse;
+    }
+
+
+    protected RectF getHitBounds(final Projection projection, RectF reuse) {
+        return getDrawingBounds(projection, reuse);
     }
 
     public PointF getHotspotScale(HotspotPlace place, PointF reuse) {
