@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -68,6 +67,10 @@ public class MainTestFragment extends Fragment {
         mv.addMarker(m);
 
         m = new Marker(mv, "Athens", "Greece", new LatLng(37.97885, 23.71399));
+        mv.addMarker(m);
+
+        m = new Marker(mv, "Milwaukee", "Wisconsin", new LatLng(43.04506, -87.92217));
+        m.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "city", "0000FF"));
         mv.addMarker(m);
 
         /*
