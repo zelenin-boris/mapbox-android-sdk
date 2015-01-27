@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.views.InfoWindow;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.Projection;
@@ -379,9 +380,15 @@ public class Marker {
         final PointF position = getPositionOnScreen(projection, null);
         final int w = getWidth();
         final int h = getHeight();
-        final float x = position.x - mAnchor.x * w;
-        final float y = position.y - mAnchor.y * h;
-        reuse.set(x, y, x + w, y + h * 2);
+        final float left = position.x - mAnchor.x * w;
+        final float right = left + w;
+        final float top = position.y - mAnchor.y * h;
+        float bottom = top + h;
+        if (isUsingMakiIcon) {
+            bottom = top + h * 2;
+        }
+        reuse.set(left, top, right, bottom);
+
         return reuse;
     }
 
