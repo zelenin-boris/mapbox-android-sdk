@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
@@ -20,6 +21,7 @@ public class RotatedMapTestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rotatedmap, container, false);
 
         MapView mv = (MapView) view.findViewById(R.id.rotatedMapView);
+        mv.setScrollableAreaLimit(new BoundingBox(new LatLng(45.49311, 9.14612), new LatLng(45.46115, 9.09041)));
         mv.setCenter(new LatLng(45.47820, 9.12400));
         mv.setZoom(14);
         Log.d(TAG, String.format("Is MapRotation Enabled? '%s'", mv.isMapRotationEnabled()));
