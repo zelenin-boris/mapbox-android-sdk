@@ -2,6 +2,7 @@ package com.mapbox.mapboxsdk.android.testapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.mapbox.mapboxsdk.views.MapView;
 
 public class RotatedMapTestFragment extends Fragment {
 
+    private static final String TAG = "RotatedMapTestFragment";
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rotatedmap, container, false);
@@ -19,7 +22,9 @@ public class RotatedMapTestFragment extends Fragment {
         MapView mv = (MapView) view.findViewById(R.id.rotatedMapView);
         mv.setCenter(new LatLng(45.47820, 9.12400));
         mv.setZoom(14);
+        Log.d(TAG, String.format("Is MapRotation Enabled? '%s'", mv.isMapRotationEnabled()));
         mv.setMapOrientation(180.0f);
+        Log.d(TAG, String.format("Is MapRotation Enabled Post Set? '%s'", mv.isMapRotationEnabled()));
 
         Marker cap = new Marker(mv, "San Siro", "Stadio Giuseppe Meazza", new LatLng(45.47820, 9.12400));
         cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "soccer", "FF0000"));
