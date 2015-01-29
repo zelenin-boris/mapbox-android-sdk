@@ -25,7 +25,7 @@ public class RotatedMapTestFragment extends Fragment {
         mv.setCenter(new LatLng(45.47820, 9.12400));
         mv.setZoom(14);
         Log.d(TAG, String.format("Is MapRotation Enabled? '%s'", mv.isMapRotationEnabled()));
-        mv.setMapOrientation(180.0f);
+        mv.setMapOrientation(90.0f);
         Log.d(TAG, String.format("Is MapRotation Enabled Post Set? '%s'", mv.isMapRotationEnabled()));
 
         Marker cap = new Marker(mv, "San Siro", "Stadio Giuseppe Meazza", new LatLng(45.47820, 9.12400));
