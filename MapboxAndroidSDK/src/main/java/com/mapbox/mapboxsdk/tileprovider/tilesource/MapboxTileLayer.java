@@ -62,11 +62,11 @@ public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstan
     @Override
     protected String getBrandedJSONURL() {
         if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
-            return String.format("http%s://api.tiles.mapbox.com/v4/%s.json?access_token=%s%s", (mEnableSSL ? "s" : ""),
+            return String.format(MAPBOX_LOCALE, "http%s://api.tiles.mapbox.com/v4/%s.json?access_token=%s%s", (mEnableSSL ? "s" : ""),
                     mId, MapboxUtils.getAccessToken(), (mEnableSSL ? "&secure" : ""));
         }
 
-        return String.format("http%s://api.tiles.mapbox.com/v3/%s.json%s", (mEnableSSL ? "s" : ""),
+        return String.format(MAPBOX_LOCALE, "http%s://api.tiles.mapbox.com/v3/%s.json%s", (mEnableSSL ? "s" : ""),
                 mId, (mEnableSSL ? "?secure" : ""));
     }
 

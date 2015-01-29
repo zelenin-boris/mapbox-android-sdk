@@ -170,7 +170,7 @@ public class OfflineMapDownloader implements MapboxConstants {
 
     public void notifyDelegateOfHTTPStatusError(int status, String url) {
         for (OfflineMapDownloaderListener listener : listeners) {
-            listener.httpStatusError(new Exception(String.format("HTTP Status Error %d, for url = %s", status, url)));
+            listener.httpStatusError(new Exception(String.format(MAPBOX_LOCALE, "HTTP Status Error %d, for url = %s", status, url)));
         }
     }
 
@@ -249,17 +249,17 @@ public class OfflineMapDownloader implements MapboxConstants {
 
         // Update expected files numbers (totalFilesExpectedToWrite and totalFilesWritten)
         sqliteQueryWrittenAndExpectedCountsWithError();
-        Log.d(TAG, String.format("totalFilesExpectedToWrite = %d, totalFilesWritten = %d", this.totalFilesExpectedToWrite, this.totalFilesWritten));
+        Log.d(TAG, String.format(MAPBOX_LOCALE, "totalFilesExpectedToWrite = %d, totalFilesWritten = %d", this.totalFilesExpectedToWrite, this.totalFilesWritten));
 
 //        [_sqliteQueue addOperationWithBlock:^{
         // Get the actual URLs
         ArrayList<String> urls = sqliteReadArrayOfOfflineMapURLsToBeDownloadLimit(-1);
-        Log.d(TAG, String.format("number of urls to download = %d", urls.size()));
+        Log.d(TAG, String.format(MAPBOX_LOCALE, "number of urls to download = %d", urls.size()));
 
         int totalDiff = this.totalFilesExpectedToWrite - this.totalFilesWritten;
         if (urls.size() != totalDiff) {
             // Something is off
-            Log.w(TAG, String.format("totalDiff %d does not equal urls size of %d.  This is a problem.  Returning.", totalDiff, urls.size()));
+            Log.w(TAG, String.format(MAPBOX_LOCALE, "totalDiff %d does not equal urls size of %d.  This is a problem.  Returning.", totalDiff, urls.size()));
             return;
         } else if (urls.size() == 0 && totalDiff == 0) {
             // All files are downloaded, but hasn't been persisted yet.
@@ -286,7 +286,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                         conn.connect();
                         int rc = conn.getResponseCode();
                         if (rc != HttpURLConnection.HTTP_OK) {
-                            String msg = String.format("HTTP Error connection.  Response Code = %d", rc);
+                            String msg = String.format(MAPBOX_LOCALE, "HTTP Error connection.  Response Code = %d", rc);
                             Log.w(TAG, msg);
                             notifyDelegateOfHTTPStatusError(rc, params[0]);
                             throw new IOException(msg);
@@ -304,7 +304,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                                 bais.write(byteChunk, 0, n);
                             }
                         } catch (IOException e) {
-                            Log.e(TAG, String.format("Failed while reading bytes from %s: %s", conn.getURL().toString(), e.getMessage()));
+                            Log.e(TAG, String.format(MAPBOX_LOCALE, "Failed while reading bytes from %s: %s", conn.getURL().toString(), e.getMessage()));
                             e.printStackTrace();
                         } finally {
                             if (is != null) {
@@ -363,7 +363,7 @@ public class OfflineMapDownloader implements MapboxConstants {
         db.insert(OfflineDatabaseHandler.TABLE_DATA, null, values);
 
 //      [query appendFormat:@"UPDATE resources SET status=200,id=last_insert_rowid() WHERE url='%@';\n",[url absoluteString]];
-        db.execSQL(String.format("UPDATE %s SET %s=200, %s=last_insert_rowid() WHERE %s='%s';", OfflineDatabaseHandler.TABLE_RESOURCES, OfflineDatabaseHandler.FIELD_RESOURCES_STATUS, OfflineDatabaseHandler.FIELD_RESOURCES_ID, OfflineDatabaseHandler.FIELD_RESOURCES_URL, url));
+        db.execSQL(String.format(MAPBOX_LOCALE, "UPDATE %s SET %s=200, %s=last_insert_rowid() WHERE %s='%s';", OfflineDatabaseHandler.TABLE_RESOURCES, OfflineDatabaseHandler.FIELD_RESOURCES_STATUS, OfflineDatabaseHandler.FIELD_RESOURCES_ID, OfflineDatabaseHandler.FIELD_RESOURCES_URL, url));
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
@@ -434,9 +434,9 @@ public class OfflineMapDownloader implements MapboxConstants {
 
         // Read up to limit undownloaded urls from the offline map database
         //
-        String query = String.format("SELECT %s FROM %s WHERE %s IS NULL", OfflineDatabaseHandler.FIELD_RESOURCES_URL, OfflineDatabaseHandler.TABLE_RESOURCES, OfflineDatabaseHandler.FIELD_RESOURCES_STATUS);
+        String query = String.format(MAPBOX_LOCALE, "SELECT %s FROM %s WHERE %s IS NULL", OfflineDatabaseHandler.FIELD_RESOURCES_URL, OfflineDatabaseHandler.TABLE_RESOURCES, OfflineDatabaseHandler.FIELD_RESOURCES_STATUS);
         if (limit > 0) {
-            query = query + String.format(" LIMIT %d", limit);
+            query = query + String.format(MAPBOX_LOCALE, " LIMIT %d", limit);
         }
         query = query + ";";
 
@@ -569,7 +569,7 @@ public class OfflineMapDownloader implements MapboxConstants {
 
         // Make sure this completed map doesn't exist already
         if (isMapIdAlreadyAnOfflineMapDatabase(mapID)) {
-            Log.w(TAG, String.format("MapId '%s' has already been downloaded.  Please delete it before trying to download again.", mapID));
+            Log.w(TAG, String.format(MAPBOX_LOCALE, "MapId '%s' has already been downloaded.  Please delete it before trying to download again.", mapID));
             return;
         }
 
@@ -613,10 +613,10 @@ public class OfflineMapDownloader implements MapboxConstants {
         // Include URLs for the metadata and markers json if applicable
         //
         if (includeMetadata) {
-            urls.add(String.format(MAPBOX_BASE_URL_V3 + "%s.json?secure%s", this.mapID, ""));
+            urls.add(String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V3 + "%s.json?secure%s", this.mapID, ""));
         }
         if (includeMarkers) {
-            urls.add(String.format(MAPBOX_BASE_URL_V3 + "%s/%s%s", this.mapID, dataName, ""));
+            urls.add(String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V3 + "%s/%s%s", this.mapID, dataName, ""));
         }
 
         // Loop through the zoom levels and lat/lon bounds to generate a list of urls which should be included in the offline map
@@ -648,7 +648,7 @@ public class OfflineMapDownloader implements MapboxConstants {
         //
         if (includeMarkers) {
             String dName = "markers.geojson";
-            final String geojson = String.format(MAPBOX_BASE_URL_V3 + "%s/%s", this.mapID, dName);
+            final String geojson = String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V3 + "%s/%s", this.mapID, dName);
 
             if (!NetworkUtils.isNetworkAvailable(context)) {
                 // We got a session level error which probably indicates a connectivity problem such as airplane mode.
@@ -931,7 +931,7 @@ public class OfflineMapDownloader implements MapboxConstants {
 
         File dbFile = new File(dbPath);
         boolean result = dbFile.delete();
-        Log.i(TAG, String.format("Result of removing database file: %s", result));
+        Log.i(TAG, String.format(MAPBOX_LOCALE, "Result of removing database file: %s", result));
         return result;
     }
 
