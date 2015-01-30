@@ -5,6 +5,7 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.util.constants.UtilConstants;
+import com.mapbox.mapboxsdk.views.util.Projection;
 
 /**
  * A custom gesture detector that processes gesture events and dispatches them
@@ -101,8 +102,16 @@ public class MapViewGestureDetectorListener extends SimpleOnGestureListener {
             Log.i(TAG, "onDoubleTap()'s query of OverlayManager.onDoubleTap() returned true, so returning true and exiting");
             return true;
         }
-        final ILatLng center = this.mapView.getProjection().fromPixels(e.getX(), e.getY());
+        Projection p = mapView.getProjection();
+        final ILatLng center = p.fromPixels(e.getX(), e.getY());
         Log.i(TAG, "onDoubleTap() continues, determines that x = " + e.getX() + "; y = " + e.getY() + "; will produce a center coordinate = " + center);
-        return this.mapView.zoomInFixing(center, false);
+        float[] rp = {e.getX(), e.getY()};
+        p.rotatePoints(rp);
+        float rx = rp[0];
+        float ry = rp[1];
+        final ILatLng rotCenter = p.fromPixels(rx, ry);
+        Log.i(TAG, "onDoubleTap() continues, rotation rx = " + rx + "; ry = " + ry + "; will produce a center coordinate = " + rotCenter);
+
+        return this.mapView.zoomInFixing(rotCenter, false);
     }
 }
