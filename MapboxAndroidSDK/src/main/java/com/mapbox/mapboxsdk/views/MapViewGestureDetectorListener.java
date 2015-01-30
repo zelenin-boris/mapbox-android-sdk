@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.views;
 
+import android.util.Log;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import com.mapbox.mapboxsdk.api.ILatLng;
@@ -11,6 +12,8 @@ import com.mapbox.mapboxsdk.util.constants.UtilConstants;
  */
 public class MapViewGestureDetectorListener extends SimpleOnGestureListener {
 
+    private static final String TAG = "MapViewGestureDetectorListener";
+    
     private final MapView mapView;
 
     /**
@@ -93,10 +96,13 @@ public class MapViewGestureDetectorListener extends SimpleOnGestureListener {
 
     @Override
     public boolean onDoubleTap(final MotionEvent e) {
+        Log.i(TAG, "onDoubleTap() with MotionEvent = " + e);
         if (this.mapView.getOverlayManager().onDoubleTap(e, this.mapView)) {
+            Log.i(TAG, "onDoubleTap()'s query of OverlayManager.onDoubleTap() returned true, so returning true and exiting");
             return true;
         }
         final ILatLng center = this.mapView.getProjection().fromPixels(e.getX(), e.getY());
+        Log.i(TAG, "onDoubleTap() continues, determines that x = " + e.getX() + "; y = " + e.getY() + "; will produce a center coordinate = " + center);
         return this.mapView.zoomInFixing(center, false);
     }
 }
