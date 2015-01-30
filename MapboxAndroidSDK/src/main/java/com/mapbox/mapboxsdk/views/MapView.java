@@ -740,12 +740,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         final float newZoomLevel = getClampedZoomLevel(aZoomLevel);
         final float curZoomLevel = this.mZoomLevel;
+        Log.i(TAG, "setZoomInternal() newZoomLevel = " + newZoomLevel + "; curZoomLevel = " + curZoomLevel);
 
         // reset the touchScale because from now on the zoom is the new one
         mMultiTouchScale = 1.0f;
         mInvTransformMatrix.reset();
 
         if (newZoomLevel != curZoomLevel) {
+            Log.i(TAG, "setZoomInternal() zoom levels don't line up, so do stuff");
             this.mZoomLevel = newZoomLevel;
             // just to be sure any one got the right one
             setAnimatedZoom(this.mZoomLevel);
@@ -763,8 +765,11 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             if (decale != null) {
                 centerPoint.offset(decale.x, decale.y);
             }
+            Log.i(TAG, "setZoomInternal() center != null and decale != null so updating centerPoint to " + centerPoint);
             scrollTo(centerPoint.x, centerPoint.y);
+            Log.i(TAG, "setZoomInternal() just did scrollTo() for centerpoint of x = " + centerPoint.x + "; y = " + centerPoint.y);
         } else {
+            Log.i(TAG, "setZoomInternal center == null");
             if (newZoomLevel > curZoomLevel) {
                 // We are going from a lower-resolution plane to a higher-resolution plane, so we have
                 // to do it the hard way.
@@ -773,11 +778,13 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 final PointF centerPoint = Projection.latLongToPixelXY(centerGeoPoint.getLatitude(),
                         centerGeoPoint.getLongitude(), newZoomLevel, null);
                 scrollTo((int) centerPoint.x - worldSize_new_2, (int) centerPoint.y - worldSize_new_2);
+                Log.i(TAG, "setZoomInternal center == null and newZoomLevel > curZoomLevel so just finished scrollTo.");
             } else if (newZoomLevel < curZoomLevel) {
                 // We are going from a higher-resolution plane to a lower-resolution plane, so we can do
                 // it the easy way.
                 scrollTo((int) (GeometryMath.rightShift(getScrollX(), curZoomLevel - newZoomLevel)),
                         (int) (GeometryMath.rightShift(getScrollY(), curZoomLevel - newZoomLevel)));
+                Log.i(TAG, "setZoomInternal center == null and newZoomLevel < curZoomLevel so just finished scrollTo.");
             }
         }
 
@@ -787,17 +794,21 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         snapItems();
 
         if (isLayedOut()) {
+            Log.i(TAG, "setZoomInternal() isLayedOut() is true, so rescaling the cache");
             getMapOverlay().rescaleCache(newZoomLevel, curZoomLevel, getProjection());
         }
 
         // do callback on listener
         if (newZoomLevel != curZoomLevel && mListeners.size() > 0) {
             final ZoomEvent event = new ZoomEvent(this, newZoomLevel, mController.currentlyInUserAction());
+            Log.i(TAG, "setZoomInternal() doing listener callbacks for " + mListeners.size() + " listeners");
             for (MapListener listener : mListeners) {
                 listener.onZoom(event);
             }
         }
 
+        Log.i(TAG, "setZoomInternal() all done, requesting Layout now to finish.");
+        
         // Allows any views fixed to a Location in the MapView to adjust
         this.requestLayout();
         return this;
@@ -1565,7 +1576,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             //Android seems to be able to recognize a scale with one pointer ...
             // what a smart guy... let's prevent this
             if (rotatedEvent.getPointerCount() != 1) {
-//                Log.i(TAG, "rotateEvent.getPointerCount() == 1");
+                Log.i(TAG, "rotateEvent.getPointerCount() == 1, forwarding to mScaleGestureDetector.onTouchEvent()");
                 mScaleGestureDetector.onTouchEvent(rotatedEvent);
             }
             boolean result = mScaleGestureDetector.isInProgress();
@@ -1574,11 +1585,13 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 Log.i(TAG, "mScaleGestureDector not in progress, forward on to mGestureDetector.onTouchEvent()");
                 result = mGestureDetector.onTouchEvent(rotatedEvent);
             } else {
+                Log.i(TAG, "mScaleGestureDector is in progress, so cancel canTapTwoFingers");
                 //needs to cancel two fingers tap
                 canTapTwoFingers = false;
             }
             //handleTwoFingersTap should always be called because it counts pointers up/down
             result |= handleTwoFingersTap(rotatedEvent);
+            Log.i(TAG, "onTouchEvent() result to return = " + result);
 
             return result;
         } finally {
