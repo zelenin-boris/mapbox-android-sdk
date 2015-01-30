@@ -1105,7 +1105,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     /**
      * Gets the mapView onMapOrientationChangeListener
-     * @Param l the onMapOrientationChangeListener
+     * @param l the onMapOrientationChangeListener
      */
     public void setOnMapOrientationChangeListener(OnMapOrientationChangeListener l) {
         this.mOnMapOrientationChangeListener = l;
