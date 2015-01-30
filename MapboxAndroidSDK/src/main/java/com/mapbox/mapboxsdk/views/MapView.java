@@ -732,6 +732,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     protected MapView setZoomInternal(final float aZoomLevel, ILatLng center, final PointF decale) {
 
+        Log.i(TAG, "setZoomInternal() with aZoomLevel = " + aZoomLevel + "; center = " + center + "; decale = " + decale);
+        
         if (center == null) {
             center = getCenter();
         }
@@ -945,6 +947,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         return Float.intBitsToFloat(mTargetZoomLevel.get());
     }
     protected void setAnimatedZoom(float value) {
+        Log.i(TAG, "setAnimatedZoom() with value = " + value);
         mTargetZoomLevel.set(Float.floatToIntBits(value));
     }
 
@@ -1037,6 +1040,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
 
     public boolean zoomInFixing(final ILatLng point, final boolean userAction) {
+        Log.i(TAG, "zoomInFixing with point = " + point + "; userAction = " + userAction);
         return getController().zoomInAbout(point, userAction);
     }
 
@@ -1540,7 +1544,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        Log.i(TAG, "onTouchEvent with event = " + event);
+        Log.i(TAG, "onTouchEvent with event = " + event);
         // If map rotation is enabled, propagate onTouchEvent to the rotate gesture detector
         if (mMapRotationEnabled) {
 //            Log.i(TAG, "onTouchEvent with Rotation Enabled so passing it along to RotationGestureDetector.onTouchEvent()");
@@ -1565,7 +1569,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             boolean result = mScaleGestureDetector.isInProgress();
 //            Log.i(TAG, "mScaleGestureDector in progress? '" + result + "'");
             if (!result) {
-//                Log.i(TAG, "mScaleGestureDector not in progress, forward on to mGestureDetector.onTouchEvent()");
+                Log.i(TAG, "mScaleGestureDector not in progress, forward on to mGestureDetector.onTouchEvent()");
                 result = mGestureDetector.onTouchEvent(rotatedEvent);
             } else {
                 //needs to cancel two fingers tap

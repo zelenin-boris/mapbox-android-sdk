@@ -1,6 +1,7 @@
 package com.mapbox.mapboxsdk.views;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.ScaleGestureDetector;
 
 /**
@@ -35,7 +36,7 @@ public class MapViewScaleGestureDetectorListener implements ScaleGestureDetector
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-//        Log.i(TAG, "onScaleBegin() with scaling = " + scaling);
+        Log.i(TAG, "onScaleBegin() with scaling = " + scaling);
         lastFocusX = detector.getFocusX();
         lastFocusY = detector.getFocusY();
         firstSpan = detector.getCurrentSpan();
@@ -72,7 +73,7 @@ public class MapViewScaleGestureDetectorListener implements ScaleGestureDetector
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-//        Log.i(TAG, "onScaleEnd() with scaling = " + scaling);
+        Log.i(TAG, "onScaleEnd() with scaling = " + scaling);
         if (!scaling) {
             return;
         }

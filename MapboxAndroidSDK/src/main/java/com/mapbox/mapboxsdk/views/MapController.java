@@ -1,6 +1,7 @@
 package com.mapbox.mapboxsdk.views;
 
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.animation.LinearInterpolator;
 
 import com.mapbox.mapboxsdk.api.ILatLng;
@@ -62,6 +63,7 @@ public class MapController implements MapViewConstants {
 
 
     protected void aboutToStartAnimation(final ILatLng latlong, final PointF mapCoords) {
+        Log.i(TAG, "aboutToStartAnimation() with latlong = " + latlong + "; mapCoords = " + mapCoords);
         zoomOnLatLong = latlong;
         final Projection projection = mMapView.getProjection();
         mMapView.mMultiTouchScalePoint.set(mapCoords.x, mapCoords.y);
@@ -84,15 +86,30 @@ public class MapController implements MapViewConstants {
     }
 
     protected void aboutToStartAnimation(final float screenX, final float screenY) {
+        Log.i(TAG, "aboutToStartAnimation() with screenX = " + screenX + "; screenY = " + screenY);
         final float width_2 = mMapView.getMeasuredWidth() / 2.0f;
         final float height_2 = mMapView.getMeasuredHeight() / 2.0f;
         final PointF scrollPoint = mMapView.getScrollPoint();
-        final double mapX = screenX + scrollPoint.x - width_2;
-        final double mapY = screenY + scrollPoint.y - height_2;
+
+        // TODO - Pinch to Zoom needs to rotate x and y first
+        float rx = screenX;
+        float ry = screenY;
+//        if (mMapView.getMapOrientation() != 0) {
+//            final Projection projection = mMapView.getProjection();
+//            float[] pts = {screenX, screenY};
+//            projection.rotatePoints(pts);
+//            rx = pts[0];
+//            ry = pts[1];
+//        }
+        Log.i(TAG, "ScreenX = " + screenX + "; ScreenY = " + screenY + "; rx = " + rx + "; ry = " + ry);
+
+        final double mapX = rx + scrollPoint.x - width_2;
+        final double mapY = ry + scrollPoint.y - height_2;
         final float zoom = mMapView.getZoomLevel(false);
-        final double worldSize_2 = mMapView.getProjection().mapSize(zoom) >> 1;
-        zoomOnLatLong = mMapView.getProjection().pixelXYToLatLong(mapX + worldSize_2,
-                        mapY + worldSize_2, zoom);
+        final double worldSize_2 = Projection.mapSize(zoom) >> 1;
+
+        zoomOnLatLong = Projection.pixelXYToLatLong(mapX + worldSize_2, mapY + worldSize_2, zoom);
+        Log.i(TAG, "aboutToStartAnimation()'s zoomOnLatLong = " + zoomOnLatLong);
         mMapView.mMultiTouchScalePoint.set((float) mapX, (float) mapY);
         zoomDeltaScroll.set(width_2 - screenX, height_2 - screenY);
     }
@@ -101,6 +118,7 @@ public class MapController implements MapViewConstants {
      * Start animating the map towards the given point.
      */
     public boolean animateTo(final ILatLng point, final boolean userAction) {
+        Log.i(TAG, "animtateTo() with point = " + point + "; userAction = " + userAction);
         return setZoomAnimated(mMapView.getZoomLevel(), point, true, userAction);
     }
 
@@ -126,6 +144,7 @@ public class MapController implements MapViewConstants {
     }
 
     public void panBy(float x, float y, final boolean userAction) {
+        Log.i(TAG, "panBy x = " + x + "; y = " + y + "; userAction = " + userAction);
         mCurrentlyUserAction = userAction;
         this.mMapView.scrollBy(x, y);
         mCurrentlyUserAction = false;
@@ -162,6 +181,7 @@ public class MapController implements MapViewConstants {
     }
 
     public void stopPanning() {
+        Log.i(TAG, "stopPanning");
         mMapView.mIsFlinging = false;
         mMapView.getScroller().forceFinished(true);
     }
@@ -170,7 +190,8 @@ public class MapController implements MapViewConstants {
      * Stops a running animation.
      */
     public void stopAnimation(final boolean jumpToTarget) {
-
+        Log.i(TAG, "stopAnimation() with jumpToTarget = " + jumpToTarget);
+        
         if (!mMapView.getScroller().isFinished()) {
             if (jumpToTarget) {
                 mMapView.mIsFlinging = false;
@@ -201,6 +222,7 @@ public class MapController implements MapViewConstants {
     }
 
     public boolean setZoomAnimated(final float zoomlevel, final ILatLng latlong, final boolean move, final boolean userAction, Animator.AnimatorListener listener) {
+        Log.i(TAG, "setZoomAnimated with zoomLevel = " + zoomlevel + "; latlong = " + latlong + "; move = " + move + "; userAction = " + userAction + "; listener = " + listener);
         if (userAction && mMapView.isAnimating()) {
             return false;
         }
@@ -287,10 +309,12 @@ public class MapController implements MapViewConstants {
     }
 
     public MapView setZoom(final float zoomlevel) {
+        Log.i(TAG, "setZoom() with zoomlevel = " + zoomlevel);
         return setZoom(zoomlevel, false);
     }
 
     public MapView setZoom(final float zoomlevel, final ILatLng latlong, final boolean userAction) {
+        Log.i(TAG, "setZoom() with zoomlevel = " + zoomlevel + "; latlong = " + latlong + "; userAction = " + userAction);
         mCurrentlyUserAction = userAction;
         stopAnimation(true);
         mMapView.setZoomInternal(zoomlevel, latlong, null);
@@ -299,6 +323,7 @@ public class MapController implements MapViewConstants {
     }
 
     public MapView setZoom(final float zoomlevel, final boolean userAction) {
+        Log.i(TAG, "setZoom() with zoomlevel = " + zoomlevel + "; userAction = " + userAction);
         mCurrentlyUserAction = userAction;
         stopAnimation(true);
         mMapView.setZoomInternal(zoomlevel);
@@ -312,6 +337,7 @@ public class MapController implements MapViewConstants {
     }
 
     public MapView setZoomAnimated(final float zoomlevel, final ILatLng latlong, final boolean userAction) {
+        Log.i(TAG, "setZoomAnimated() with zoomlevel = " + zoomlevel + "; latlong = " + latlong + "; userAction = " + userAction);
         setZoomAnimated(zoomlevel, latlong, false, userAction);
         return mMapView;
     }
@@ -320,14 +346,17 @@ public class MapController implements MapViewConstants {
      * Zoom in by one zoom level.
      */
     public boolean zoomIn(final boolean userAction) {
+        Log.i(TAG, "zoomIn() with userAction = " + userAction);
         return zoomInAbout(mMapView.getCenter(), userAction);
     }
 
     public boolean zoomIn() {
+        Log.i(TAG, "zoomIn()");
         return zoomIn(false);
     }
 
     public boolean zoomInAbout(final ILatLng latlong, final boolean userAction) {
+        Log.i(TAG, "zoomInAbout() with latlong = " + latlong + "; userAction = " + userAction);
         float currentZoom = mMapView.getZoomLevel(false);
         float targetZoom = (float) (Math.ceil(currentZoom) + 1);
         float factor = (float) Math.pow(2, targetZoom - currentZoom);
@@ -370,12 +399,15 @@ public class MapController implements MapViewConstants {
     }
 
     protected void onAnimationStart() {
+        Log.i(TAG, "onAnimationStart()");
         mMapView.setIsAnimating(true);
     }
 
     public void onAnimationEnd() {
+        Log.i(TAG, "onAnimationEnd()");
         stopPanning();
         mMapView.setIsAnimating(false);
+        Log.i(TAG, "onAnimationEnd()'s zoomOnLatLong = " + zoomOnLatLong);
         mMapView.setZoomInternal(mMapView.getAnimatedZoom(), zoomOnLatLong, zoomDeltaScroll);
         zoomOnLatLong = null;
         mCurrentlyUserAction = false;
