@@ -1069,7 +1069,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * @param degrees the angle of the map
      */
     public void setMapOrientation(float degrees) {
-        this.mapOrientation = degrees % 360.0f;
+        float orient = degrees % 360.0f;
+        Log.i(TAG, "setMapOrientation() called with degrees = " + degrees + "; orient calc = " + orient + "; original mapOrientation = " + this.mapOrientation);
+        this.mapOrientation = orient;
         this.mProjection = null;
         this.invalidate();
     }
