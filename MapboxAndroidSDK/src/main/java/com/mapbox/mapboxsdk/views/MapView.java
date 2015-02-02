@@ -1557,7 +1557,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG, "onTouchEvent with event = " + event);
+//        Log.i(TAG, "onTouchEvent with event = " + event);
         // If map rotation is enabled, propagate onTouchEvent to the rotate gesture detector
         if (mMapRotationEnabled) {
 //            Log.i(TAG, "onTouchEvent with Rotation Enabled so passing it along to RotationGestureDetector.onTouchEvent()");
@@ -1568,7 +1568,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         try {
             if (this.getOverlayManager().onTouchEvent(rotatedEvent, this)) {
-                Log.d(TAG, "OverlayManager handled onTouchEvent");
+//                Log.d(TAG, "OverlayManager handled onTouchEvent");
                 return true;
             }
 
@@ -1576,22 +1576,22 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             //Android seems to be able to recognize a scale with one pointer ...
             // what a smart guy... let's prevent this
             if (rotatedEvent.getPointerCount() != 1) {
-                Log.i(TAG, "rotateEvent.getPointerCount() == 1, forwarding to mScaleGestureDetector.onTouchEvent()");
+//                Log.i(TAG, "rotateEvent.getPointerCount() == 1, forwarding to mScaleGestureDetector.onTouchEvent()");
                 mScaleGestureDetector.onTouchEvent(rotatedEvent);
             }
             boolean result = mScaleGestureDetector.isInProgress();
 //            Log.i(TAG, "mScaleGestureDector in progress? '" + result + "'");
             if (!result) {
-                Log.i(TAG, "mScaleGestureDector not in progress, forward on to mGestureDetector.onTouchEvent()");
+//                Log.i(TAG, "mScaleGestureDector not in progress, forward on to mGestureDetector.onTouchEvent()");
                 result = mGestureDetector.onTouchEvent(rotatedEvent);
             } else {
-                Log.i(TAG, "mScaleGestureDector is in progress, so cancel canTapTwoFingers");
+//                Log.i(TAG, "mScaleGestureDector is in progress, so cancel canTapTwoFingers");
                 //needs to cancel two fingers tap
                 canTapTwoFingers = false;
             }
             //handleTwoFingersTap should always be called because it counts pointers up/down
             result |= handleTwoFingersTap(rotatedEvent);
-            Log.i(TAG, "onTouchEvent() result to return = " + result);
+//            Log.i(TAG, "onTouchEvent() result to return = " + result);
 
             return result;
         } finally {
