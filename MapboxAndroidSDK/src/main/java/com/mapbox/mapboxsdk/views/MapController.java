@@ -245,6 +245,7 @@ public class MapController implements MapViewConstants {
         PointF p = Projection.toMapPixels(latlong.getLatitude(), latlong.getLongitude(), currentZoom, dCurrentScroll.x, dCurrentScroll.y, null);
         Log.i(TAG, "setZoomAnimated() original MapPixels x = " + p.x + "; y = " + p.y);
         // Rotate here if need be
+/*
         if (mMapView.getMapOrientation() != 0) {
             float[] pts = {p.x, p.y};
             projection.rotatePoints(pts);
@@ -252,6 +253,7 @@ public class MapController implements MapViewConstants {
             p.y = pts[1];
             Log.i(TAG, "setZoomAnimated() rotated MapPixels x = " + p.x + "; y = " + p.y);
         }
+*/
 
         float targetZoom = mMapView.getClampedZoomLevel(zoomlevel);
         boolean zoomAnimating = (targetZoom != currentZoom);

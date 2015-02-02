@@ -1051,7 +1051,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
 
     public boolean zoomInFixing(final ILatLng point, final boolean userAction) {
-        Log.i(TAG, "zoomInFixing with point = " + point + "; userAction = " + userAction);
+//        Log.i(TAG, "zoomInFixing with point = " + point + "; userAction = " + userAction);
         return getController().zoomInAbout(point, userAction);
     }
 
