@@ -167,10 +167,10 @@ public class MainActivity extends ActionBarActivity {
             case 14:
                 fragment = new TapForUTFGridTestFragment();
                 break;
-            case 14:
+            case 15:
                 fragment = new CustomMarkerTestFragment();
                 break;
-            case 15:
+            case 16:
                 fragment = new RotatedMapTestFragment();
                 break;
             default:
