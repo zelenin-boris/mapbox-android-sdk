@@ -224,11 +224,13 @@ public class MapController implements MapViewConstants {
     public boolean setZoomAnimated(final float zoomlevel, final ILatLng latlong, final boolean move, final boolean userAction, Animator.AnimatorListener listener) {
         Log.i(TAG, "setZoomAnimated with zoomLevel = " + zoomlevel + "; latlong = " + latlong + "; move = " + move + "; userAction = " + userAction + "; listener = " + listener);
         if (userAction && mMapView.isAnimating()) {
+            Log.i(TAG, "setZoomAnimated() userAction and isAnimating so returning false.");
             return false;
         }
         if (!mMapView.isLayedOut()) {
             mPointToGoTo = latlong;
             mZoomToZoomTo = zoomlevel;
+            Log.i(TAG, "setZoomAnimated() is Not Layed Out so updating PointToGo and ZoomToZoom and returning false.");
             return false;
         }
 
@@ -237,15 +239,26 @@ public class MapController implements MapViewConstants {
         mMapView.mIsFlinging = false;
 
         float currentZoom = mMapView.getZoomLevel(false);
+        Projection projection = mMapView.getProjection();
 
         final PointF dCurrentScroll = mMapView.getScrollPoint();
         PointF p = Projection.toMapPixels(latlong.getLatitude(), latlong.getLongitude(), currentZoom, dCurrentScroll.x, dCurrentScroll.y, null);
+        Log.i(TAG, "setZoomAnimated() original MapPixels x = " + p.x + "; y = " + p.y);
+        // Rotate here if need be
+        if (mMapView.getMapOrientation() != 0) {
+            float[] pts = {p.x, p.y};
+            projection.rotatePoints(pts);
+            p.x = pts[0];
+            p.y = pts[1];
+            Log.i(TAG, "setZoomAnimated() rotated MapPixels x = " + p.x + "; y = " + p.y);
+        }
 
         float targetZoom = mMapView.getClampedZoomLevel(zoomlevel);
         boolean zoomAnimating = (targetZoom != currentZoom);
         boolean zoomAndMove = move && !p.equals(dCurrentScroll);
 
         if (!zoomAnimating && !zoomAndMove) {
+            Log.i(TAG, "setZoomAnimated() not zoomAnimating nor zoomAndMove so returning false.");
             mMapView.invalidate();
             return false;
         }
@@ -254,6 +267,7 @@ public class MapController implements MapViewConstants {
         List<PropertyValuesHolder> propertiesList = new ArrayList<PropertyValuesHolder>();
         zoomDeltaScroll.set(0, 0);
         if (zoomAnimating) {
+            Log.i(TAG, "setZoomAnimated() zoomAnimating.");
             zoomOnLatLong = latlong;
             mMapView.setAnimatedZoom(targetZoom);
 
@@ -265,16 +279,28 @@ public class MapController implements MapViewConstants {
                 propertiesList.add(PropertyValuesHolder.ofFloat("scale", 1.0f, factor));
             }
         } else {
+            Log.i(TAG, "setZoomAnimated() Not zoomAnimating, so setAnimatedZoom()");
             //this is to make sure we don't change the zoom incorrectly at the end of the animation
             mMapView.setAnimatedZoom(currentZoom);
         }
         if (zoomAndMove) {
+            Log.i(TAG, "setZoomAnimated() zoomAndMove()");
             PointEvaluator evaluator = new PointEvaluator();
             propertiesList.add(PropertyValuesHolder.ofObject(
                     "scrollPoint", evaluator,
                     p));
         } else {
+            Log.i(TAG, "setZoomAnimated() NOT zoomAndMove()");
             mMapView.getProjection().toPixels(p, p);
+//            // TODO Rotate Here To
+//            if (mMapView.getMapOrientation() != 0) {
+//                float[] pts = {p.x, p.y};
+//                projection.rotatePoints(pts);
+//                p.x = pts[0];
+//                p.y = pts[1];
+//            }
+
+
             zoomDeltaScroll.set((float) (mMapView.getMeasuredWidth() / 2.0 - p.x), (float) (mMapView.getMeasuredHeight() / 2.0 - p.y));
         }
 
