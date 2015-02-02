@@ -1824,7 +1824,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     /**
-     * Set the user location tracking mode
+     * Set the user location tracking zoom level
      */
     public MapView setUserLocationRequiredZoom(final float zoomLevel) {
         getOrCreateLocationOverlay().setRequiredZoom(zoomLevel);
