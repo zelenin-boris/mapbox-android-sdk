@@ -11,7 +11,7 @@ import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
-import com.spatialdev.osm.OSMMapListener;
+import com.spatialdev.osm.OSMMap;
 import com.spatialdev.osm.OSMUtil;
 import com.spatialdev.osm.model.JTSModel;
 import com.spatialdev.osm.model.OSMDataSet;
@@ -30,8 +30,8 @@ public class LocalOSMTestFragment extends Fragment {
 
         // Setup Map
         mapView = (MapView) view.findViewById(R.id.localOSMMapView);
-        mapView.setCenter(new LatLng(47.668780,-122.387883));
-        mapView.setZoom(14);
+        mapView.setCenter(new LatLng(23.707873, 90.409774));
+        mapView.setZoom(19);
 
         return view;
     }
@@ -42,25 +42,9 @@ public class LocalOSMTestFragment extends Fragment {
 
         // Load OSM XML
         try {
-            OSMDataSet ds = OSMXmlParser.parseFromAssets(getActivity(), "osm/spatialdev_small.osm");
+            OSMDataSet ds = OSMXmlParser.parseFromAssets(getActivity(), "osm/dhaka_roads_buildings_hospitals_med.osm");
             JTSModel jtsModel = new JTSModel(ds);
-            OSMMapListener mapListener = new OSMMapListener(mapView, jtsModel);
-            ArrayList<Object> uiObjects = OSMUtil.createUIObjectsFromDataSet(ds);
-
-//            FeatureCollection features = DataLoadingUtils.loadGeoJSONFromAssets(getActivity(), "spatialdev_small.geojson");
-//            ArrayList<Object> uiObjects = DataLoadingUtils.createUIObjectsFromGeoJSONObjects(features, null);
-
-            for (Object obj : uiObjects) {
-                if (obj instanceof Marker) {
-                    mapView.addMarker((Marker) obj);
-                } else if (obj instanceof PathOverlay) {
-                    List<Overlay> overlays = mapView.getOverlays();
-                    overlays.add((PathOverlay) obj);
-                }
-            }
-            if (uiObjects.size() > 0) {
-                mapView.invalidate();
-            }
+            OSMMap osmMap = new OSMMap(mapView, jtsModel);
         } catch (Exception e) {
             e.printStackTrace();
         }
