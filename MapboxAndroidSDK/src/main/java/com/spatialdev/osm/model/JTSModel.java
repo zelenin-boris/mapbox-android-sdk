@@ -5,8 +5,6 @@
 
 package com.spatialdev.osm.model;
 
-import android.util.Log;
-
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
@@ -56,18 +54,11 @@ public class JTSModel {
         return createTapEnvelope(coord, lat, lng, zoom);
     }
 
-    private Envelope createTapEnvelope(Coordinate coord, double lat, double lng, float zoom) {
-        Envelope envelope = new Envelope(coord);
-
-        // Creating a reasonably sized envelope around the tap location.
-        // Tweak the TAP_PIXEL_TOLERANCE to get a better sized box for your needs.
-        double degreesLngPerPixel = degreesLngPerPixel(zoom);
-        double deltaX = degreesLngPerPixel * TAP_PIXEL_TOLERANCE;
-        double deltaY = scaledLatDeltaForMercator(deltaX, lat);
-        envelope.expandBy(deltaX, deltaY);
-        return envelope;
+    public List<OSMElement> queryFromEnvelope(Envelope envelope) {
+        List<OSMElement> results = rtree.query(envelope);
+        return results;
     }
-
+    
     public OSMElement queryFromTap(ILatLng latLng, float zoom) {
         double lat = latLng.getLatitude();
         double lng = latLng.getLongitude();
@@ -78,7 +69,7 @@ public class JTSModel {
 
         int len = results.size();
         if (len == 0 ) {
-           return null;
+            return null;
         }
         if (len == 1) {
             return (OSMElement) results.get(0);
@@ -113,8 +104,20 @@ public class JTSModel {
 
         }
 
-        Log.i("queryFromTap closestElement", closestElement.toString());
+//        Log.i("queryFromTap closestElement", closestElement.toString());
         return closestElement;
+    }
+    
+    private Envelope createTapEnvelope(Coordinate coord, double lat, double lng, float zoom) {
+        Envelope envelope = new Envelope(coord);
+
+        // Creating a reasonably sized envelope around the tap location.
+        // Tweak the TAP_PIXEL_TOLERANCE to get a better sized box for your needs.
+        double degreesLngPerPixel = degreesLngPerPixel(zoom);
+        double deltaX = degreesLngPerPixel * TAP_PIXEL_TOLERANCE;
+        double deltaY = scaledLatDeltaForMercator(deltaX, lat);
+        envelope.expandBy(deltaX, deltaY);
+        return envelope;
     }
 
     /**
@@ -124,23 +127,23 @@ public class JTSModel {
      * @return the priority OSMElement type
      */
     private OSMElement prioritizeElementByType(OSMElement el1, OSMElement el2) {
-        if (el1 instanceof Node) {
+        if (el1 instanceof OSMNode) {
             return el1;
         }
-        if (el2 instanceof Node) {
+        if (el2 instanceof OSMNode) {
             return el2;
         }
         // It's gotta be a Way at this point...
-        if ( ! ((Way)el1).isClosed() ) {
+        if ( ! ((OSMWay)el1).isClosed() ) {
             return el1;
         }
         return el2;
     }
 
     private void addOSMClosedWays(OSMDataSet ds) {
-        List<Way> closedWays = ds.getClosedWays();
-        for (Way closedWay : closedWays) {
-            List<Node> nodes = closedWay.getNodes();
+        List<OSMWay> closedWays = ds.getClosedWays();
+        for (OSMWay closedWay : closedWays) {
+            List<OSMNode> nodes = closedWay.getNodes();
             Coordinate[] coords = coordArrayFromNodeList(nodes);
             Polygon poly = geometryFactory.createPolygon(coords);
             closedWay.setJTSGeom(poly);
@@ -150,9 +153,9 @@ public class JTSModel {
     }
 
     private void addOSMOpenWays(OSMDataSet ds) {
-        List<Way> openWays = ds.getOpenWays();
-        for (Way w : openWays) {
-            List<Node> nodes = w.getNodes();
+        List<OSMWay> openWays = ds.getOpenWays();
+        for (OSMWay w : openWays) {
+            List<OSMNode> nodes = w.getNodes();
             Coordinate[] coords = coordArrayFromNodeList(nodes);
             LineString line = geometryFactory.createLineString(coords);
             w.setJTSGeom(line);
@@ -161,10 +164,10 @@ public class JTSModel {
         }
     }
 
-    private Coordinate[] coordArrayFromNodeList(List<Node> nodes) {
+    private Coordinate[] coordArrayFromNodeList(List<OSMNode> nodes) {
         Coordinate[] coords = new Coordinate[nodes.size()];
         int i = 0;
-        for (Node node : nodes) {
+        for (OSMNode node : nodes) {
             double lat = node.getLat();
             double lng = node.getLng();
             Coordinate coord = new Coordinate(lng, lat);
@@ -173,11 +176,16 @@ public class JTSModel {
         return coords;
     }
 
-    // NH TODO
     private void addOSMStandaloneNodes(OSMDataSet ds) {
-        List<Node> standaloneNodes = ds.getStandaloneNodes();
-        for (Node n : standaloneNodes) {
-
+        List<OSMNode> standaloneNodes = ds.getStandaloneNodes();
+        for (OSMNode n : standaloneNodes) {
+            double lat = n.getLat();
+            double lng = n.getLng();
+            Coordinate coord = new Coordinate(lng, lat);
+            Point point = geometryFactory.createPoint(coord);
+            n.setJTSGeom(point);
+            Envelope envelope = point.getEnvelopeInternal();
+            rtree.insert(envelope, n);
         }
     }
 

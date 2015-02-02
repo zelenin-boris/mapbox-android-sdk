@@ -4,10 +4,8 @@
  */
 package com.spatialdev.osm.model;
 
-import android.graphics.Paint;
-
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.PathOverlay;
+import com.mapbox.mapboxsdk.views.MapView;
+import com.spatialdev.osm.renderer.OSMPath;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Way extends OSMElement {
+public class OSMWay extends OSMElement {
 
     /**
      * As the XML document is being parsed, ways have references to nodes' IDs.
@@ -27,24 +25,25 @@ public class Way extends OSMElement {
      */
     private LinkedList<Long> nodeRefs = new LinkedList<>();
 
-    private LinkedList<Node> linkedNodes = new LinkedList<>();
+    private LinkedList<OSMNode> linkedNodes = new LinkedList<>();
 
     /**
      * If a way is in a relation, it's relation is added to this list.
      */
-    private LinkedList<Relation> linkedRelations = new LinkedList<>();
+    private LinkedList<OSMRelation> linkedRelations = new LinkedList<>();
 
     /**
      * isClosed checks to see if this way is closed and sets it to true if so.
      */
     private boolean closed = false;
 
-    public Way( String idStr,
-                String versionStr,
-                String timestampStr,
-                String changesetStr,
-                String uidStr,
-                String userStr ) {
+    
+    public OSMWay(String idStr,
+                  String versionStr,
+                  String timestampStr,
+                  String changesetStr,
+                  String uidStr,
+                  String userStr) {
 
         super(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
     }
@@ -64,7 +63,7 @@ public class Way extends OSMElement {
     }
 
     private void setWayXmlNds(XmlSerializer xmlSerializer) throws IOException {
-        for (Node node : linkedNodes) {
+        for (OSMNode node : linkedNodes) {
             xmlSerializer.startTag(null, "nd");
             xmlSerializer.attribute(null, "ref", String.valueOf(node.getId()));
             xmlSerializer.endTag(null, "nd");
@@ -84,13 +83,13 @@ public class Way extends OSMElement {
      * @param nodes
      * @return the number of node references NOT linked.
      */
-    int linkNodes(Map<Long, Node> nodes, Set<Long> wayNodes) {
+    int linkNodes(Map<Long, OSMNode> nodes, Set<Long> wayNodes) {
         // first check if the way is closed before doing this processing...
         checkIfClosed();
         LinkedList<Long> unlinkedRefs = new LinkedList<>();
         while (nodeRefs.size() > 0) {
             Long refId = nodeRefs.pop();
-            Node node = nodes.get(refId);
+            OSMNode node = nodes.get(refId);
             wayNodes.add(refId);
             if (node == null) {
                 unlinkedRefs.push(refId);
@@ -126,7 +125,7 @@ public class Way extends OSMElement {
      *
      * @return closed
      */
-    boolean isClosed() {
+    public boolean isClosed() {
         if (closed) {
             return true;
         }
@@ -137,11 +136,11 @@ public class Way extends OSMElement {
      * This allows you to iterate through the nodes. This is great if you
      * want to give a renderer all of the lat longs to paint a line...
      */
-    public Iterator<Node> getNodeIterator() {
+    public Iterator<OSMNode> getNodeIterator() {
         return linkedNodes.listIterator();
     }
 
-    public List<Node> getNodes() {
+    public List<OSMNode> getNodes() {
         return linkedNodes;
     }
 
@@ -149,102 +148,37 @@ public class Way extends OSMElement {
      * If this is in a relation, it's parent relation is added to an internal linked list.
      * @param relation
      */
-    public void addRelation(Relation relation) {
+    public void addRelation(OSMRelation relation) {
         linkedRelations.push(relation);
     }
 
-    public List<Relation> getRelations() {
+    public List<OSMRelation> getRelations() {
         return linkedRelations;
     }
 
 
-
-
-    @Override
-    public Object getOverlay() {
+    
+    public OSMPath getOSMPath(MapView mv) {
         // if there is no overlay, make it for this element
-        if (overlay == null) {
-            overlay = createPathOverlay();
+        if (osmPath == null) {
+            osmPath = OSMPath.createOSMPath(this, mv);
         }
-        return overlay;
-    }
-
-    /**
-     * Creating a PathOverlay for this element.
-     *
-     * @return a PathOverlay that represents just this element.
-     */
-    protected PathOverlay createPathOverlay() {
-        PathOverlay path = new PathOverlay();
-
-        /**
-         * POLYGON
-         */
-        if (closed) {
-            path.setOptimizePath(false); // optimizePath does not work for polys
-            Paint paint = path.getPaint();
-            paint.setStyle(Paint.Style.FILL);
-            if (selected) {
-                paint.setARGB(110, 255, 140, 0);
-            } else {
-                paint.setARGB(85, 95, 237, 140);
-            }
-
-        }
-
-        /**
-         * LINE
-         */
-        else {
-            Paint paint = path.getPaint();
-            paint.setARGB(200, 209, 29, 119);
-            if (selected) {
-                paint.setARGB(110, 255, 140, 0);
-                paint.setStrokeWidth(4);
-            } else {
-                paint.setARGB(85, 95, 237, 140);
-                paint.setStrokeWidth(2);
-            }
-        }
-
-        /**
-         * ADD POINTS TO PATH
-         */
-        Iterator<Node> nodeIterator = getNodeIterator();
-        while (nodeIterator.hasNext()) {
-            Node n = nodeIterator.next();
-            LatLng latLng = n.getLatLng();
-            path.addPoint(latLng);
-        }
-
-        return path;
+        return osmPath;
     }
 
     @Override
     public void select() {
         super.select();
-        if (overlay != null && overlay instanceof PathOverlay) {
-            PathOverlay path = (PathOverlay) overlay;
-            Paint paint = path.getPaint();
-            paint.setARGB(110, 255, 140, 0);
-            if (!closed) {
-                paint.setStrokeWidth(4);
-            }
+        if (osmPath != null) {
+            osmPath.select();
         }
     }
 
     @Override
     public void deselect() {
         super.deselect();
-        if (overlay != null && overlay instanceof PathOverlay) {
-            PathOverlay path = (PathOverlay) overlay;
-            Paint paint = path.getPaint();
-            if (closed) {
-                paint.setARGB(85, 95, 237, 140);
-            } else {
-                paint.setARGB(200, 209, 29, 119);
-                paint.setStrokeWidth(2);
-            }
+        if (osmPath != null) {
+            osmPath.deselect();
         }
     }
 

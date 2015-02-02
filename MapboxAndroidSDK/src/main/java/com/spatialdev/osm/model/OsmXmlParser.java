@@ -23,6 +23,13 @@ public class OSMXmlParser {
 
     // This is the data set that gets populated from the XML.
     private OSMDataSet ds;
+    
+    // Count of elements that have been read so far
+    protected long elementReadCount = 0;
+    protected long nodeReadCount = 0;
+    protected long wayReadCount = 0;
+    protected long relationReadCount = 0;
+    protected long tagReadCount = 0;
 
     /**
      * Access the parser through public static methods which function
@@ -50,7 +57,7 @@ public class OSMXmlParser {
         return osmXmlParser.getDataSet();
     }
 
-    private OSMXmlParser() {
+    protected OSMXmlParser() {
         ds = new OSMDataSet();
     }
 
@@ -58,7 +65,13 @@ public class OSMXmlParser {
         return ds;
     }
 
-    private void parse(InputStream in) throws XmlPullParserException, IOException {
+    /**
+     * Should only be called by static method parseFromInputStream
+     * @param in
+     * @throws XmlPullParserException
+     * @throws IOException
+     */
+    public void parse(InputStream in) throws XmlPullParserException, IOException {
         try {
             parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -97,9 +110,22 @@ public class OSMXmlParser {
             else {
                 skip();
             }
+            
+            ++elementReadCount;
+            if (elementReadCount % 500 == 0) {
+                notifyProgress(); // broadcasting read updates every 500 elements
+            }
         }
     }
 
+    /**
+     * Override this in a subclass if you want to notify a progress bar that
+     * an element(s) have been read.
+     * * * * 
+     */
+    protected void notifyProgress() {}
+    
+    
     private void readNote() throws XmlPullParserException, IOException {
         String note = readText();
         ds.createNote(note);
@@ -122,13 +148,14 @@ public class OSMXmlParser {
         String uidStr       = parser.getAttributeValue(ns, "uid");
         String userStr      = parser.getAttributeValue(ns, "user");
 
-        Node node = ds.createNode(  idStr, latStr, lonStr, versionStr, timestampStr,
+        OSMNode node = ds.createNode(  idStr, latStr, lonStr, versionStr, timestampStr,
                                     changesetStr, uidStr, userStr   );
 
         // If the next thing is not an END_TAG, we have some tag elements in the node...
         if (parser.nextTag() != XmlPullParser.END_TAG && parser.getName().equals("tag")) {
             readTags(node);
         }
+        ++nodeReadCount;
     }
 
     private void readWay() throws XmlPullParserException, IOException {
@@ -139,7 +166,7 @@ public class OSMXmlParser {
         String uidStr       = parser.getAttributeValue(ns, "uid");
         String userStr      = parser.getAttributeValue(ns, "user");
 
-        Way way = ds.createWay(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+        OSMWay way = ds.createWay(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
 
         if (parser.nextTag() != XmlPullParser.END_TAG) {
             if (parser.getName().equals("nd")) {
@@ -150,6 +177,7 @@ public class OSMXmlParser {
                 skip();
             }
         }
+        ++wayReadCount;
     }
 
     private void readRelation() throws XmlPullParserException, IOException {
@@ -160,7 +188,7 @@ public class OSMXmlParser {
         String uidStr       = parser.getAttributeValue(ns, "uid");
         String userStr      = parser.getAttributeValue(ns, "user");
 
-        Relation relation = ds.createRelation(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
+        OSMRelation relation = ds.createRelation(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
 
         if (parser.nextTag() != XmlPullParser.END_TAG) {
             if (parser.getName().equals("member")) {
@@ -171,6 +199,7 @@ public class OSMXmlParser {
                 skip();
             }
         }
+        ++relationReadCount;
     }
 
     private void readTags(OSMElement el) throws XmlPullParserException, IOException {
@@ -184,13 +213,14 @@ public class OSMXmlParser {
         if (parser.getName().equals("tag")){
             readTags(el);
         } else if (parser.getName().equals("nd")) {
-            readNds((Way)el);
+            readNds((OSMWay)el);
         } else if (parser.getName().equals("member")) {
-            readMembers((Relation)el);
+            readMembers((OSMRelation)el);
         }
+        ++tagReadCount;
     }
 
-    private void readNds(Way way)  throws XmlPullParserException, IOException {
+    private void readNds(OSMWay way)  throws XmlPullParserException, IOException {
         String ref = parser.getAttributeValue(ns, "ref");
         long id = Long.valueOf(ref);
         way.addNodeRef(id);
@@ -205,7 +235,7 @@ public class OSMXmlParser {
         }
     }
 
-    private void readMembers(Relation relation) throws XmlPullParserException, IOException {
+    private void readMembers(OSMRelation relation) throws XmlPullParserException, IOException {
         String type = parser.getAttributeValue(ns, "type");
         String ref = parser.getAttributeValue(ns, "ref");
         String role = parser.getAttributeValue(ns, "role");
