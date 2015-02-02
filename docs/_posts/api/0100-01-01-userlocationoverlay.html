@@ -97,7 +97,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 <!--   -->
 </a>
 <h3>Fields inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapboxsdk.overlay">Overlay</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay#mScale">mScale</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay#USERLOCATIONOVERLAY_INDEX">USERLOCATIONOVERLAY_INDEX</a></code>
 
 
 
@@ -180,7 +180,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected android.graphics.RectF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#getDrawingBounds(android.graphics.PointF, android.location.Location, android.graphics.RectF)">getDrawingBounds</a></strong>(android.graphics.PointF&nbsp;positionOnScreen,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#getDrawingBounds(android.graphics.PointF,%20android.location.Location,%20android.graphics.RectF)">getDrawingBounds</a></strong>(android.graphics.PointF&nbsp;positionOnScreen,
                 android.location.Location&nbsp;lastFix,
                 android.graphics.RectF&nbsp;reuse)</code>&nbsp;</td>
 </tr>
@@ -256,7 +256,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#onLocationChanged(android.location.Location, com.mapbox.mapboxsdk.overlay.GpsLocationProvider)">onLocationChanged</a></strong>(android.location.Location&nbsp;location,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#onLocationChanged(android.location.Location,%20com.mapbox.mapboxsdk.overlay.GpsLocationProvider)">onLocationChanged</a></strong>(android.location.Location&nbsp;location,
                  <a href="{{site.baseurl}}/api/LGpsLocationProvider" title="class in com.mapbox.mapboxsdk.overlay">GpsLocationProvider</a>&nbsp;source)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -273,7 +273,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#onSnapToItem(int, int, android.graphics.Point, com.mapbox.mapboxsdk.views.MapView)">onSnapToItem</a></strong>(int&nbsp;x,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#onSnapToItem(int,%20int,%20android.graphics.Point,%20com.mapbox.mapboxsdk.views.MapView)">onSnapToItem</a></strong>(int&nbsp;x,
             int&nbsp;y,
             android.graphics.Point&nbsp;snapPoint,
             <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView)</code>
@@ -283,7 +283,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#onTouchEvent(android.view.MotionEvent, com.mapbox.mapboxsdk.views.MapView)">onTouchEvent</a></strong>(android.view.MotionEvent&nbsp;event,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LUserLocationOverlay#onTouchEvent(android.view.MotionEvent,%20com.mapbox.mapboxsdk.views.MapView)">onTouchEvent</a></strong>(android.view.MotionEvent&nbsp;event,
             <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView)</code>
 <div class="block"><b>You can prevent all(!) other Touch-related events from happening!</b>
  By default does nothing (<code>return false</code>).</div>
@@ -350,7 +350,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.mapbox.mapboxsdk.overlay.<a href="{{site.baseurl}}/api/LOverlay" title="class in com.mapbox.mapboxsdk.overlay">Overlay</a></h3>
-<code><a href="{{site.baseurl}}/api/LOverlay#setEnabled(boolean)">setEnabled</a></code>
+<code><a href="{{site.baseurl}}/api/LOverlay#setOverlayIndex(int)">setOverlayIndex</a></code>
 
 
 <a name="methods_inherited_from_class_java.lang.Object">
@@ -628,7 +628,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
                    int&nbsp;y,
                    android.graphics.Point&nbsp;snapPoint,
                    <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView)</pre>
-<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay.Snappable#onSnapToItem(int, int, android.graphics.Point, com.mapbox.mapboxsdk.views.MapView)">Overlay.Snappable</a></code></strong></div>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay.Snappable#onSnapToItem(int,%20int,%20android.graphics.Point,%20com.mapbox.mapboxsdk.views.MapView)">Overlay.Snappable</a></code></strong></div>
 <div class="block">Checks to see if the given x and y are close enough to an item resulting in snapping the
  current action (e.g. zoom) to the item.</div>
 <dl>
@@ -651,7 +651,7 @@ implements <a href="{{site.baseurl}}/api/LMapListener" title="interface in com.m
 <h4>onTouchEvent</h4>
 <pre>public&nbsp;boolean&nbsp;onTouchEvent(android.view.MotionEvent&nbsp;event,
                    <a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mapView)</pre>
-<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay#onTouchEvent(android.view.MotionEvent, com.mapbox.mapboxsdk.views.MapView)">Overlay</a></code></strong></div>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="{{site.baseurl}}/api/LOverlay#onTouchEvent(android.view.MotionEvent,%20com.mapbox.mapboxsdk.views.MapView)">Overlay</a></code></strong></div>
 <div class="block"><b>You can prevent all(!) other Touch-related events from happening!</b>
  By default does nothing (<code>return false</code>). If you handled the Event, return
  <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>

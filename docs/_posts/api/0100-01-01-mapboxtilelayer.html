@@ -119,13 +119,19 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#MapboxTileLayer(java.lang.String)">MapboxTileLayer</a></strong>(java.lang.String&nbsp;pId)</code>
+<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#MapboxTileLayer(java.lang.String)">MapboxTileLayer</a></strong>(java.lang.String&nbsp;mapId)</code>
 <div class="block">Initialize a new tile layer, directed at a hosted Mapbox tilesource.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#MapboxTileLayer(java.lang.String, boolean)">MapboxTileLayer</a></strong>(java.lang.String&nbsp;pId,
+<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#MapboxTileLayer(java.lang.String,%20boolean)">MapboxTileLayer</a></strong>(java.lang.String&nbsp;mapId,
                boolean&nbsp;enableSSL)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#MapboxTileLayer(java.lang.String,%20java.lang.String)">MapboxTileLayer</a></strong>(java.lang.String&nbsp;mapId,
+               java.lang.String&nbsp;accessToken)</code>
+<div class="block">Initialize a new Mapbox tile layer using V4 API requiring Access Tokens*</div>
+</td>
 </tr>
 </table>
 
@@ -154,7 +160,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#initialize(java.lang.String, java.lang.String, boolean)">initialize</a></strong>(java.lang.String&nbsp;pId,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxTileLayer#initialize(java.lang.String,%20java.lang.String,%20boolean)">initialize</a></strong>(java.lang.String&nbsp;pId,
           java.lang.String&nbsp;aUrl,
           boolean&nbsp;enableSSL)</code>&nbsp;</td>
 </tr>
@@ -177,7 +183,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.mapbox.mapboxsdk.tileprovider.tilesource.<a href="{{site.baseurl}}/api/LWebSourceTileLayer" title="class in com.mapbox.mapboxsdk.tileprovider.tilesource">WebSourceTileLayer</a></h3>
-<code><a href="{{site.baseurl}}/api/LWebSourceTileLayer#parseUrlForTile(java.lang.String, com.mapbox.mapboxsdk.tileprovider.MapTile, boolean)">parseUrlForTile</a></code>
+<code><a href="{{site.baseurl}}/api/LWebSourceTileLayer#parseUrlForTile(java.lang.String,%20com.mapbox.mapboxsdk.tileprovider.MapTile,%20boolean)">parseUrlForTile</a></code>
 
 
 <a name="methods_inherited_from_class_com.mapbox.mapboxsdk.tileprovider.tilesource.TileLayer">
@@ -213,9 +219,21 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 
 
 <h4>MapboxTileLayer</h4>
-<pre>public&nbsp;MapboxTileLayer(java.lang.String&nbsp;pId)</pre>
+<pre>public&nbsp;MapboxTileLayer(java.lang.String&nbsp;mapId)</pre>
 <div class="block">Initialize a new tile layer, directed at a hosted Mapbox tilesource.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>pId</code> - a valid mapid, of the form account.map</dd></dl>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>mapId</code> - a valid mapid, of the form account.map</dd></dl>
+
+
+<a name="MapboxTileLayer(java.lang.String, java.lang.String)">
+<!--   -->
+</a>
+
+
+<h4>MapboxTileLayer</h4>
+<pre>public&nbsp;MapboxTileLayer(java.lang.String&nbsp;mapId,
+               java.lang.String&nbsp;accessToken)</pre>
+<div class="block">Initialize a new Mapbox tile layer using V4 API requiring Access Tokens*</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>mapId</code> - MapID</dd><dd><code>accessToken</code> - Access Token</dd></dl>
 
 
 <a name="MapboxTileLayer(java.lang.String, boolean)">
@@ -224,7 +242,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 
 
 <h4>MapboxTileLayer</h4>
-<pre>public&nbsp;MapboxTileLayer(java.lang.String&nbsp;pId,
+<pre>public&nbsp;MapboxTileLayer(java.lang.String&nbsp;mapId,
                boolean&nbsp;enableSSL)</pre>
 
 

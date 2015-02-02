@@ -92,21 +92,38 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxUtils#getMapTileURL(java.lang.String, int, int, int, com.mapbox.mapboxsdk.constants.MapboxConstants.RasterImageQuality)">getMapTileURL</a></strong>(java.lang.String&nbsp;mapID,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxUtils#getAccessToken()">getAccessToken</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxUtils#getMapTileURL(android.content.Context,%20java.lang.String,%20int,%20int,%20int,%20com.mapbox.mapboxsdk.constants.MapboxConstants.RasterImageQuality)">getMapTileURL</a></strong>(android.content.Context&nbsp;context,
+             java.lang.String&nbsp;mapID,
              int&nbsp;zoom,
              int&nbsp;x,
              int&nbsp;y,
              <a href="{{site.baseurl}}/api/LMapboxConstants.RasterImageQuality" title="enum in com.mapbox.mapboxsdk.constants">MapboxConstants.RasterImageQuality</a>&nbsp;imageQuality)</code>&nbsp;</td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a>&nbsp;latLng,
+                int&nbsp;zoom)</code>
+<div class="block">Build a UTFGrid string for given Coordinate and Zoom Level</div>
+</td>
+</tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxUtils#markerIconURL(java.lang.String, java.lang.String, java.lang.String)">markerIconURL</a></strong>(java.lang.String&nbsp;size,
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxUtils#markerIconURL(android.content.Context,%20java.lang.String,%20java.lang.String,%20java.lang.String)">markerIconURL</a></strong>(android.content.Context&nbsp;context,
+             java.lang.String&nbsp;size,
              java.lang.String&nbsp;symbol,
              java.lang.String&nbsp;color)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxConstants.RasterImageQuality" title="enum in com.mapbox.mapboxsdk.constants">MapboxConstants.RasterImageQuality</a>&nbsp;imageQuality)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapboxUtils#setAccessToken(java.lang.String)">setAccessToken</a></strong>(java.lang.String&nbsp;accessToken)</code>&nbsp;</td>
 </tr>
 </table>
 
@@ -147,6 +164,24 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getAccessToken()">
+<!--   -->
+</a>
+
+
+<h4>getAccessToken</h4>
+<pre>public static&nbsp;java.lang.String&nbsp;getAccessToken()</pre>
+
+
+<a name="setAccessToken(java.lang.String)">
+<!--   -->
+</a>
+
+
+<h4>setAccessToken</h4>
+<pre>public static&nbsp;void&nbsp;setAccessToken(java.lang.String&nbsp;accessToken)</pre>
+
+
 <a name="qualityExtensionForImageQuality(com.mapbox.mapboxsdk.constants.MapboxConstants.RasterImageQuality)">
 <!--   -->
 </a>
@@ -156,28 +191,43 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <pre>public static&nbsp;java.lang.String&nbsp;qualityExtensionForImageQuality(<a href="{{site.baseurl}}/api/LMapboxConstants.RasterImageQuality" title="enum in com.mapbox.mapboxsdk.constants">MapboxConstants.RasterImageQuality</a>&nbsp;imageQuality)</pre>
 
 
-<a name="markerIconURL(java.lang.String, java.lang.String, java.lang.String)">
+<a name="markerIconURL(android.content.Context, java.lang.String, java.lang.String, java.lang.String)">
 <!--   -->
 </a>
 
 
 <h4>markerIconURL</h4>
-<pre>public static&nbsp;java.lang.String&nbsp;markerIconURL(java.lang.String&nbsp;size,
+<pre>public static&nbsp;java.lang.String&nbsp;markerIconURL(android.content.Context&nbsp;context,
+                             java.lang.String&nbsp;size,
                              java.lang.String&nbsp;symbol,
                              java.lang.String&nbsp;color)</pre>
 
 
-<a name="getMapTileURL(java.lang.String, int, int, int, com.mapbox.mapboxsdk.constants.MapboxConstants.RasterImageQuality)">
+<a name="getMapTileURL(android.content.Context, java.lang.String, int, int, int, com.mapbox.mapboxsdk.constants.MapboxConstants.RasterImageQuality)">
 <!--   -->
 </a>
 
 
 <h4>getMapTileURL</h4>
-<pre>public static&nbsp;java.lang.String&nbsp;getMapTileURL(java.lang.String&nbsp;mapID,
+<pre>public static&nbsp;java.lang.String&nbsp;getMapTileURL(android.content.Context&nbsp;context,
+                             java.lang.String&nbsp;mapID,
                              int&nbsp;zoom,
                              int&nbsp;x,
                              int&nbsp;y,
                              <a href="{{site.baseurl}}/api/LMapboxConstants.RasterImageQuality" title="enum in com.mapbox.mapboxsdk.constants">MapboxConstants.RasterImageQuality</a>&nbsp;imageQuality)</pre>
+
+
+<a name="getUTFGridString(com.mapbox.mapboxsdk.api.ILatLng, int)">
+<!--   -->
+</a>
+
+
+<h4>getUTFGridString</h4>
+<pre>public static&nbsp;java.lang.String&nbsp;getUTFGridString(<a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a>&nbsp;latLng,
+                                int&nbsp;zoom)</pre>
+<div class="block">Build a UTFGrid string for given Coordinate and Zoom Level</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>latLng</code> - Geo Coordinate</dd><dd><code>zoom</code> - Zoom Level</dd>
+<dt><span class="strong">Returns:</span></dt><dd>UTFGrid String (z/x/y)</dd></dl>
 
 
 
