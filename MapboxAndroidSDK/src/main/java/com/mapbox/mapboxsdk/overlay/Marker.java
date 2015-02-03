@@ -1,22 +1,26 @@
 package com.mapbox.mapboxsdk.overlay;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.util.BitmapUtils;
 import com.mapbox.mapboxsdk.views.InfoWindow;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.Projection;
+import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 
 /**
  * Immutable class describing a LatLng with a Title and a Description.
  */
-public class Marker {
+public class Marker implements MapViewConstants {
     
     private static String TAG = "Marker";
     
@@ -51,6 +55,9 @@ public class Marker {
     private boolean bubbleShowing;
     private ItemizedOverlay mParentHolder;
 
+    private Drawable mDefaultPinDrawable;
+    private int mDefaultPinRes = R.drawable.defpin;
+
     /**
      * Construct a new Marker, given title, description, and place
      * @param title Marker title
@@ -72,14 +79,25 @@ public class Marker {
     public Marker(MapView mv, String aTitle, String aDescription, LatLng aLatLng) {
         super();
         this.mapView = mv;
+        if (mv != null) {
+            this.context = mv.getContext();
+        }
         this.setTitle(aTitle);
         this.setDescription(aDescription);
         this.mLatLng = aLatLng;
         Log.d(TAG, "markerconst" + mv + aTitle + aDescription + aLatLng);
-        if (mv != null) {
-            mAnchor = mv.getDefaultPinAnchor();
-        }
         mParentHolder = null;
+        mAnchor = DEFAULT_PIN_ANCHOR;
+        setMarker(getDefaultPinDrawable());
+        isUsingMakiIcon = true;
+    }
+
+    public Drawable getDefaultPinDrawable() {
+        if (mDefaultPinDrawable == null && this.context != null) {
+            BitmapFactory.Options opts = BitmapUtils.getBitmapOptions(context.getResources().getDisplayMetrics());
+            mDefaultPinDrawable = new BitmapDrawable(context.getResources(), BitmapFactory.decodeResource(context.getResources(), mDefaultPinRes, opts));
+        }
+        return mDefaultPinDrawable;
     }
 
     /**
@@ -88,16 +106,10 @@ public class Marker {
      * @return Marker
      */
     public Marker addTo(MapView mv) {
-        if (mMarker == null) {
-            //if there is an icon it means it's not loaded yet
-            //thus change the drawable while waiting
-            setMarker(mv.getDefaultPinDrawable());
-            isUsingMakiIcon = true;
-        }
         mapView = mv;
-        context = mv.getContext();
-        if (mAnchor == null) {
-            mAnchor = mv.getDefaultPinAnchor();
+        if (this.context == null) {
+            context = mv.getContext();
+            setMarker(getDefaultPinDrawable());
         }
         return this;
     }
