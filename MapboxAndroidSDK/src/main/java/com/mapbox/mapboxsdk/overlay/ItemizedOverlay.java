@@ -7,15 +7,12 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
-
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas;
 import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
 import com.mapbox.mapboxsdk.views.safecanvas.SafePaint;
 import com.mapbox.mapboxsdk.views.util.Projection;
-
 import java.util.ArrayList;
 
 /**
@@ -180,14 +177,12 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
 
         // draw it
         if (this.isUsingSafeCanvas()) {
-            marker.setTargetDensity(canvas.getDensity());
             Overlay.drawAt(canvas.getSafeCanvas(), marker, roundedCoords, point, false,
                     aMapOrientation);
         } else {
             canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
                 @Override
                 public void onUnsafeCanvas(Canvas canvas) {
-                    marker.setTargetDensity(canvas.getDensity());
                     Overlay.drawAt(canvas, marker, roundedCoords, point, false, aMapOrientation);
                 }
             });
