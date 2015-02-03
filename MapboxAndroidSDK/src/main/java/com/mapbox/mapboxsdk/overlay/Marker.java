@@ -88,7 +88,7 @@ public class Marker implements MapViewConstants {
         Log.d(TAG, "markerconst" + mv + aTitle + aDescription + aLatLng);
         mParentHolder = null;
         mAnchor = DEFAULT_PIN_ANCHOR;
-        setMarker(getDefaultPinDrawable());
+        setMarker(getDefaultPinDrawable(), true);
         isUsingMakiIcon = true;
     }
 
@@ -109,7 +109,7 @@ public class Marker implements MapViewConstants {
         mapView = mv;
         if (this.context == null) {
             context = mv.getContext();
-            setMarker(getDefaultPinDrawable());
+            setMarker(getDefaultPinDrawable(), true);
         }
         return this;
     }
@@ -268,14 +268,24 @@ public class Marker implements MapViewConstants {
     /**
      * Set a custom image to be used as the Marker's image
      * @param marker Drawable resource to be used as Marker image
+     * @param isMakiIcon True if Maki Icon, False if not (ex: Custom Image)
      */
-    public void setMarker(final Drawable marker) {
+    public void setMarker(final Drawable marker, boolean isMakiIcon) {
         this.mMarker = marker;
         if (marker != null) {
             marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
-            isUsingMakiIcon = false;
+            isUsingMakiIcon = isMakiIcon;
         }
         invalidate();
+    }
+
+    /**
+     * Set a custom image to be used as the Marker's image
+     * NOTE: Convenience method for setting a custom image as the marker
+     * @param marker Drawable resource to be used as Marker image
+     */
+    public void setMarker(final Drawable marker) {
+        this.setMarker(marker, false);
     }
 
     /**

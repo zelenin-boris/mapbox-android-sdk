@@ -26,6 +26,8 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
  */
 public class Icon implements MapboxConstants {
 
+    private static final String TAG = "Icon";
+
     private Marker marker;
     private Drawable drawable;
     private Context context;
@@ -127,7 +129,7 @@ public class Icon implements MapboxConstants {
     public Icon setMarker(Marker aMarker) {
         this.marker = aMarker;
         if (drawable != null) {
-            this.marker.setMarker(drawable);
+            this.marker.setMarker(drawable, true);
         }
         return this;
     }
@@ -140,7 +142,7 @@ public class Icon implements MapboxConstants {
         if (bitmap != null) {
             drawable = bitmap;
             if (marker != null) {
-                marker.setMarker(drawable);
+                marker.setMarker(drawable, true);
             }
             return;
         }
@@ -174,7 +176,7 @@ public class Icon implements MapboxConstants {
                 // out of the cache...
                 drawable = sIconCache.get(url);
                 if (marker != null) {
-                    marker.setMarker(drawable);
+                    marker.setMarker(drawable, true);
                 }
                 return;
             }
@@ -186,7 +188,7 @@ public class Icon implements MapboxConstants {
                 if (list.isEmpty()) {
                     drawable = sIconCache.get(url);
                     if (marker != null) {
-                        marker.setMarker(drawable);
+                        marker.setMarker(drawable, true);
                     }
                     return;
                 }
@@ -230,7 +232,7 @@ public class Icon implements MapboxConstants {
                 synchronized (list) {
                     for (Icon icon : list) {
                         if (icon.marker != null) {
-                            icon.marker.setMarker(bitmap);
+                            icon.marker.setMarker(bitmap, true);
                         }
                     }
                     if (UtilConstants.DEBUGMODE) {
@@ -241,6 +243,4 @@ public class Icon implements MapboxConstants {
             }
         }
     }
-
-    private static final String TAG = "Icon";
 }
