@@ -1758,6 +1758,18 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private float currentRotationX;
     private float currentRotationY;
 
+    public float getCurrentRotationMapOrientation() {
+        return currentRotationMapOrientation;
+    }
+
+    public float getCurrentRotationX() {
+        return currentRotationX;
+    }
+
+    public float getCurrentRotationY() {
+        return currentRotationY;
+    }
+
     private void updateCurrentRotationValues(final float mapOrientation, final float centerX, final float centerY) {
         this.currentRotationMapOrientation = mapOrientation;
         this.currentRotationX = centerX;

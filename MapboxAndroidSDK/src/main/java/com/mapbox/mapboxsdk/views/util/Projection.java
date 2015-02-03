@@ -83,7 +83,7 @@ public class Projection implements GeoConstants {
         mTransformedScreenRectProjection = new RectF(mScreenRectProjection);
         mapView.getInversedTransformMatrix().mapRect(mTransformedScreenRectProjection);
         mMapOrientation = mapView.getMapOrientation();
-        mRotateMatrix.setRotate(-mMapOrientation, viewWidth2, viewHeight2);
+        mRotateMatrix.setRotate(-mapView.getCurrentRotationMapOrientation(), mapView.getCurrentRotationX(), mapView.getCurrentRotationY());
 //        Rect sr = getScreenRect();
 //        mRotateMatrix.setRotate(mMapOrientation, sr.exactCenterX(), sr.exactCenterY());
     }
