@@ -92,6 +92,10 @@ public class Marker implements MapViewConstants {
         isUsingMakiIcon = true;
     }
 
+    /**
+     * Default Marker image loaded from Library
+     * @return BitMapDrawable of the Default Marker image
+     */
     public Drawable getDefaultPinDrawable() {
         if (mDefaultPinDrawable == null && this.context != null) {
             BitmapFactory.Options opts = BitmapUtils.getBitmapOptions(context.getResources().getDisplayMetrics());
