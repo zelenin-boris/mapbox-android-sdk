@@ -73,9 +73,9 @@ public class MapboxUtils implements MapboxConstants {
 
         marker.append(color.replaceAll("#", ""));
 
-        if (AppUtils.isRunningOn2xOrGreaterScreen(context)) {
-            marker.append("@2x");
-        }
+//        if (AppUtils.isRunningOn2xOrGreaterScreen(context)) {
+//            marker.append("@2x");
+//        }
         marker.append(".png");
 
         if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
