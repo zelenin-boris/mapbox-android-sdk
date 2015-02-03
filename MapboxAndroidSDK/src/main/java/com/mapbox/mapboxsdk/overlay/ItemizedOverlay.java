@@ -6,15 +6,13 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
-
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas;
 import com.mapbox.mapboxsdk.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
 import com.mapbox.mapboxsdk.views.safecanvas.SafePaint;
 import com.mapbox.mapboxsdk.views.util.Projection;
-
 import java.util.ArrayList;
 
 /**
@@ -171,7 +169,7 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
         canvas.scale(mapScale, mapScale, position.x, position.y);
         final int state =
                 (mDrawFocusedItem && (mFocusedItem == item) ? Marker.ITEM_STATE_FOCUSED_MASK : 0);
-        final Drawable marker = item.getMarker(state);
+        final BitmapDrawable marker = (BitmapDrawable)item.getMarker(state);
         if (marker == null) {
             return;
         }
