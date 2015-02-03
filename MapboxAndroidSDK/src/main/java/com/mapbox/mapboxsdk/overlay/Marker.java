@@ -21,9 +21,9 @@ import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
  * Immutable class describing a LatLng with a Title and a Description.
  */
 public class Marker implements MapViewConstants {
-    
+
     private static String TAG = "Marker";
-    
+
     public static final int ITEM_STATE_FOCUSED_MASK = 4;
     public static final int ITEM_STATE_PRESSED_MASK = 1;
     public static final int ITEM_STATE_SELECTED_MASK = 2;

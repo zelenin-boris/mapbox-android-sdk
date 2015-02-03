@@ -169,7 +169,7 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
         canvas.scale(mapScale, mapScale, position.x, position.y);
         final int state =
                 (mDrawFocusedItem && (mFocusedItem == item) ? Marker.ITEM_STATE_FOCUSED_MASK : 0);
-        final BitmapDrawable marker = (BitmapDrawable)item.getMarker(state);
+        final BitmapDrawable marker = (BitmapDrawable) item.getMarker(state);
         if (marker == null) {
             return;
         }
