@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
@@ -171,7 +172,7 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
         canvas.scale(mapScale, mapScale, position.x, position.y);
         final int state =
                 (mDrawFocusedItem && (mFocusedItem == item) ? Marker.ITEM_STATE_FOCUSED_MASK : 0);
-        final Drawable marker = item.getMarker(state);
+        final BitmapDrawable marker = (BitmapDrawable)item.getMarker(state);
         if (marker == null) {
             return;
         }
@@ -179,12 +180,14 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
 
         // draw it
         if (this.isUsingSafeCanvas()) {
+            marker.setTargetDensity(canvas.getDensity());
             Overlay.drawAt(canvas.getSafeCanvas(), marker, roundedCoords, point, false,
                     aMapOrientation);
         } else {
             canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
                 @Override
                 public void onUnsafeCanvas(Canvas canvas) {
+                    marker.setTargetDensity(canvas.getDensity());
                     Overlay.drawAt(canvas, marker, roundedCoords, point, false, aMapOrientation);
                 }
             });
