@@ -2,15 +2,12 @@ package com.mapbox.mapboxsdk.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
@@ -51,7 +48,6 @@ import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.MapboxTileLayer;
 import com.mapbox.mapboxsdk.tileprovider.util.SimpleInvalidationHandler;
-import com.mapbox.mapboxsdk.util.BitmapUtils;
 import com.mapbox.mapboxsdk.util.DataLoadingUtils;
 import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.util.MapboxUtils;
@@ -169,10 +165,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private TilesLoadedListener tilesLoadedListener;
     TileLoadedListener tileLoadedListener;
     private InfoWindow currentTooltip;
-
-    private int mDefaultPinRes = R.drawable.defpin;
-    private Drawable mDefaultPinDrawable;
-    private PointF mDefaultPinAnchor = DEFAULT_PIN_ANCHOR;
 
     private UserLocationOverlay mLocationOverlay;
 
@@ -1852,7 +1844,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     /**
-     * Set the user location tracking mode
+     * Set the user location tracking zoom level
      */
     public MapView setUserLocationRequiredZoom(final float zoomLevel) {
         getOrCreateLocationOverlay().setRequiredZoom(zoomLevel);
@@ -2039,31 +2031,5 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     @Override
     public String toString() {
         return "MapView {" + getTileProvider() + "}";
-    }
-
-    public void setDefaultPinRes(int res) {
-        mDefaultPinRes = res;
-    }
-
-    public void setDefaultPinDrawable(Drawable drawable) {
-        mDefaultPinDrawable = drawable;
-    }
-
-    public Drawable getDefaultPinDrawable() {
-        if (mDefaultPinDrawable == null && mDefaultPinRes != 0) {
-            BitmapFactory.Options opts =
-                    BitmapUtils.getBitmapOptions(getResources().getDisplayMetrics());
-            mDefaultPinDrawable = new BitmapDrawable(getResources(),
-                    BitmapFactory.decodeResource(context.getResources(), mDefaultPinRes, opts));
-        }
-        return mDefaultPinDrawable;
-    }
-
-    public void setDefaultPinAnchor(PointF point) {
-        mDefaultPinAnchor = point;
-    }
-
-    public PointF getDefaultPinAnchor() {
-        return mDefaultPinAnchor;
     }
 }

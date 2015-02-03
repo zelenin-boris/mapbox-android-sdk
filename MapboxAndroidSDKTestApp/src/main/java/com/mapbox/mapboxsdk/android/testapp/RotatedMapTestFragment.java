@@ -6,11 +6,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
+import com.mapbox.mapboxsdk.util.MapboxUtils;
 import com.mapbox.mapboxsdk.views.MapView;
+import com.mapbox.mapboxsdk.views.MapViewListener;
+import com.mapbox.mapboxsdk.views.util.Projection;
 
 public class RotatedMapTestFragment extends Fragment {
 
@@ -31,6 +37,35 @@ public class RotatedMapTestFragment extends Fragment {
         Marker cap = new Marker(mv, "San Siro", "Stadio Giuseppe Meazza", new LatLng(45.47820, 9.12400));
         cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "soccer", "FF0000"));
         mv.addMarker(cap);
+
+        mv.setMapViewListener(new MapViewListener() {
+            @Override
+            public void onShowMarker(MapView pMapView, Marker pMarker) {}
+
+            @Override
+            public void onHideMarker(MapView pMapView, Marker pMarker) {}
+
+            @Override
+            public void onTapMarker(MapView pMapView, Marker pMarker) {}
+
+            @Override
+            public void onLongPressMarker(MapView pMapView, Marker pMarker) {}
+
+            @Override
+            public void onTapMap(MapView pMapView, ILatLng pPosition) {
+                String coords = String.format("Original Lat = %f, Lon = %f", pPosition.getLatitude(), pPosition.getLongitude());
+                float[] rc = {(float)pPosition.getLatitude(), (float)pPosition.getLongitude()};
+                Projection p = pMapView.getProjection();
+                p.rotatePoints(rc);
+                ILatLng rotLatLon = p.fromPixels(rc[0], rc[1]);
+                String rotCoords = String.format("Rotated Lat = %f, Lon = %f", rotLatLon.getLatitude(), rotLatLon.getLongitude());
+                Log.i("TapForUTFGridTestFragment", String.format("coords = '%s', rotated coords = '%s'", coords, rotCoords));
+                Toast.makeText(getActivity(), coords + " ~ " + rotCoords, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onLongPressMap(MapView pMapView, ILatLng pPosition) {}
+        });
 
         return view;
     }
