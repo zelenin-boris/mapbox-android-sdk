@@ -17,6 +17,9 @@ import com.mapbox.mapboxsdk.views.util.Projection;
  * Immutable class describing a LatLng with a Title and a Description.
  */
 public class Marker {
+    
+    private static String TAG = "Marker";
+    
     public static final int ITEM_STATE_FOCUSED_MASK = 4;
     public static final int ITEM_STATE_PRESSED_MASK = 1;
     public static final int ITEM_STATE_SELECTED_MASK = 2;
@@ -72,7 +75,7 @@ public class Marker {
         this.setTitle(aTitle);
         this.setDescription(aDescription);
         this.mLatLng = aLatLng;
-        Log.d(getClass().getCanonicalName(), "markerconst" + mv + aTitle + aDescription + aLatLng);
+        Log.d(TAG, "markerconst" + mv + aTitle + aDescription + aLatLng);
         if (mv != null) {
             mAnchor = mv.getDefaultPinAnchor();
         }
@@ -389,7 +392,6 @@ public class Marker {
         final float top = position.y - mAnchor.y * h;
         float bottom = top + h;
         reuse.set(left, top, right, bottom);
-
         return reuse;
     }
 
