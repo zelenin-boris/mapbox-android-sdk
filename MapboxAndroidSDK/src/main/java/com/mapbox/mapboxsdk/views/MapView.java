@@ -112,7 +112,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     private final OverlayManager mOverlayManager;
 
-    private Projection mProjection;
     private boolean mLayedOut;
 
     private final TilesOverlay mTilesOverlay;
@@ -645,8 +644,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * for more than one draw, since the projection of the map could change.
      */
     public Projection getProjection() {
-        mProjection = new Projection(this);
-        return mProjection;
+        return new Projection(this);
     }
 
     /**
@@ -780,7 +778,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         }
 
 
-        mProjection = new Projection(this);
+        Projection p = getProjection();
         // snap for all snappables
         snapItems();
 
@@ -1074,7 +1072,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         float orient = degrees % 360.0f;
         Log.i(TAG, "setMapOrientation() called with degrees = " + degrees + "; orient calc = " + orient + "; original mapOrientation = " + this.mapOrientation);
         this.mapOrientation = orient;
-        this.mProjection = null;
         // Invalidate will force redraw, which will update rotation algorithm
         this.invalidate();
     }
@@ -1399,7 +1396,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (w != 0 && h != 0) {
-            mProjection = null;
             if (!mLayedOut) {
                 mLayedOut = true;
                 //first layout: if some actions were triggered before, they were enqueued
@@ -1713,7 +1709,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         // make sure the next time someone wants the projection it is the
         // correct one!
-        mProjection = null;
 
         super.scrollTo(intX, intY);
 
