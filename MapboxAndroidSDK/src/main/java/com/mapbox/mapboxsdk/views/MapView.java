@@ -146,6 +146,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected List<MapListener> mListeners = new ArrayList<MapListener>();
 
     private float mapOrientation = 0;
+    private final Matrix mRotateMatrix = new Matrix();
     private final float[] mRotatePoints = new float[2];
     private final Rect mInvalidateRect = new Rect();
 
@@ -652,9 +653,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * for more than one draw, since the projection of the map could change.
      */
     public Projection getProjection() {
-        if (mProjection == null) {
-            mProjection = new Projection(this);
-        }
+        mProjection = new Projection(this);
         return mProjection;
     }
 
@@ -733,7 +732,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected MapView setZoomInternal(final float aZoomLevel, ILatLng center, final PointF decale) {
 
         Log.i(TAG, "setZoomInternal() with aZoomLevel = " + aZoomLevel + "; center = " + center + "; decale = " + decale);
-        
+
         if (center == null) {
             center = getCenter();
         }
@@ -808,7 +807,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         }
 
         Log.i(TAG, "setZoomInternal() all done, requesting Layout now to finish.");
-        
+
         // Allows any views fixed to a Location in the MapView to adjust
         this.requestLayout();
         return this;
@@ -1084,6 +1083,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         Log.i(TAG, "setMapOrientation() called with degrees = " + degrees + "; orient calc = " + orient + "; original mapOrientation = " + this.mapOrientation);
         this.mapOrientation = orient;
         this.mProjection = null;
+        // Invalidate will force redraw, which will update rotation algorithm
         this.invalidate();
     }
 
@@ -1605,11 +1605,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         if (this.getMapOrientation() == 0) {
             return ev;
         }
+
+        // No need to update anymore.  Will be updated automatically via onDraw();
+        //updateRotationMatrix();
+
         MotionEvent rotatedEvent = MotionEvent.obtain(ev);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             mRotatePoints[0] = ev.getX();
             mRotatePoints[1] = ev.getY();
-            getProjection().rotatePoints(mRotatePoints);
+            mRotateMatrix.mapPoints(mRotatePoints);
             rotatedEvent.setLocation(mRotatePoints[0], mRotatePoints[1]);
         } else {
             // This method is preferred since it will rotate historical touch events too
@@ -1618,8 +1622,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                     sMotionEventTransformMethod = MotionEvent.class.getDeclaredMethod("transform",
                             new Class[]{Matrix.class});
                 }
-                sMotionEventTransformMethod.invoke(rotatedEvent,
-                        getProjection().getRotationMatrix());
+                sMotionEventTransformMethod.invoke(rotatedEvent, mRotateMatrix);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1741,8 +1744,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected void onDraw(final Canvas c) {
         super.onDraw(c);
 
-        mProjection = updateProjection();
-
         // Save the current canvas matrix
         c.save();
 
@@ -1751,8 +1752,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 mMultiTouchScalePoint.y);
 
         // rotate Canvas
-        c.rotate(mapOrientation, mProjection.getScreenRect().exactCenterX(),
-                mProjection.getScreenRect().exactCenterY());
+        // Use rotate() per setMatrix() JavaDoc
+        // http://developer.android.com/reference/android/graphics/Canvas.html#setMatrix(android.graphics.Matrix)
+        Projection projection = getProjection();
+        final float orientation = mapOrientation;
+        final float centerX = projection.getScreenRect().exactCenterX();
+        final float centerY = projection.getScreenRect().exactCenterY();
+        c.rotate(orientation, centerX, centerY);
+        updateCurrentRotationValues(orientation, centerX, centerY);
 
         // Draw all Overlays.
         this.getOverlayManager().draw(c, this);
@@ -1760,13 +1767,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         c.restore();
     }
 
-    /**
-     * Private Helper Method for onDraw().
-     *
-     * @return New Projection object
-     */
-    private Projection updateProjection() {
-        return new Projection(this);
+    private float currentRotationMapOrientation;
+    private float currentRotationX;
+    private float currentRotationY;
+
+    private void updateCurrentRotationValues(final float mapOrientation, final float centerX, final float centerY) {
+        this.currentRotationMapOrientation = mapOrientation;
+        this.currentRotationX = centerX;
+        this.currentRotationY = centerY;
+        mRotateMatrix.setRotate(currentRotationMapOrientation, currentRotationX, currentRotationY);
     }
 
     /**
