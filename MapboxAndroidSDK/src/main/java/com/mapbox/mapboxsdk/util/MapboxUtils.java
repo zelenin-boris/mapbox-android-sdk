@@ -2,16 +2,24 @@ package com.mapbox.mapboxsdk.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.constants.MathConstants;
+import com.mapbox.mapboxsdk.exceptions.MissingTokenException;
 
 public class MapboxUtils implements MapboxConstants {
 
-    // Access Token For V4 of API.  If it doesn't exist, SDK will fall back to use V3
+    private static final String TAG = "MapboxUtils";
+
+    // Access Token For V4 of API.  If it doesn't exist an exception will be thrown
     private static String accessToken = null;
 
     public static String getAccessToken() {
+        if (TextUtils.isEmpty(accessToken)) {
+            Log.e(TAG, "Missing Token", new MissingTokenException());
+            return null;
+        }
         return accessToken;
     }
 
