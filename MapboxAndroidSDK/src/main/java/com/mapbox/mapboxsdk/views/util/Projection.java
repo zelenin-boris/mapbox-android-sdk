@@ -36,6 +36,9 @@ import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.views.MapView;
 
 public class Projection implements GeoConstants {
+
+    private static final String TAG = "Projection";
+
     private MapView mapView = null;
     private int viewWidth2;
     private int viewHeight2;
@@ -53,6 +56,12 @@ public class Projection implements GeoConstants {
     private final Matrix mRotateMatrix = new Matrix();
     protected static int mTileSize = 256;
 
+    /**
+     * A Point In Time Instance of the current Map Projection.
+     * Before doing any Projection work current version should be retrieved via @see MapView#getProjection()
+     * NOTE: Do not hold a reference to this instance outside of a method.
+     * @param mv MapView
+     */
     public Projection(final MapView mv) {
         super();
         this.mapView = mv;
@@ -521,6 +530,4 @@ public class Projection implements GeoConstants {
     public final Matrix getRotationMatrix() {
         return mRotateMatrix;
     }
-
-    private static final String TAG = "Projection";
 }
