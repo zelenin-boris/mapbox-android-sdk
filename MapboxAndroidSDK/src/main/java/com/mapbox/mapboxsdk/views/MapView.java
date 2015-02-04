@@ -314,6 +314,10 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         postInvalidate();
     }
 
+    public void setAccessToken(final String accessToken) {
+        MapboxUtils.setAccessToken(accessToken);
+    }
+
     /**
      * Set the tile source of this map as an array of tile layers,
      * which will be presented on top of each other.

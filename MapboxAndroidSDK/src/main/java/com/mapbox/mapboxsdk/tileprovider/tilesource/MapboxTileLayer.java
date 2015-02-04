@@ -24,16 +24,6 @@ public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstan
         this(mapId, true);
     }
 
-    /**
-     * Initialize a new Mapbox tile layer using V4 API requiring Access Tokens
-     * @param mapId       MapID
-     * @param accessToken Access Token
-     */
-    public MapboxTileLayer(String mapId, String accessToken) {
-        this(mapId);
-        MapboxUtils.setAccessToken(accessToken);
-    }
-
     public MapboxTileLayer(String mapId, boolean enableSSL) {
         super(mapId, mapId, enableSSL);
     }
