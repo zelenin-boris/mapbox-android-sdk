@@ -101,13 +101,26 @@ public class Projection implements GeoConstants {
         LatLng center = mapView.getCenter();
         float mapOrientation = mapView.getMapOrientation();
 
+        // Convert coords to radians
+        double centerLat = Math.toRadians(center.getLatitude());
+        double coordLat = Math.toRadians(coord.getLatitude());
+        double centerLon = Math.toRadians(center.getLongitude());
+        double coordLon = Math.toRadians(coord.getLongitude());
+        double mapOrient = Math.toRadians(mapOrientation);
+
         // Latitude
-        double lat = center.getLatitude() + (Math.cos(Math.toRadians(mapOrientation)) * (coord.getLatitude() - center.getLatitude()) - Math.sin(Math.toRadians(mapOrientation)) * (coord.getLongitude() - center.getLongitude()));
+//        double lat = center.getLatitude() + (Math.cos(Math.toRadians(mapOrientation)) * (coord.getLatitude() - center.getLatitude()) - Math.sin(Math.toRadians(mapOrientation)) * (coord.getLongitude() - center.getLongitude()));
+        double lat = centerLat + (Math.cos(mapOrient) * (coordLat - centerLat) - Math.sin(mapOrient) * (coordLon - centerLon));
 
         // Longitude
-        double lon = center.getLongitude() + (Math.sin(Math.toRadians(mapOrientation)) * (coord.getLatitude() - center.getLatitude()) + Math.cos(Math.toRadians(mapOrientation)) * (coord.getLongitude() - center.getLongitude()));
+//        double lon = center.getLongitude() + (Math.sin(Math.toRadians(mapOrientation)) * (coord.getLatitude() - center.getLatitude()) + Math.cos(Math.toRadians(mapOrientation)) * (coord.getLongitude() - center.getLongitude()));
+        double lon = centerLon + (Math.sin(mapOrient)) * (coordLat - centerLat) + Math.cos(mapOrient) * (coordLon - centerLon);
 
-        LatLng rotatedCoord = new LatLng(lat, lon);
+        // Convert back to degrees
+        double latDeg = Math.toDegrees(lat);
+        double lonDeg = Math.toDegrees(lon);
+
+        LatLng rotatedCoord = new LatLng(latDeg, lonDeg);
         Log.i(TAG, "rotateLatLngAroundCurrentMapOrientation() with original coord = " + coord + "; rotatedCoord = " + rotatedCoord);
         return rotatedCoord;
     }
