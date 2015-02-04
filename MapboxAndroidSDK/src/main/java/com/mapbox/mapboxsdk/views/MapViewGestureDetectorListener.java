@@ -14,7 +14,7 @@ import com.mapbox.mapboxsdk.views.util.Projection;
 public class MapViewGestureDetectorListener extends SimpleOnGestureListener {
 
     private static final String TAG = "MapViewGestureDetectorListener";
-    
+
     private final MapView mapView;
 
     /**
@@ -105,12 +105,8 @@ public class MapViewGestureDetectorListener extends SimpleOnGestureListener {
         Projection p = mapView.getProjection();
         final ILatLng center = p.fromPixels(e.getX(), e.getY());
         Log.i(TAG, "onDoubleTap() continues, determines that x = " + e.getX() + "; y = " + e.getY() + "; will produce a center coordinate = " + center);
-        float[] rp = {e.getX(), e.getY()};
-        p.rotatePoints(rp);
-        float rx = rp[0];
-        float ry = rp[1];
-        final ILatLng rotCenter = p.fromPixels(rx, ry);
-        Log.i(TAG, "onDoubleTap() continues, rotation rx = " + rx + "; ry = " + ry + "; will produce a center coordinate = " + rotCenter);
+        final ILatLng rotCenter = p.rotateLatLngAroundCurrentMapOrientation(center);
+        Log.i(TAG, "onDoubleTap() continues, will produce a center coordinate = " + rotCenter);
 
         return this.mapView.zoomInFixing(rotCenter, false);
     }

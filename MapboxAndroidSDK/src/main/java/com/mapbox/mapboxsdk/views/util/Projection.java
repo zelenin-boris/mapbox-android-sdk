@@ -27,6 +27,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.constants.GeoConstants;
@@ -52,7 +53,6 @@ public class Projection implements GeoConstants {
     private final Rect mScreenRectProjection;
     private final RectF mTransformedScreenRectProjection;
     private final Rect mIntrinsicScreenRectProjection;
-    private final float mMapOrientation;
     private final Matrix mRotateMatrix = new Matrix();
     protected static int mTileSize = 256;
 
@@ -91,11 +91,27 @@ public class Projection implements GeoConstants {
         }
         mTransformedScreenRectProjection = new RectF(mScreenRectProjection);
         mapView.getInversedTransformMatrix().mapRect(mTransformedScreenRectProjection);
-        mMapOrientation = mapView.getMapOrientation();
         mRotateMatrix.setRotate(-mapView.getCurrentRotationMapOrientation(), mapView.getCurrentRotationX(), mapView.getCurrentRotationY());
 //        Rect sr = getScreenRect();
 //        mRotateMatrix.setRotate(mMapOrientation, sr.exactCenterX(), sr.exactCenterY());
     }
+
+
+    public LatLng rotateLatLngAroundCurrentMapOrientation(final ILatLng coord) {
+        LatLng center = mapView.getCenter();
+        float mapOrientation = mapView.getMapOrientation();
+
+        // Latitude
+        double lat = center.getLatitude() + (Math.cos(Math.toRadians(mapOrientation)) * (coord.getLatitude() - center.getLatitude()) - Math.sin(Math.toRadians(mapOrientation)) * (coord.getLongitude() - center.getLongitude()));
+
+        // Longitude
+        double lon = center.getLongitude() + (Math.sin(Math.toRadians(mapOrientation)) * (coord.getLatitude() - center.getLatitude()) + Math.cos(Math.toRadians(mapOrientation)) * (coord.getLongitude() - center.getLongitude()));
+
+        LatLng rotatedCoord = new LatLng(lat, lon);
+        Log.i(TAG, "rotateLatLngAroundCurrentMapOrientation() with original coord = " + coord + "; rotatedCoord = " + rotatedCoord);
+        return rotatedCoord;
+    }
+
 
     public float getZoomLevel() {
         return mZoomLevelProjection;
@@ -125,7 +141,7 @@ public class Projection implements GeoConstants {
     }
 
     public float getMapOrientation() {
-        return mMapOrientation;
+        return mapView.getCurrentRotationMapOrientation();
     }
 
     public int getCenterX() {
@@ -177,8 +193,9 @@ public class Projection implements GeoConstants {
         PointF result = toMapPixels(in, reuse);
         result.offset(-mIntrinsicScreenRectProjection.exactCenterX(),
                 -mIntrinsicScreenRectProjection.exactCenterY());
-        if (mMapOrientation % 360 != 0) {
-            GeometryMath.rotatePoint(0, 0, result, mMapOrientation, result);
+        float mapOrientation = getMapOrientation();
+        if (mapOrientation % 360 != 0) {
+            GeometryMath.rotatePoint(0, 0, result, mapOrientation, result);
         }
         result.offset(viewWidth2, viewHeight2);
         return result;
