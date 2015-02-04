@@ -286,7 +286,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                         conn.connect();
                         int rc = conn.getResponseCode();
                         if (rc != HttpURLConnection.HTTP_OK) {
-                            String msg = String.format(MAPBOX_LOCALE, "HTTP Error connection.  Response Code = %d", rc);
+                            String msg = String.format(MAPBOX_LOCALE, "HTTP Error connection.  Response Code = %d for url = %s", rc, conn.getURL().toString());
                             Log.w(TAG, msg);
                             notifyDelegateOfHTTPStatusError(rc, params[0]);
                             throw new IOException(msg);
