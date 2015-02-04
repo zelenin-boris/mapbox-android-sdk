@@ -78,20 +78,13 @@ public class MapboxUtils implements MapboxConstants {
 //        }
         marker.append(".png");
 
-        if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
-            marker.append("?access_token=");
-            marker.append(MapboxUtils.getAccessToken());
-            return String.format(MapboxConstants.MAPBOX_BASE_URL_V4 + "marker/%s", marker);
-        }
-
-        return String.format(MapboxConstants.MAPBOX_BASE_URL_V3 + "marker/%s", marker);
+        marker.append("?access_token=");
+        marker.append(MapboxUtils.getAccessToken());
+        return String.format(MAPBOX_LOCALE, MapboxConstants.MAPBOX_BASE_URL_V4 + "marker/%s", marker);
     }
 
     public static String getMapTileURL(Context context, String mapID, int zoom, int x, int y, RasterImageQuality imageQuality) {
-        if (!TextUtils.isEmpty(MapboxUtils.getAccessToken())) {
-            return String.format(MAPBOX_BASE_URL_V4 + "%s/%d/%d/%d%s.%s?access_token=%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality), MapboxUtils.getAccessToken());
-        }
-        return String.format(MAPBOX_BASE_URL_V3 + "%s/%d/%d/%d%s.%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality));
+        return String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V4 + "%s/%d/%d/%d%s.%s?access_token=%s", mapID, zoom, x, y, (AppUtils.isRunningOn2xOrGreaterScreen(context) ? "@2x" : ""), MapboxUtils.qualityExtensionForImageQuality(imageQuality), MapboxUtils.getAccessToken());
     }
 
     /**
