@@ -315,6 +315,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     /**
+     * Set Mapbox Access Token for this MapView.
+     * @see <a href="https://www.mapbox.com/developers/api/#access-tokens">https://www.mapbox.com/developers/api/#access-tokens</a>
+     * @param accessToken String
+     */
+    public void setAccessToken(final String accessToken) {
+        MapboxUtils.setAccessToken(accessToken);
+    }
+
+    /**
      * Set the tile source of this map as an array of tile layers,
      * which will be presented on top of each other.
      * @param value

@@ -286,7 +286,7 @@ public class OfflineMapDownloader implements MapboxConstants {
                         conn.connect();
                         int rc = conn.getResponseCode();
                         if (rc != HttpURLConnection.HTTP_OK) {
-                            String msg = String.format(MAPBOX_LOCALE, "HTTP Error connection.  Response Code = %d", rc);
+                            String msg = String.format(MAPBOX_LOCALE, "HTTP Error connection.  Response Code = %d for url = %s", rc, conn.getURL().toString());
                             Log.w(TAG, msg);
                             notifyDelegateOfHTTPStatusError(rc, params[0]);
                             throw new IOException(msg);
@@ -605,18 +605,15 @@ public class OfflineMapDownloader implements MapboxConstants {
 
         final ArrayList<String> urls = new ArrayList<String>();
 
-        String version = "v3";
-        String dataName = "markers.geojson";    // Only using API v3 for now
-//        NSString *dataName = ([MBXMapKit accessToken] ? @"features.json" : @"markers.geojson");
-//        NSString *accessToken = ([MBXMapKit accessToken] ? [@"access_token=" stringByAppendingString:[MBXMapKit accessToken]] : nil);
+        String dataName = "features.json";    // Only using API V4 for now
 
         // Include URLs for the metadata and markers json if applicable
         //
         if (includeMetadata) {
-            urls.add(String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V3 + "%s.json?secure%s", this.mapID, ""));
+            urls.add(String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V4 + "%s.json?secure&access_token=%s", this.mapID, MapboxUtils.getAccessToken()));
         }
         if (includeMarkers) {
-            urls.add(String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V3 + "%s/%s%s", this.mapID, dataName, ""));
+            urls.add(String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V4 + "%s/%s?access_token=%s", this.mapID, dataName, MapboxUtils.getAccessToken()));
         }
 
         // Loop through the zoom levels and lat/lon bounds to generate a list of urls which should be included in the offline map
@@ -648,7 +645,7 @@ public class OfflineMapDownloader implements MapboxConstants {
         //
         if (includeMarkers) {
             String dName = "markers.geojson";
-            final String geojson = String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V3 + "%s/%s", this.mapID, dName);
+            final String geojson = String.format(MAPBOX_LOCALE, MAPBOX_BASE_URL_V4 + "%s/%s?access_token=%s", this.mapID, dName, MapboxUtils.getAccessToken());
 
             if (!NetworkUtils.isNetworkAvailable(context)) {
                 // We got a session level error which probably indicates a connectivity problem such as airplane mode.
