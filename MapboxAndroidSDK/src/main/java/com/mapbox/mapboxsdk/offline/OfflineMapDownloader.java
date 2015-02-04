@@ -605,10 +605,7 @@ public class OfflineMapDownloader implements MapboxConstants {
 
         final ArrayList<String> urls = new ArrayList<String>();
 
-        String version = "v3";
-        String dataName = "markers.geojson";    // Only using API v3 for now
-//        NSString *dataName = ([MBXMapKit accessToken] ? @"features.json" : @"markers.geojson");
-//        NSString *accessToken = ([MBXMapKit accessToken] ? [@"access_token=" stringByAppendingString:[MBXMapKit accessToken]] : nil);
+        String dataName = "features.json";    // Only using API V4 for now
 
         // Include URLs for the metadata and markers json if applicable
         //
