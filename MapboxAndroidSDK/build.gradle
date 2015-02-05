@@ -71,6 +71,7 @@ android {
 android.libraryVariants.all { variant ->
     def name = variant.name
     task "javadoc$name"(type: Javadoc) {
+        title = "Mapbox Android SDK $version Reference"
         description = "Generates javadoc for build $name"
         failOnError = false
         destinationDir = new File(destinationDir, variant.baseName)
