@@ -379,14 +379,6 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>android.graphics.PointF</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#getDefaultPinAnchor()">getDefaultPinAnchor</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>android.graphics.drawable.Drawable</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#getDefaultPinDrawable()">getDefaultPinDrawable</a></strong>()</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code>android.graphics.Rect</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#getIntrinsicScreenRect(android.graphics.Rect)">getIntrinsicScreenRect</a></strong>(android.graphics.Rect&nbsp;reuse)</code>&nbsp;</td>
 </tr>
@@ -706,26 +698,32 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setAccessToken(java.lang.String)">setAccessToken</a></strong>(java.lang.String&nbsp;accessToken)</code>
+<div class="block">Set Mapbox Access Token for this MapView.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setAnimatedZoom(float)">setAnimatedZoom</a></strong>(float&nbsp;value)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setBackgroundColor(int)">setBackgroundColor</a></strong>(int&nbsp;pColor)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a>&nbsp;aCenter)</code>
 <div class="block">Set the centerpoint of the map view, given a latitude and
  longitude position.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LILatLng" title="interface in com.mapbox.mapboxsdk.api">ILatLng</a>&nbsp;aCenter,
          boolean&nbsp;userAction)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setConstraintRegionFit(boolean)">setConstraintRegionFit</a></strong>(boolean&nbsp;value)</code>
 <div class="block">Sets whether the scrollable area limit should take the view
@@ -734,21 +732,9 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
  whatever the screen ratio.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setDebugMode(boolean)">setDebugMode</a></strong>(boolean&nbsp;value)</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setDefaultPinAnchor(android.graphics.PointF)">setDefaultPinAnchor</a></strong>(android.graphics.PointF&nbsp;point)</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setDefaultPinDrawable(android.graphics.drawable.Drawable)">setDefaultPinDrawable</a></strong>(android.graphics.drawable.Drawable&nbsp;drawable)</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setDefaultPinRes(int)">setDefaultPinRes</a></strong>(int&nbsp;res)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -852,7 +838,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <tr class="rowColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView#setUserLocationRequiredZoom(float)">setUserLocationRequiredZoom</a></strong>(float&nbsp;zoomLevel)</code>
-<div class="block">Set the user location tracking mode</div>
+<div class="block">Set the user location tracking zoom level</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -1268,6 +1254,17 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <div class="block">Remove an overlay from displaying in this map and invalidates
  the map to trigger a redraw.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>overlay</code> - </dd></dl>
+
+
+<a name="setAccessToken(java.lang.String)">
+<!--   -->
+</a>
+
+
+<h4>setAccessToken</h4>
+<pre>public&nbsp;void&nbsp;setAccessToken(java.lang.String&nbsp;accessToken)</pre>
+<div class="block">Set Mapbox Access Token for this MapView.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>accessToken</code> - String</dd><dt><span class="strong">See Also:</span></dt><dd><a href="https://www.mapbox.com/developers/api/#access-tokens">https://www.mapbox.com/developers/api/#access-tokens</a></dd></dl>
 
 
 <a name="setTileSource(com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer[])">
@@ -2034,6 +2031,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <h4>setOnMapOrientationChangeListener</h4>
 <pre>public&nbsp;void&nbsp;setOnMapOrientationChangeListener(<a href="{{site.baseurl}}/api/LOnMapOrientationChangeListener" title="interface in com.mapbox.mapboxsdk.views.util">OnMapOrientationChangeListener</a>&nbsp;l)</pre>
 <div class="block">Gets the mapView onMapOrientationChangeListener</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>l</code> - the onMapOrientationChangeListener</dd></dl>
 
 
 <a name="useDataConnection()">
@@ -2513,7 +2511,7 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 
 <h4>setUserLocationRequiredZoom</h4>
 <pre>public&nbsp;<a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;setUserLocationRequiredZoom(float&nbsp;zoomLevel)</pre>
-<div class="block">Set the user location tracking mode</div>
+<div class="block">Set the user location tracking zoom level</div>
 
 
 <a name="getUserLocationTrackingMode()">
@@ -2675,51 +2673,6 @@ implements <a href="{{site.baseurl}}/api/LMapboxConstants" title="interface in c
 <dt><strong>Overrides:</strong></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>android.view.View</code></dd>
 </dl>
-
-
-<a name="setDefaultPinRes(int)">
-<!--   -->
-</a>
-
-
-<h4>setDefaultPinRes</h4>
-<pre>public&nbsp;void&nbsp;setDefaultPinRes(int&nbsp;res)</pre>
-
-
-<a name="setDefaultPinDrawable(android.graphics.drawable.Drawable)">
-<!--   -->
-</a>
-
-
-<h4>setDefaultPinDrawable</h4>
-<pre>public&nbsp;void&nbsp;setDefaultPinDrawable(android.graphics.drawable.Drawable&nbsp;drawable)</pre>
-
-
-<a name="getDefaultPinDrawable()">
-<!--   -->
-</a>
-
-
-<h4>getDefaultPinDrawable</h4>
-<pre>public&nbsp;android.graphics.drawable.Drawable&nbsp;getDefaultPinDrawable()</pre>
-
-
-<a name="setDefaultPinAnchor(android.graphics.PointF)">
-<!--   -->
-</a>
-
-
-<h4>setDefaultPinAnchor</h4>
-<pre>public&nbsp;void&nbsp;setDefaultPinAnchor(android.graphics.PointF&nbsp;point)</pre>
-
-
-<a name="getDefaultPinAnchor()">
-<!--   -->
-</a>
-
-
-<h4>getDefaultPinAnchor</h4>
-<pre>public&nbsp;android.graphics.PointF&nbsp;getDefaultPinAnchor()</pre>
 
 
 

@@ -27,6 +27,25 @@ extends java.lang.Object</pre>
 <div class="summary">
 
 
+<!-- =========== FIELD SUMMARY =========== -->
+
+<a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption class="small dark strong round-top pad1 fill-darken3"><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected android.view.View</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LInfoWindow#mView">mView</a></strong></code>&nbsp;</td>
+</tr>
+</table>
+
+
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 
 <a name="constructor_summary">
@@ -106,6 +125,12 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LInfoWindow" title="class in com.mapbox.mapboxsdk.views">InfoWindow</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker" title="class in com.mapbox.mapboxsdk.overlay">Marker</a>&nbsp;aBoundMarker)</code>&nbsp;</td>
 </tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LInfoWindow#setOnTouchListener(android.view.View.OnTouchListener)">setOnTouchListener</a></strong>(android.view.View.OnTouchListener&nbsp;listener)</code>
+<div class="block">Use to override default touch events handling on InfoWindow (ie, close automatically)</div>
+</td>
+</tr>
 </table>
 
 <a name="methods_inherited_from_class_java.lang.Object">
@@ -120,6 +145,23 @@ extends java.lang.Object</pre>
 
 </div>
 <div class="details">
+
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<a name="field_detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="mView">
+<!--   -->
+</a>
+
+
+<h4>mView</h4>
+<pre>protected&nbsp;android.view.View mView</pre>
+
+
 
 
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
@@ -242,6 +284,17 @@ extends java.lang.Object</pre>
 
 <h4>getBoundMarker</h4>
 <pre>public&nbsp;<a href="{{site.baseurl}}/api/LMarker" title="class in com.mapbox.mapboxsdk.overlay">Marker</a>&nbsp;getBoundMarker()</pre>
+
+
+<a name="setOnTouchListener(android.view.View.OnTouchListener)">
+<!--   -->
+</a>
+
+
+<h4>setOnTouchListener</h4>
+<pre>public&nbsp;void&nbsp;setOnTouchListener(android.view.View.OnTouchListener&nbsp;listener)</pre>
+<div class="block">Use to override default touch events handling on InfoWindow (ie, close automatically)</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>listener</code> - New View.OnTouchListener to use</dd></dl>
 
 
 

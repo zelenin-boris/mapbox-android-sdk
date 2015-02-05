@@ -16,10 +16,15 @@ com.mapbox.mapboxsdk.overlay.Marker
 <div class="description">
 
 
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="{{site.baseurl}}/api/LMapViewConstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">MapViewConstants</a></dd>
+</dl>
 
 
 <pre>public class <span class="strong">Marker</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="{{site.baseurl}}/api/LMapViewConstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">MapViewConstants</a></pre>
 <div class="block">Immutable class describing a LatLng with a Title and a Description.</div>
 
 
@@ -94,6 +99,13 @@ extends java.lang.Object</pre>
 </tr>
 </table>
 
+<a name="fields_inherited_from_class_com.mapbox.mapboxsdk.views.util.constants.MapViewConstants">
+<!--   -->
+</a>
+<h3>Fields inherited from interface&nbsp;com.mapbox.mapboxsdk.views.util.constants.<a href="{{site.baseurl}}/api/LMapViewConstants" title="interface in com.mapbox.mapboxsdk.views.util.constants">MapViewConstants</a></h3>
+<code><a href="{{site.baseurl}}/api/LMapViewConstants#DEFAULT_PIN_ANCHOR">DEFAULT_PIN_ANCHOR</a></code>
+
+
 
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 
@@ -139,7 +151,7 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LMarker" title="class in com.mapbox.mapboxsdk.overlay">Marker</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mv)</code>
-<div class="block">Attach this marker to a given mapview and that mapview's context</div>
+<div class="block">Attach this marker to a given MapView and that MapView's context</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -163,28 +175,39 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker.HotspotPlace" title="enum in com.mapbox.mapboxsdk.overlay">Marker.HotspotPlace</a>&nbsp;place)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>android.graphics.drawable.Drawable</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getDefaultPinDrawable()">getDefaultPinDrawable</a></strong>()</code>
+<div class="block">Default Marker image loaded from Library</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getDescription()">getDescription</a></strong>()</code>
 <div class="block">Set the description attached to this marker</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>android.graphics.drawable.Drawable</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getDrawable()">getDrawable</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>protected android.graphics.RectF</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection" title="class in com.mapbox.mapboxsdk.views.util">Projection</a>&nbsp;projection,
                 android.graphics.RectF&nbsp;reuse)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>android.graphics.PointF</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection" title="class in com.mapbox.mapboxsdk.views.util">Projection</a>&nbsp;projection,
                           android.graphics.PointF&nbsp;reuse)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getHeight()">getHeight</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected android.graphics.RectF</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LProjection" title="class in com.mapbox.mapboxsdk.views.util">Projection</a>&nbsp;projection,
+            android.graphics.RectF&nbsp;reuse)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>android.graphics.Point</code></td>
@@ -213,7 +236,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <td class="colFirst"><code>android.graphics.drawable.Drawable</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getMarker(int)">getMarker</a></strong>(int&nbsp;stateBitset)</code>
-<div class="block">Gets the drawable for the marker</div>
+<div class="block">Gets the custom image (Drawable) used for the Marker's image</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -236,47 +259,55 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getRealHeight()">getRealHeight</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>java.lang.Object</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getRelatedObject()">getRelatedObject</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getSubDescription()">getSubDescription</a></strong>()</code>
 <div class="block">Set the sub-description attached to this marker</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getTitle()">getTitle</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="{{site.baseurl}}/api/LInfoWindow" title="class in com.mapbox.mapboxsdk.views">InfoWindow</a></code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mv)</code>
 <div class="block">Get this marker's tooltip, creating it if it doesn't exist yet.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getUid()">getUid</a></strong>()</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#getWidth()">getWidth</a></strong>()</code>
 <div class="block">Get the width of the marker, based on the width of the image backing it.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#hasContent()">hasContent</a></strong>()</code>
 <div class="block">Determine if this marker has a title, description, subdescription,
  or image that could be displayed</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#invalidate()">invalidate</a></strong>()</code>
 <div class="block">Sets the marker to be redrawn.</div>
 </td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#isUsingMakiIcon()">isUsingMakiIcon</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -304,34 +335,48 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setMarker(android.graphics.drawable.Drawable)">setMarker</a></strong>(android.graphics.drawable.Drawable&nbsp;marker)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setMarker(android.graphics.drawable.Drawable)">setMarker</a></strong>(android.graphics.drawable.Drawable&nbsp;marker)</code>
+<div class="block">Set a custom image to be used as the Marker's image
+ NOTE: Convenience method for setting a custom image as the marker</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LItemizedOverlay" title="class in com.mapbox.mapboxsdk.overlay">ItemizedOverlay</a>&nbsp;o)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setMarker(android.graphics.drawable.Drawable,%20boolean)">setMarker</a></strong>(android.graphics.drawable.Drawable&nbsp;marker,
+         boolean&nbsp;isMakiIcon)</code>
+<div class="block">Set a custom image to be used as the Marker's image</div>
+</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LItemizedOverlay" title="class in com.mapbox.mapboxsdk.overlay">ItemizedOverlay</a>&nbsp;o)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LLatLng" title="class in com.mapbox.mapboxsdk.geometry">LatLng</a>&nbsp;point)</code>
 <div class="block">Set the centerpoint of this marker in geographical coordinates</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setRelatedObject(java.lang.Object)">setRelatedObject</a></strong>(java.lang.Object&nbsp;o)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setState(android.graphics.drawable.Drawable,%20int)">setState</a></strong>(android.graphics.drawable.Drawable&nbsp;drawable,
         int&nbsp;stateBitset)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setSubDescription(java.lang.String)">setSubDescription</a></strong>(java.lang.String&nbsp;aSubDescription)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LMarker#setTitle(java.lang.String)">setTitle</a></strong>(java.lang.String&nbsp;aTitle)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="{{site.baseurl}}/api/LInfoWindow" title="class in com.mapbox.mapboxsdk.views">InfoWindow</a>&nbsp;mToolTip)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -488,6 +533,17 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getDefaultPinDrawable()">
+<!--   -->
+</a>
+
+
+<h4>getDefaultPinDrawable</h4>
+<pre>public&nbsp;android.graphics.drawable.Drawable&nbsp;getDefaultPinDrawable()</pre>
+<div class="block">Default Marker image loaded from Library</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>BitMapDrawable of the Default Marker image</dd></dl>
+
+
 <a name="addTo(com.mapbox.mapboxsdk.views.MapView)">
 <!--   -->
 </a>
@@ -495,9 +551,9 @@ extends java.lang.Object</pre>
 
 <h4>addTo</h4>
 <pre>public&nbsp;<a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mv)</pre>
-<div class="block">Attach this marker to a given mapview and that mapview's context</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>mv</code> - the mapview to add this marker to</dd>
-<dt><span class="strong">Returns:</span></dt><dd></dd></dl>
+<div class="block">Attach this marker to a given MapView and that MapView's context</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>mv</code> - the MapView to add this marker to</dd>
+<dt><span class="strong">Returns:</span></dt><dd>Marker</dd></dl>
 
 
 <a name="hasContent()">
@@ -529,8 +585,17 @@ extends java.lang.Object</pre>
 <h4>getToolTip</h4>
 <pre>public&nbsp;<a href="{{site.baseurl}}/api/LMapView" title="class in com.mapbox.mapboxsdk.views">MapView</a>&nbsp;mv)</pre>
 <div class="block">Get this marker's tooltip, creating it if it doesn't exist yet.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>mv</code> - </dd>
-<dt><span class="strong">Returns:</span></dt><dd></dd></dl>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>mv</code> - MapView</dd>
+<dt><span class="strong">Returns:</span></dt><dd>InfoWindow</dd></dl>
+
+
+<a name="setToolTip(com.mapbox.mapboxsdk.views.InfoWindow)">
+<!--   -->
+</a>
+
+
+<h4>setToolTip</h4>
+<pre>public&nbsp;void&nbsp;setToolTip(<a href="{{site.baseurl}}/api/LInfoWindow" title="class in com.mapbox.mapboxsdk.views">InfoWindow</a>&nbsp;mToolTip)</pre>
 
 
 <a name="closeToolTip()">
@@ -701,9 +766,21 @@ extends java.lang.Object</pre>
 
 <h4>getMarker</h4>
 <pre>public&nbsp;android.graphics.drawable.Drawable&nbsp;getMarker(int&nbsp;stateBitset)</pre>
-<div class="block">Gets the drawable for the marker</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>stateBitset</code> - </dd>
+<div class="block">Gets the custom image (Drawable) used for the Marker's image</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>stateBitset</code> - State Of Marker (@see #ITEM_STATE_FOCUSED_MASK , @see #ITEM_STATE_PRESSED_MASK, @see #ITEM_STATE_SELECTED_MASK)</dd>
 <dt><span class="strong">Returns:</span></dt><dd>marker drawable corresponding to stateBitset</dd></dl>
+
+
+<a name="setMarker(android.graphics.drawable.Drawable, boolean)">
+<!--   -->
+</a>
+
+
+<h4>setMarker</h4>
+<pre>public&nbsp;void&nbsp;setMarker(android.graphics.drawable.Drawable&nbsp;marker,
+             boolean&nbsp;isMakiIcon)</pre>
+<div class="block">Set a custom image to be used as the Marker's image</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>marker</code> - Drawable resource to be used as Marker image</dd><dd><code>isMakiIcon</code> - True if Maki Icon, False if not (ex: Custom Image)</dd></dl>
 
 
 <a name="setMarker(android.graphics.drawable.Drawable)">
@@ -713,6 +790,9 @@ extends java.lang.Object</pre>
 
 <h4>setMarker</h4>
 <pre>public&nbsp;void&nbsp;setMarker(android.graphics.drawable.Drawable&nbsp;marker)</pre>
+<div class="block">Set a custom image to be used as the Marker's image
+ NOTE: Convenience method for setting a custom image as the marker</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>marker</code> - Drawable resource to be used as Marker image</dd></dl>
 
 
 <a name="setHotspot(com.mapbox.mapboxsdk.overlay.Marker.HotspotPlace)">
@@ -723,7 +803,7 @@ extends java.lang.Object</pre>
 <h4>setHotspot</h4>
 <pre>public&nbsp;void&nbsp;setHotspot(<a href="{{site.baseurl}}/api/LMarker.HotspotPlace" title="enum in com.mapbox.mapboxsdk.overlay">Marker.HotspotPlace</a>&nbsp;place)</pre>
 <div class="block">Sets the marker hotspot</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>place</code> - </dd></dl>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>place</code> - Hotspot Location @see #HotspotPlace</dd></dl>
 
 
 <a name="getAnchor()">
@@ -791,6 +871,15 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;int&nbsp;getHeight()</pre>
 
 
+<a name="getRealHeight()">
+<!--   -->
+</a>
+
+
+<h4>getRealHeight</h4>
+<pre>public&nbsp;int&nbsp;getRealHeight()</pre>
+
+
 <a name="getPositionOnScreen(com.mapbox.mapboxsdk.views.util.Projection, android.graphics.PointF)">
 <!--   -->
 </a>
@@ -800,7 +889,7 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;android.graphics.PointF&nbsp;getPositionOnScreen(<a href="{{site.baseurl}}/api/LProjection" title="class in com.mapbox.mapboxsdk.views.util">Projection</a>&nbsp;projection,
                                           android.graphics.PointF&nbsp;reuse)</pre>
 <div class="block">Get the current position of the marker in pixels</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>projection</code> - </dd><dd><code>reuse</code> - </dd></dl>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>projection</code> - Projection</dd><dd><code>reuse</code> - PointF to reuse</dd></dl>
 
 
 <a name="getDrawingPositionOnScreen(com.mapbox.mapboxsdk.views.util.Projection, android.graphics.PointF)">
@@ -831,6 +920,16 @@ extends java.lang.Object</pre>
 <h4>getMapDrawingBounds</h4>
 <pre>protected&nbsp;android.graphics.RectF&nbsp;getMapDrawingBounds(<a href="{{site.baseurl}}/api/LProjection" title="class in com.mapbox.mapboxsdk.views.util">Projection</a>&nbsp;projection,
                                          android.graphics.RectF&nbsp;reuse)</pre>
+
+
+<a name="getHitBounds(com.mapbox.mapboxsdk.views.util.Projection, android.graphics.RectF)">
+<!--   -->
+</a>
+
+
+<h4>getHitBounds</h4>
+<pre>protected&nbsp;android.graphics.RectF&nbsp;getHitBounds(<a href="{{site.baseurl}}/api/LProjection" title="class in com.mapbox.mapboxsdk.views.util">Projection</a>&nbsp;projection,
+                                  android.graphics.RectF&nbsp;reuse)</pre>
 
 
 <a name="getHotspotScale(com.mapbox.mapboxsdk.overlay.Marker.HotspotPlace, android.graphics.PointF)">
@@ -879,6 +978,15 @@ extends java.lang.Object</pre>
 <h4>setIcon</h4>
 <pre>public&nbsp;<a href="{{site.baseurl}}/api/LIcon" title="class in com.mapbox.mapboxsdk.overlay">Icon</a>&nbsp;aIcon)</pre>
 <div class="block">Sets the Icon image that represents this marker on screen.</div>
+
+
+<a name="isUsingMakiIcon()">
+<!--   -->
+</a>
+
+
+<h4>isUsingMakiIcon</h4>
+<pre>public&nbsp;boolean&nbsp;isUsingMakiIcon()</pre>
 
 
 <a name="getPositionOnMap()">
