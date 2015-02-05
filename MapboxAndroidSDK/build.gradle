@@ -71,6 +71,7 @@ android {
 android.libraryVariants.all { variant ->
     def name = variant.name
     task "javadoc$name"(type: Javadoc) {
+        title = "Mapbox Android SDK $version Reference"
         description = "Generates javadoc for build $name"
         failOnError = false
         destinationDir = new File(destinationDir, variant.baseName)
@@ -79,6 +80,8 @@ android.libraryVariants.all { variant ->
         classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
         options.links("http://docs.oracle.com/javase/7/docs/api/")
         options.links("http://d.android.com/reference/")
+        options.stylesheetFile = new File(projectDir, "mapbox-stylesheet.css")
+        options.footer = "&copy  " + GregorianCalendar.getInstance().get(Calendar.YEAR) +  " Mapbox. All rights reserved."
         exclude '**/R.html', '**/R.*.html'
     }
 }
