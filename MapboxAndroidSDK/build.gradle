@@ -81,6 +81,7 @@ android.libraryVariants.all { variant ->
         options.links("http://docs.oracle.com/javase/7/docs/api/")
         options.links("http://d.android.com/reference/")
         options.stylesheetFile = new File(projectDir, "mapbox-stylesheet.css")
+        options.footer = "&copy  " + GregorianCalendar.getInstance().get(Calendar.YEAR) +  " Mapbox. All rights reserved."
         exclude '**/R.html', '**/R.*.html'
     }
 }
