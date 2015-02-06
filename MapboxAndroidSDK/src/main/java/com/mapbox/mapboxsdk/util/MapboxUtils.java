@@ -3,6 +3,7 @@ package com.mapbox.mapboxsdk.util;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import com.mapbox.mapboxsdk.R;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.constants.MathConstants;
@@ -15,6 +16,8 @@ public class MapboxUtils implements MapboxConstants {
     // Access Token For V4 of API.  If it doesn't exist an exception will be thrown
     private static String accessToken = null;
 
+    private static Context context = null;
+
     public static String getAccessToken() {
         if (TextUtils.isEmpty(accessToken)) {
             Log.e(TAG, "Missing Token", new MissingTokenException());
@@ -25,6 +28,25 @@ public class MapboxUtils implements MapboxConstants {
 
     public static void setAccessToken(String accessToken) {
         MapboxUtils.accessToken = accessToken;
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static void setContext(Context context) {
+        MapboxUtils.context = context;
+    }
+
+    public static String getUserAgent() {
+        StringBuffer sb = new StringBuffer("Mapbox Android SDK");
+
+        if (context != null) {
+            sb.append("/");
+            sb.append(context.getString(R.string.mapboxAndroidSDKVersion));
+        }
+
+        return sb.toString();
     }
 
     public static String qualityExtensionForImageQuality(RasterImageQuality imageQuality) {
