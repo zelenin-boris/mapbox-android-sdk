@@ -89,6 +89,20 @@ checkstyle {
 }
 
 android.libraryVariants.all { variant ->
+    variant.mergeResources.doLast{
+        def versionName = project.VERSION_NAME
+        if (versionName != null) {
+            File valuesFile = file("${buildDir}/intermediates/res/${variant.dirName}/values/values.xml")
+            println("Replacing version name in " + valuesFile)
+            println("Version Name  = " + versionName)
+            String content = valuesFile.getText('UTF-8')
+            content = content.replaceAll("VERSION_NAME", versionName)
+            valuesFile.write(content, 'UTF-8')
+        }
+    }
+}
+
+android.libraryVariants.all { variant ->
     def name = variant.buildType.name
     def checkstyle = project.tasks.create "checkstyle${name.capitalize()}", Checkstyle
     checkstyle.dependsOn variant.javaCompile
