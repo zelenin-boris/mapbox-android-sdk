@@ -50,7 +50,7 @@ android {
 
     buildTypes {
         all {
-            resValue "string", "mapboxAndroidSDKVersion", "1.2.3"
+            resValue "string", "mapboxAndroidSDKVersion", project.VERSION_NAME
         }
     }
 
@@ -93,23 +93,6 @@ checkstyle {
     configFile project.file('../checks.xml')
     showViolations true
 }
-
-/*
-android.libraryVariants.all { variant ->
-    variant.mergeResources.doLast{
-        def versionName = project.VERSION_NAME
-        if (versionName != null) {
-            File valuesFile = file("${buildDir}/intermediates/res/${variant.dirName}/values/values.xml")
-            println("Replacing version name in " + valuesFile)
-            println("Version Name  = " + versionName)
-            String content = valuesFile.getText('UTF-8')
-            content = content.replaceAll("VERSION_NAME", versionName)
-            valuesFile.write(content, 'UTF-8')
-            println("content = " + content)
-        }
-    }
-}
-*/
 
 android.libraryVariants.all { variant ->
     def name = variant.buildType.name

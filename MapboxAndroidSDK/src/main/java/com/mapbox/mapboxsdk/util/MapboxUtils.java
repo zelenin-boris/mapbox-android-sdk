@@ -46,8 +46,6 @@ public class MapboxUtils implements MapboxConstants {
             sb.append(context.getString(R.string.mapboxAndroidSDKVersion));
         }
 
-        Log.i(TAG, "UserAgent = " + sb.toString());
-
         return sb.toString();
     }
 
