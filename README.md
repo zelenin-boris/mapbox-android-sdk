@@ -9,7 +9,7 @@ data and interactive tooltips.
 
 This is a fork of [osmdroid](http://code.google.com/p/osmdroid/), so the entire
 core is open source: it doesn't depend on the Google Maps SDK or any components
-outside of [AOSP](https://source.android.com/) that would require the [Google Play Store](https://play.google.com/).
+outside of [AOSP](https://source.android.com/) that would require the [Google Play Services](https://developer.android.com/google/play-services/).
 
 ## Installation
 
