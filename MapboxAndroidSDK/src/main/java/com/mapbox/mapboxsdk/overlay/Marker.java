@@ -88,8 +88,8 @@ public class Marker implements MapViewConstants {
         Log.d(TAG, "markerconst" + mv + aTitle + aDescription + aLatLng);
         mParentHolder = null;
         mAnchor = DEFAULT_PIN_ANCHOR;
-        setMarker(getDefaultPinDrawable(), true);
-        isUsingMakiIcon = true;
+
+        // Note: Only Load Default Marker (if needed) when getMarker() called.
     }
 
     /**
@@ -254,14 +254,14 @@ public class Marker implements MapViewConstants {
     }
 
     /**
-     * Gets the custom image (Drawable) used for the Marker's image
+     * Gets the image (Drawable) used for the Marker's image
      * @param stateBitset State Of Marker (@see #ITEM_STATE_FOCUSED_MASK , @see #ITEM_STATE_PRESSED_MASK, @see #ITEM_STATE_SELECTED_MASK)
      * @return marker drawable corresponding to stateBitset
      */
     public Drawable getMarker(final int stateBitset) {
-        // marker not specified
+        // marker has not been specified yet, so load Default Marker Pin
         if (mMarker == null) {
-            return null;
+            setMarker(getDefaultPinDrawable(), true);
         }
 
         // set marker state appropriately
@@ -375,10 +375,16 @@ public class Marker implements MapViewConstants {
      * Get the width of the marker, based on the width of the image backing it.
      */
     public int getWidth() {
-        return this.mMarker.getIntrinsicWidth();
+        if (mMarker == null) {
+            return 0;
+        }
+        return mMarker.getIntrinsicWidth();
     }
 
     public int getHeight() {
+        if (mMarker == null) {
+            return 0;
+        }
         int result = getRealHeight();
         if (isUsingMakiIcon) {
             result = result / 2;
@@ -387,7 +393,10 @@ public class Marker implements MapViewConstants {
     }
 
     public int getRealHeight() {
-        return this.mMarker.getIntrinsicHeight();
+        if (mMarker == null) {
+            return 0;
+        }
+        return mMarker.getIntrinsicHeight();
     }
 
     /**
