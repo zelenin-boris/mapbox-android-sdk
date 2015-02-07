@@ -113,7 +113,6 @@ public class Marker implements MapViewConstants {
         mapView = mv;
         if (this.context == null) {
             context = mv.getContext();
-            setMarker(getDefaultPinDrawable(), true);
         }
         return this;
     }
