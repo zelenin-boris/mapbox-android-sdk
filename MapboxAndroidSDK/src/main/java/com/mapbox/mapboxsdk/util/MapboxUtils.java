@@ -3,7 +3,7 @@ package com.mapbox.mapboxsdk.util;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-import com.mapbox.mapboxsdk.R;
+
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.constants.MathConstants;
@@ -16,7 +16,7 @@ public class MapboxUtils implements MapboxConstants {
     // Access Token For V4 of API.  If it doesn't exist an exception will be thrown
     private static String accessToken = null;
 
-    private static Context context = null;
+    private static String versionNumber;
 
     public static String getAccessToken() {
         if (TextUtils.isEmpty(accessToken)) {
@@ -30,20 +30,20 @@ public class MapboxUtils implements MapboxConstants {
         MapboxUtils.accessToken = accessToken;
     }
 
-    public static Context getContext() {
-        return context;
+    public static String getVersionNumber() {
+        return versionNumber;
     }
 
-    public static void setContext(Context context) {
-        MapboxUtils.context = context;
+    public static void setVersionNumber(String versionNumber) {
+        MapboxUtils.versionNumber = versionNumber;
     }
 
     public static String getUserAgent() {
         StringBuffer sb = new StringBuffer("Mapbox Android SDK");
 
-        if (context != null) {
+        if (getVersionNumber() != null) {
             sb.append("/");
-            sb.append(context.getString(R.string.mapboxAndroidSDKVersion));
+            sb.append(getVersionNumber());
         }
 
         return sb.toString();

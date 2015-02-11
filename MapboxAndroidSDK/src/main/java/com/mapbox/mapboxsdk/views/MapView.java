@@ -207,7 +207,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         this.mRotateGestureDetector =
                 new RotateGestureDetector(aContext, new MapViewRotateGestureDetectorListener(this));
         this.context = aContext;
-        MapboxUtils.setContext(aContext);
+        MapboxUtils.setVersionNumber(context.getResources().getString(R.string.mapboxAndroidSDKVersion));
         eventsOverlay = new MapEventsOverlay(aContext, this);
         this.getOverlays().add(eventsOverlay);
 
