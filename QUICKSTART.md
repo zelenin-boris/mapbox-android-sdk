@@ -35,7 +35,8 @@ To add the `MapView` as a layout element, add the following to your xml file:
 android:id="@+id/mapview"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-mapbox:mapid="Your Mapbox mapid" />
+mapbox:mapid="Your Mapbox mapid"
+mapbox:accessToken="Your Mapbox Access Token"/>
 ```
 
 
@@ -54,6 +55,7 @@ a [ZXY image template](http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames).
 
 ```java
 MapView mapView = new MapView(context);
+mapView.setAccessToken("Your Mapbox Access Token");
 mapView.setTileSource(new MapboxTileLayer("examples.map-vyofok3q"));
 ```
 
