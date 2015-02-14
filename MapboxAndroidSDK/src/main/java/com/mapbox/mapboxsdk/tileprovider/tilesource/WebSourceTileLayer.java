@@ -105,7 +105,12 @@ public class WebSourceTileLayer extends TileLayer implements MapboxConstants {
         if (downloader.isNetworkAvailable()) {
             TilesLoadedListener listener = downloader.getTilesLoadedListener();
 
-            String[] urls = getTileURLs(aTile, hdpi);
+            boolean tempHDPI = hdpi;
+            if (this instanceof MapboxTileLayer) {
+                tempHDPI = false;
+            }
+
+            String[] urls = getTileURLs(aTile, tempHDPI);
             CacheableBitmapDrawable result = null;
             Bitmap resultBitmap = null;
             if (urls != null) {
