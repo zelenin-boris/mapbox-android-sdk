@@ -9,11 +9,12 @@ import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.MapTileRequestState;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.TileLayer;
-import com.mapbox.mapboxsdk.util.AppUtils;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
+
 import java.util.concurrent.atomic.AtomicReference;
+
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
@@ -35,7 +36,8 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
         this.mapView = mapView;
         this.mTileCache.set(pTileCache);
 
-        hdpi = AppUtils.isRunningOn2xOrGreaterScreen(mapView.getContext());
+//        hdpi = AppUtils.isRunningOn2xOrGreaterScreen(mapView.getContext());
+        hdpi = false;
         Log.d(TAG, String.format("Going to use @2x tiles? '%b'", hdpi));
 
         mNetworkAvailabilityCheck = pNetworkAvailabilityCheck;
