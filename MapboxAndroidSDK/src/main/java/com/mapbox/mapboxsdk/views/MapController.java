@@ -91,8 +91,7 @@ public class MapController implements MapViewConstants {
         final double mapY = screenY + scrollPoint.y - height_2;
         final float zoom = mMapView.getZoomLevel(false);
         final double worldSize_2 = mMapView.getProjection().mapSize(zoom) >> 1;
-        zoomOnLatLong = mMapView.getProjection().pixelXYToLatLong(mapX + worldSize_2,
-                        mapY + worldSize_2, zoom);
+        zoomOnLatLong = mMapView.getProjection().pixelXYToLatLong(mapX + worldSize_2, mapY + worldSize_2, zoom);
         mMapView.mMultiTouchScalePoint.set((float) mapX, (float) mapY);
         zoomDeltaScroll.set(width_2 - screenX, height_2 - screenY);
     }

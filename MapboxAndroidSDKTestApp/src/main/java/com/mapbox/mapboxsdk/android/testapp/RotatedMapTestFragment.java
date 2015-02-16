@@ -24,6 +24,8 @@ public class RotatedMapTestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rotatedmap, container, false);
 
+        MapView.setDebugMode(true);
+
         MapView mv = (MapView) view.findViewById(R.id.rotatedMapView);
         mv.setScrollableAreaLimit(new BoundingBox(new LatLng(45.49311, 9.14612), new LatLng(45.46115, 9.09041)));
         mv.setCenter(new LatLng(45.47820, 9.12400));
