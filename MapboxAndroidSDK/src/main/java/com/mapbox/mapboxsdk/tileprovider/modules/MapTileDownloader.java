@@ -2,7 +2,6 @@ package com.mapbox.mapboxsdk.tileprovider.modules;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
@@ -15,9 +14,7 @@ import com.mapbox.mapboxsdk.util.AppUtils;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
-
 import java.util.concurrent.atomic.AtomicReference;
-
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**
@@ -31,14 +28,14 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
 
     private final NetworkAvailabilityCheck mNetworkAvailabilityCheck;
     private MapView mMapView;
-    private boolean mUseDataConnection = true;
+    private boolean mUseDataConnection;
     boolean hdpi;
 
     public MapTileDownloader(final ITileLayer pTileSource, final MapTileCache pTileCache,
                              final NetworkAvailabilityCheck pNetworkAvailabilityCheck, final MapView mapView) {
         super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
         mMapView = mapView;
-        mUseDataConnection = mMapView.useDataConnection();
+        mUseDataConnection = true;
         if (pTileSource instanceof MBTilesLayer) {
             mUseDataConnection = false;
         }
