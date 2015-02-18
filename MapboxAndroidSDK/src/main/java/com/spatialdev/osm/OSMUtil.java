@@ -45,7 +45,6 @@ public class OSMUtil {
             uiObjects.add(path);
         }
 
-
         /**
          * LINES
          */
@@ -75,7 +74,7 @@ public class OSMUtil {
 
         return uiObjects;
     }
-    
+
     public static String printTags(OSMElement element) {
         Map<String, String> tags = element.getTags();
         Set<String> keys = tags.keySet();

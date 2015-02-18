@@ -4,25 +4,24 @@
  */
 package com.spatialdev.osm.model;
 
+import com.spatialdev.osm.renderer.OSMPath;
+import com.vividsolutions.jts.geom.Geometry;
+import org.xmlpull.v1.XmlSerializer;
+
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import com.spatialdev.osm.renderer.OSMPath;
-import com.vividsolutions.jts.geom.Geometry;
-
-import org.xmlpull.v1.XmlSerializer;
-
 
 public abstract class OSMElement {
-    
+
     private static LinkedList<OSMElement> selectedElements = new LinkedList<>();
     private static boolean selectedElementsChanged = false;
-    
+
     private static LinkedList<OSMElement> modifiedElements = new LinkedList<>();
-    
+
     protected long id;
     protected long version;
     protected String timestamp;
@@ -30,7 +29,7 @@ public abstract class OSMElement {
     protected long uid;
     protected String user;
     protected boolean selected = false;
-    
+
     // set to true if the application modifies tags for this element
     protected boolean modified = false;
 
@@ -42,27 +41,27 @@ public abstract class OSMElement {
     protected Map<String, String> tags = new LinkedHashMap<>();
 
     /**
-     * These tags are the original tags in the data set. This SHOULD NOT BE MODIFIED. 
+     * These tags are the original tags in the data set. This SHOULD NOT BE MODIFIED.
      */
     protected Map<String, String> originalTags = new LinkedHashMap<>();
 
     /**
-     * This is the object that actually gets drawn by OSMOverlay. 
+     * This is the object that actually gets drawn by OSMOverlay.
      */
     protected OSMPath osmPath;
 
     /**
-     * Elements that have been put in a select state* 
+     * Elements that have been put in a select state*
      * @return
      */
     public static LinkedList<OSMElement> getSelectedElements() {
         return selectedElements;
     }
-    
+
     public static LinkedList<OSMElement> getModifiedElements() {
-        return modifiedElements;        
+        return modifiedElements;
     }
-    
+
     public static boolean hasSelectedElementsChanged() {
         if (selectedElementsChanged) {
             selectedElementsChanged = false;
@@ -70,14 +69,14 @@ public abstract class OSMElement {
         }
         return false;
     }
-    
+
     public static void deselectAll() {
         for (OSMElement el : selectedElements) {
             selectedElementsChanged = true;
             el.deselect();
         }
     }
-    
+
     public OSMElement(String idStr,
                       String versionStr,
                       String timestampStr,
@@ -103,7 +102,7 @@ public abstract class OSMElement {
             xmlSerializer.endTag(null, "tag");
         }
     }
-    
+
     protected void setOsmElementXmlAttributes(XmlSerializer xmlSerializer) throws IOException {
         xmlSerializer.attribute(null, "id", String.valueOf(id));
         if (modified) {
@@ -113,9 +112,9 @@ public abstract class OSMElement {
         xmlSerializer.attribute(null, "changeset", String.valueOf(changeset));
         xmlSerializer.attribute(null, "timestamp", timestamp);
     }
-    
+
     /**
-     * If a tag is edited or added, this should be called by the application.* 
+     * If a tag is edited or added, this should be called by the application.*
      * @param k
      * @param v
      */
@@ -131,7 +130,7 @@ public abstract class OSMElement {
     }
 
     /**
-     * If the user removes a tag, call this method with the key of the tag.* 
+     * If the user removes a tag, call this method with the key of the tag.*
      * @param k
      */
     public void deleteTag(String k) {
@@ -144,13 +143,13 @@ public abstract class OSMElement {
         tags.remove(k);
         modifiedElements.add(this);
     }
-    
+
     public boolean isModified() {
         return modified;
     }
-    
+
     /**
-     * This should only be used by the parser. 
+     * This should only be used by the parser.
      * @param k
      * @param v
      */
@@ -158,7 +157,7 @@ public abstract class OSMElement {
         originalTags.put(k, v);
         tags.put(k, v);
     }
-    
+
 
     public long getId() {
         return id;

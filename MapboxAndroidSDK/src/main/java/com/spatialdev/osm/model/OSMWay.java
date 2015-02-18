@@ -37,13 +37,13 @@ public class OSMWay extends OSMElement {
      */
     private boolean closed = false;
 
-    
+
     public OSMWay(String idStr,
                   String versionStr,
                   String timestampStr,
                   String changesetStr,
                   String uidStr,
-                  String userStr) {
+                  String userStr){
 
         super(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
     }
@@ -58,7 +58,7 @@ public class OSMWay extends OSMElement {
         // generate nds
         setWayXmlNds(xmlSerializer);
         // generate tags
-        super.xml(xmlSerializer); 
+        super.xml(xmlSerializer);
         xmlSerializer.endTag(null, "way");
     }
 
@@ -69,7 +69,7 @@ public class OSMWay extends OSMElement {
             xmlSerializer.endTag(null, "nd");
         }
     }
-    
+
     public void addNodeRef(long id) {
         nodeRefs.add(id);
     }
@@ -157,7 +157,7 @@ public class OSMWay extends OSMElement {
     }
 
 
-    
+
     public OSMPath getOSMPath(MapView mv) {
         // if there is no overlay, make it for this element
         if (osmPath == null) {

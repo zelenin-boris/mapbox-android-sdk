@@ -19,14 +19,14 @@ public class OSMRelation extends OSMElement {
         public String type;
         public String role;
         public OSMElement linkedElement;
-        
+
         public RelationMember(Long ref, String type, String role) {
             this.ref = ref;
             this.type = type;
             this.role = role;
         }
     }
-    
+
     private LinkedList<RelationMember> nodeMembers = new LinkedList<>();
     private LinkedList<RelationMember> wayMembers = new LinkedList<>();
     private LinkedList<RelationMember> relationMembers = new LinkedList<>();
@@ -34,7 +34,7 @@ public class OSMRelation extends OSMElement {
     private LinkedList<OSMNode> linkedNodes = new LinkedList<>();
     private LinkedList<OSMWay> linkedWays = new LinkedList<>();
     private LinkedList<OSMRelation> linkedRelations = new LinkedList<>();
-    
+
     private int unlinkedMembersCount = 0;
 
     public OSMRelation(String idStr,
@@ -42,7 +42,7 @@ public class OSMRelation extends OSMElement {
                        String timestampStr,
                        String changesetStr,
                        String uidStr,
-                       String userStr) {
+                       String userStr){
 
         super(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
     }
@@ -60,7 +60,7 @@ public class OSMRelation extends OSMElement {
         super.xml(xmlSerializer);
         xmlSerializer.endTag(null, "relation");
     }
-    
+
     private void setRelationXmlMembers(XmlSerializer xmlSerializer) throws IOException {
         for (RelationMember mem: nodeMembers) {
             writeXmlMember(mem, xmlSerializer);
@@ -72,7 +72,7 @@ public class OSMRelation extends OSMElement {
             writeXmlMember(mem, xmlSerializer);
         }
     }
-    
+
     private void writeXmlMember(RelationMember mem, XmlSerializer xmlSerializer) throws IOException {
         xmlSerializer.startTag(null, "member");
         xmlSerializer.attribute(null, "type", mem.type);

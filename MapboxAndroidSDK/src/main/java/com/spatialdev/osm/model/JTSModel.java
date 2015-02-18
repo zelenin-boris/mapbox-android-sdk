@@ -58,7 +58,7 @@ public class JTSModel {
         List<OSMElement> results = rtree.query(envelope);
         return results;
     }
-    
+
     public OSMElement queryFromTap(ILatLng latLng, float zoom) {
         double lat = latLng.getLatitude();
         double lng = latLng.getLongitude();
@@ -68,7 +68,7 @@ public class JTSModel {
         List results = rtree.query(envelope);
 
         int len = results.size();
-        if (len == 0 ) {
+        if (len == 0) {
             return null;
         }
         if (len == 1) {
@@ -107,7 +107,7 @@ public class JTSModel {
 //        Log.i("queryFromTap closestElement", closestElement.toString());
         return closestElement;
     }
-    
+
     private Envelope createTapEnvelope(Coordinate coord, double lat, double lng, float zoom) {
         Envelope envelope = new Envelope(coord);
 
@@ -134,7 +134,7 @@ public class JTSModel {
             return el2;
         }
         // It's gotta be a Way at this point...
-        if ( ! ((OSMWay)el1).isClosed() ) {
+        if (!((OSMWay) el1).isClosed()) {
             return el1;
         }
         return el2;

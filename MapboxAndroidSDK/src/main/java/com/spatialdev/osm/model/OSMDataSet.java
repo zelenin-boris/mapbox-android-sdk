@@ -55,7 +55,8 @@ public class OSMDataSet {
     private List<OSMWay> openWays = new ArrayList<>();
 
 
-    public OSMDataSet() {}
+    public OSMDataSet() {
+    }
 
     public void createNote(String note) {
         notes.add(note);
@@ -72,7 +73,7 @@ public class OSMDataSet {
                            String timestampStr,
                            String changesetStr,
                            String uidStr,
-                           String userStr) {
+                           String userStr){
 
         OSMNode n = new OSMNode(  idStr, latStr, lonStr, versionStr, timestampStr,
                             changesetStr, uidStr, userStr );
