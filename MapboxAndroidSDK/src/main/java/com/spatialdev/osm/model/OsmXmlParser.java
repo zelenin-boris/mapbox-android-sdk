@@ -8,12 +8,10 @@ package com.spatialdev.osm.model;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Xml;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
-
 
 public class OSMXmlParser {
     // We are not using namespaces.
@@ -23,7 +21,7 @@ public class OSMXmlParser {
 
     // This is the data set that gets populated from the XML.
     private OSMDataSet ds;
-    
+
     // Count of elements that have been read so far
     protected long elementReadCount = 0;
     protected long nodeReadCount = 0;
@@ -67,7 +65,7 @@ public class OSMXmlParser {
 
     /**
      * Should only be called by static method parseFromInputStream
-     * @param in
+     * @param in InputStream
      * @throws XmlPullParserException
      * @throws IOException
      */
@@ -110,7 +108,7 @@ public class OSMXmlParser {
             else {
                 skip();
             }
-            
+
             ++elementReadCount;
             if (elementReadCount % 500 == 0) {
                 notifyProgress(); // broadcasting read updates every 500 elements
@@ -121,11 +119,11 @@ public class OSMXmlParser {
     /**
      * Override this in a subclass if you want to notify a progress bar that
      * an element(s) have been read.
-     * * * * 
+     * * * *
      */
     protected void notifyProgress() {}
-    
-    
+
+
     private void readNote() throws XmlPullParserException, IOException {
         String note = readText();
         ds.createNote(note);
