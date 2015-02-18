@@ -119,7 +119,7 @@ public class OSMLine extends OSMPath {
                 int projXNext = (int) nextProjectedPoint[0];
                 int projYNext = (int) nextProjectedPoint[1];
                 if (viewPortBounds.contains(projXNext, projYNext)) {
-                    path.moveTo( (float) screenPoint[0], (float) screenPoint[1] );
+                    path.moveTo((float) screenPoint[0], (float) screenPoint[1]);
                     pathLineToReady = true;
                 }
             }

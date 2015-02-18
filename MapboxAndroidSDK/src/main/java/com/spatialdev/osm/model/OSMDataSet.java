@@ -87,7 +87,7 @@ public class OSMDataSet {
                           String timestampStr,
                           String changesetStr,
                           String uidStr,
-                          String userStr ) {
+                          String userStr) {
 
         OSMWay w = new OSMWay(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
         ways.put(w.getId(), w);
@@ -99,7 +99,7 @@ public class OSMDataSet {
                                     String timestampStr,
                                     String changesetStr,
                                     String uidStr,
-                                    String userStr ) {
+                                    String userStr) {
 
         OSMRelation r = new OSMRelation(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
         relations.put(r.getId(), r);
@@ -137,7 +137,7 @@ public class OSMDataSet {
              * If a node is not in a way,
              * put that node in standaloneNodes.
              */
-            if ( ! wayNodeIds.contains(key) ) {
+            if (!wayNodeIds.contains(key)) {
                 OSMNode n = nodes.get(key);
                 standaloneNodes.add(n);
             }
