@@ -2,12 +2,14 @@ package com.mapbox.mapboxsdk.tileprovider.modules;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.MapTileRequestState;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.ITileLayer;
+import com.mapbox.mapboxsdk.tileprovider.tilesource.MBTilesLayer;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.TileLayer;
 import com.mapbox.mapboxsdk.util.AppUtils;
 import com.mapbox.mapboxsdk.views.MapView;
@@ -24,18 +26,23 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class MapTileDownloader extends MapTileModuleLayerBase {
     private static final String TAG = "MapTileDownloader";
 
-    private final AtomicReference<TileLayer> mTileSource = new AtomicReference<TileLayer>();
-    private final AtomicReference<MapTileCache> mTileCache = new AtomicReference<MapTileCache>();
+    private final AtomicReference<TileLayer> mTileSource = new AtomicReference<>();
+    private final AtomicReference<MapTileCache> mTileCache = new AtomicReference<>();
 
     private final NetworkAvailabilityCheck mNetworkAvailabilityCheck;
-    private MapView mapView;
+    private MapView mMapView;
+    private boolean mUseDataConnection = true;
     boolean hdpi;
 
     public MapTileDownloader(final ITileLayer pTileSource, final MapTileCache pTileCache,
-            final NetworkAvailabilityCheck pNetworkAvailabilityCheck, final MapView mapView) {
+                             final NetworkAvailabilityCheck pNetworkAvailabilityCheck, final MapView mapView) {
         super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
-        this.mapView = mapView;
-        this.mTileCache.set(pTileCache);
+        mMapView = mapView;
+        mUseDataConnection = mMapView.useDataConnection();
+        if (pTileSource instanceof MBTilesLayer) {
+            mUseDataConnection = false;
+        }
+        mTileCache.set(pTileCache);
 
         hdpi = AppUtils.isRunningOn2xOrGreaterScreen(mapView.getContext());
         Log.d(TAG, String.format("Going to use @2x tiles? '%b'", hdpi));
@@ -58,16 +65,16 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
     }
 
     public TilesLoadedListener getTilesLoadedListener() {
-        return mapView.getTilesLoadedListener();
+        return mMapView.getTilesLoadedListener();
     }
 
     public TileLoadedListener getTileLoadedListener() {
-        return mapView.getTileLoadedListener();
+        return mMapView.getTileLoadedListener();
     }
 
     @Override
     public boolean getUsesDataConnection() {
-        return true;
+        return mUseDataConnection;
     }
 
     @Override
@@ -162,6 +169,6 @@ public class MapTileDownloader extends MapTileModuleLayerBase {
     }
 
     private CacheableBitmapDrawable onTileLoaded(CacheableBitmapDrawable pDrawable) {
-        return mapView.getTileLoadedListener().onTileLoaded(pDrawable);
+        return mMapView.getTileLoadedListener().onTileLoaded(pDrawable);
     }
 }
