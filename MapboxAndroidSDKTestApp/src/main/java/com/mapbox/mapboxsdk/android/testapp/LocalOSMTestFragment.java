@@ -1,27 +1,24 @@
 package com.mapbox.mapboxsdk.android.testapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.Marker;
-import com.mapbox.mapboxsdk.overlay.Overlay;
-import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.spatialdev.osm.OSMMap;
-import com.spatialdev.osm.OSMUtil;
 import com.spatialdev.osm.model.JTSModel;
 import com.spatialdev.osm.model.OSMDataSet;
 import com.spatialdev.osm.model.OSMXmlParser;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class LocalOSMTestFragment extends Fragment {
 
+    private static final String TAG = "LocalOSMTestFragment";
     private MapView mapView;
 
     @Override
@@ -40,13 +37,33 @@ public class LocalOSMTestFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // Load OSM XML
-        try {
-            OSMDataSet ds = OSMXmlParser.parseFromAssets(getActivity(), "osm/dhaka_roads_buildings_hospitals_med.osm");
-            JTSModel jtsModel = new JTSModel(ds);
+        new LoadOSMXMLTask().execute();
+    }
+
+    private class LoadOSMXMLTask extends AsyncTask<Void, Void, JTSModel> {
+
+        @Override
+        protected JTSModel doInBackground(Void... params) {
+
+            JTSModel jtsModel = null;
+            try {
+                OSMDataSet ds = OSMXmlParser.parseFromAssets(getActivity(), "osm/dhaka_roads_buildings_hospitals_med.osm");
+                jtsModel = new JTSModel(ds);
+            } catch (IOException e) {
+                Log.e(TAG, "IOException loading the OMS Data: " + e);
+            }
+
+            return jtsModel;
+        }
+
+        @Override
+        protected void onPostExecute(JTSModel jtsModel) {
+            if (jtsModel == null) {
+                Log.i(TAG, "No jtsModel to load, ");
+                Toast.makeText(getActivity(), "No JTSModel was build, so nothing to show.  Please try again.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             OSMMap osmMap = new OSMMap(mapView, jtsModel);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

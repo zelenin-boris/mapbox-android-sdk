@@ -6,7 +6,6 @@
 package com.spatialdev.osm;
 
 import android.graphics.Paint;
-
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.events.MapListener;
 import com.mapbox.mapboxsdk.events.RotateEvent;
@@ -14,7 +13,6 @@ import com.mapbox.mapboxsdk.events.ScrollEvent;
 import com.mapbox.mapboxsdk.events.ZoomEvent;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.overlay.Marker;
-import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.PathOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.MapViewListener;
@@ -23,8 +21,6 @@ import com.spatialdev.osm.model.JTSModel;
 import com.spatialdev.osm.model.OSMElement;
 import com.spatialdev.osm.renderer.OSMOverlay;
 import com.vividsolutions.jts.geom.Envelope;
-
-import java.util.List;
 
 public class OSMMap implements MapViewListener, MapListener {
 
@@ -42,7 +38,7 @@ public class OSMMap implements MapViewListener, MapListener {
         this(mapView, jtsModel);
         this.selectionListener = selectionListener;
     }
-    
+
     public OSMMap(MapView mapView, JTSModel jtsModel) {
         this.mapView = mapView;
         this.jtsModel = jtsModel;
@@ -56,7 +52,7 @@ public class OSMMap implements MapViewListener, MapListener {
     public void setSelectionListener(OSMSelectionListener selectionListener) {
         this.selectionListener = selectionListener;
     }
-    
+
     /**
      * MapViewListener Methods
      */
@@ -98,7 +94,7 @@ public class OSMMap implements MapViewListener, MapListener {
         }
 
         mapView.invalidate();
-        
+
         // check to see if the selected elements has changed and
         // notify selection listeners if they exist
         if (OSMElement.hasSelectedElementsChanged() && selectionListener != null) {
