@@ -73,16 +73,16 @@ public class OSMDataSet {
                            String timestampStr,
                            String changesetStr,
                            String uidStr,
-                           String userStr){
+                           String userStr) {
 
-        OSMNode n = new OSMNode(  idStr, latStr, lonStr, versionStr, timestampStr,
-                            changesetStr, uidStr, userStr );
+        OSMNode n = new OSMNode(idStr, latStr, lonStr, versionStr, timestampStr,
+                            changesetStr, uidStr, userStr);
 
         nodes.put(n.getId(), n);
         return n;
     }
 
-    public OSMWay createWay( String idStr,
+    public OSMWay createWay(String idStr,
                           String versionStr,
                           String timestampStr,
                           String changesetStr,
@@ -94,7 +94,7 @@ public class OSMDataSet {
         return w;
     }
 
-    public OSMRelation createRelation( String idStr,
+    public OSMRelation createRelation(String idStr,
                                     String versionStr,
                                     String timestampStr,
                                     String changesetStr,
@@ -124,7 +124,7 @@ public class OSMDataSet {
              * If a way has the same starting node as ending node,
              * it is a closed way.
              */
-            if ( w.isClosed() ) {
+            if (w.isClosed()) {
                 closedWays.add(w);
             } else {
                 openWays.add(w);

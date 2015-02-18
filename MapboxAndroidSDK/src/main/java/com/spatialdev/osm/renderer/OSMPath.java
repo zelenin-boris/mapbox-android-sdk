@@ -15,40 +15,40 @@ import java.util.List;
 
 /**
  * Created by Nicholas Hallahan on 1/22/15.
- * nhallahan@spatialdev.com 
+ * nhallahan@spatialdev.com
  */
 public abstract class OSMPath {
 
     /**
-     * Paint Settings * 
+     * Paint Settings *
      */
     protected Paint paint = new Paint();
     protected final Path path = new Path();
-    
-    // This is the real stroke width. 
+
+    // This is the real stroke width.
     // The paint's stroke width gets adjusted for approximate zooms.
     private float strokeWidth = 10.0f;
 
     /**
-     * This gets reused by Projection#toMapPixelsTranslated so 
+     * This gets reused by Projection#toMapPixelsTranslated so
      * that the returned Point is not constantly reallocated.
-     * * * 
+     * * *
      */
     protected final double[] tempPoint = new double[2];
 
     // These are the points for a path converted to an "intermediate"
     // pixel space of the entire earth.
     protected double[][] projectedPoints;
-    
+
     protected MapView mapView;
-    
+
     // gets set in draw, the bounds of the viewport in Mercator Projected Pixels
     protected Rect viewPortBounds;
 
     /**
-     * When drawing, this gets set to true when 
+     * When drawing, this gets set to true when
      * we know that we wan to call path.lineTo next.
-     * * * * 
+     * * * *
      */
     protected boolean pathLineToReady = false;
 
@@ -63,7 +63,7 @@ public abstract class OSMPath {
             // line
             return new OSMLine(w, mv);
         }
-        
+
         // TODO Point
         return null;
     }
@@ -102,17 +102,17 @@ public abstract class OSMPath {
         paint = pPaint;
         return this;
     }
-    
+
     public void setStrokeWidth(float width) {
         strokeWidth = width;
     }
-    
+
     public float getStrokeWidth() {
         return strokeWidth;
     }
-    
+
     public abstract void select();
-    
+
     public abstract void deselect();
 
     public void draw(final Canvas c) {
@@ -135,18 +135,18 @@ public abstract class OSMPath {
         for (int i = size - 1; i > 0; --i) { // every one but the 0th
             projectedPoint = projectedPoints[i];
             screenPoint = pj.toMapPixelsTranslated(projectedPoint, tempPoint);
-            clipOrDrawPath(path, projectedPoint, projectedPoints[i-1], screenPoint);
+            clipOrDrawPath(path, projectedPoint, projectedPoints[i - 1], screenPoint);
         }
         // that 0th projected point has no next projected point...
         projectedPoint = projectedPoints[0];
         screenPoint = pj.toMapPixelsTranslated(projectedPoint, tempPoint);
         clipOrDrawPath(path, projectedPoint, null, screenPoint);
-        
+
         pathLineToReady = false;
         paint.setStrokeWidth(strokeWidth / mapView.getScale());
         c.drawPath(path, paint);
     }
 
     abstract void clipOrDrawPath(Path path, double[] projectedPoint, double[] nextProjectedPoint, double[] screenPoint1);
-    
+
 }

@@ -92,20 +92,15 @@ public class OSMXmlParser {
 
             if (name.equals("note")) {
                 readNote();
-            }
-            else if (name.equals("meta")) {
+            } else if (name.equals("meta")) {
                 readMeta();
-            }
-            else if (name.equals("node")) {
+            } else if (name.equals("node")) {
                 readNode();
-            }
-            else if (name.equals("way")) {
+            } else if (name.equals("way")) {
                 readWay();
-            }
-            else if (name.equals("relation")) {
+            } else if (name.equals("relation")) {
                 readRelation();
-            }
-            else {
+            } else {
                 skip();
             }
 
@@ -211,9 +206,9 @@ public class OSMXmlParser {
         if (parser.getName().equals("tag")){
             readTags(el);
         } else if (parser.getName().equals("nd")) {
-            readNds((OSMWay)el);
+            readNds((OSMWay) el);
         } else if (parser.getName().equals("member")) {
-            readMembers((OSMRelation)el);
+            readMembers((OSMRelation) el);
         }
         ++tagReadCount;
     }

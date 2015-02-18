@@ -1,15 +1,15 @@
+/**
+ * Created by Nicholas Hallahan on 1/22/15.
+ * @author nhallahan@spatialdev.com
+ */
+
 package com.spatialdev.osm.renderer;
 
 import android.graphics.Paint;
 import android.graphics.Path;
-
 import com.mapbox.mapboxsdk.views.MapView;
 import com.spatialdev.osm.model.OSMWay;
 
-/**
- * Created by Nicholas Hallahan on 1/22/15.
- * nhallahan@spatialdev.com 
- */
 public class OSMPolygon extends OSMPath {
 
     // OSM LAVENDER
@@ -17,7 +17,7 @@ public class OSMPolygon extends OSMPath {
     private static final int DEFAULT_R = 62;
     private static final int DEFAULT_G = 107;
     private static final int DEFAULT_B = 255;
-    
+
     // GOLD
     private static final int DEFAULT_SELECTED_A = 180;
     private static final int DEFAULT_SELECTED_R = 255;
@@ -28,7 +28,7 @@ public class OSMPolygon extends OSMPath {
     private int r;
     private int g;
     private int b;
-    
+
     /**
      * This should only be constructed by
      * OSMPath.createOSMPath
@@ -36,7 +36,7 @@ public class OSMPolygon extends OSMPath {
      * @param w
      */
     protected OSMPolygon(OSMWay w, MapView mv) {
-        this(w, mv, DEFAULT_A, DEFAULT_R ,DEFAULT_G, DEFAULT_B);
+        this(w, mv, DEFAULT_A, DEFAULT_R, DEFAULT_G, DEFAULT_B);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class OSMPolygon extends OSMPath {
 
     /**
      * For now, we are drawing all of the polygons, even those outside of the canvas.
-     * 
+     *
      * This isn't too much of a problem for now, because the RTree will give us
      * only polygons that intersect.
-     * 
+     *
      * This can be problematic for very large polygons.
-     * * * * * * * * 
+     * * * * * * * *
      * @param path
      * @param projectedPoint
      * @param nextProjectedPoint
@@ -76,9 +76,9 @@ public class OSMPolygon extends OSMPath {
     @Override
     void clipOrDrawPath(Path path, double[] projectedPoint, double[] nextProjectedPoint, double[] screenPoint) {
         if (pathLineToReady) {
-            path.lineTo( (float) screenPoint[0], (float) screenPoint[1] );
+            path.lineTo((float) screenPoint[0], (float) screenPoint[1]);
         } else {
-            path.moveTo( (float) screenPoint[0], (float) screenPoint[1] );
+            path.moveTo((float) screenPoint[0], (float) screenPoint[1]);
             pathLineToReady = true;
         }
     }

@@ -43,7 +43,7 @@ public class OSMWay extends OSMElement {
                   String timestampStr,
                   String changesetStr,
                   String uidStr,
-                  String userStr){
+                  String userStr) {
 
         super(idStr, versionStr, timestampStr, changesetStr, uidStr, userStr);
     }

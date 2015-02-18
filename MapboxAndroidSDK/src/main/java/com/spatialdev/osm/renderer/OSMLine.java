@@ -8,7 +8,7 @@ import com.spatialdev.osm.model.OSMWay;
 
 /**
  * Created by Nicholas Hallahan on 1/22/15.
- * nhallahan@spatialdev.com 
+ * nhallahan@spatialdev.com
  */
 public class OSMLine extends OSMPath {
 
@@ -18,20 +18,20 @@ public class OSMLine extends OSMPath {
     private static final int DEFAULT_R = 126;
     private static final int DEFAULT_G = 188;
     private static final int DEFAULT_B = 111;
-    
+
     private static final float DEFAULT_SELECTED_WIDTH = 15.0f;
     // GOLD
     private static final int DEFAULT_SELECTED_A = 180;
     private static final int DEFAULT_SELECTED_R = 255;
     private static final int DEFAULT_SELECTED_G = 140;
     private static final int DEFAULT_SELECTED_B = 0;
-    
+
     private float width;
     private int a;
     private int r;
     private int g;
     private int b;
-    
+
     /**
      * This should only be constructed by
      * OSMPath.createOSMPath
@@ -39,9 +39,9 @@ public class OSMLine extends OSMPath {
      * @param w
      */
     protected OSMLine(OSMWay w, MapView mv) {
-        this(w, mv, DEFAULT_A, DEFAULT_R ,DEFAULT_G, DEFAULT_B, DEFAULT_WIDTH);
+        this(w, mv, DEFAULT_A, DEFAULT_R, DEFAULT_G, DEFAULT_B, DEFAULT_WIDTH);
     }
-    
+
     protected OSMLine(OSMWay w, MapView mv, int a, int r, int g, int b, float width) {
         super(w, mv);
         this.width = width;
@@ -68,19 +68,19 @@ public class OSMLine extends OSMPath {
 
     /**
      * ^_^ !!! NICK'S DANGLING VERTEX LINE CLIPPER !!! ^_^
-     * 
+     *
      * For lines, we only want to draw paths if they are inside of the viewport.
      * So, if the path is inside the viewport, we should either start the drawing
      * point (moveTo), or connect the drawing point (lineTo).
-     * 
+     *
      * If it is outside of the viewport, we should do nothing but tell the canvas
      * that it should start a new line (moveTo) next time it reenters the viewport.
-     * 
+     *
      * Unless the next vertex is in the viewport. Then we DO want to draw it.
-     * 
+     *
      * If I had more time, I'd do the trig to get you that vertex right on the viewport's
      * edge.
-     *  
+     *
      * * * * * * * * * * * * * * *
      * @param path
      * @param projectedPoint
@@ -91,24 +91,24 @@ public class OSMLine extends OSMPath {
 
         int projX = (int) projectedPoint[0];
         int projY = (int) projectedPoint[1];
-        
+
         if (viewPortBounds.contains(projX, projY)) {
             if (pathLineToReady) {
-                path.lineTo( (float) screenPoint[0], (float) screenPoint[1] );
+                path.lineTo((float) screenPoint[0], (float) screenPoint[1]);
             } else {
-                path.moveTo( (float) screenPoint[0], (float) screenPoint[1] );
+                path.moveTo((float) screenPoint[0], (float) screenPoint[1]);
                 pathLineToReady = true;
             }
         } else {
-            
+
             // last vertex was in the viewport, we want to make this last one dangle
             if (pathLineToReady) {
-                path.lineTo( (float) screenPoint[0], (float) screenPoint[1] );
+                path.lineTo((float) screenPoint[0], (float) screenPoint[1]);
                 // If we're going back in, we want to move to the vertex...
                 pathLineToReady = false;
                 return;
             }
-            
+
             /**
              * If the next vertex is in the viewport, we want this vertex to be drawn.
              * Think of this as allowing the drawing of 1 dangling vertex outside of
