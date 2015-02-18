@@ -13,7 +13,9 @@ import com.mapbox.mapboxsdk.util.AppUtils;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
+
 import java.util.concurrent.atomic.AtomicReference;
+
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 /**

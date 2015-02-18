@@ -157,17 +157,17 @@ public class SaveMapOfflineTestFragment extends Fragment implements MapboxConsta
 
     @Override
     public void networkConnectivityError(Throwable error) {
-        Log.i(TAG, "networkConnectivityError");
+        Log.i(TAG, "networkConnectivityError: " + error);
     }
 
     @Override
     public void sqlLiteError(Throwable error) {
-        Log.i(TAG, "sqlLiteError");
+        Log.i(TAG, "sqlLiteError: " + error);
     }
 
     @Override
     public void httpStatusError(Throwable error) {
-        Log.i(TAG, "httpStatusError");
+        Log.i(TAG, "httpStatusError:" + error);
     }
 
     @Override

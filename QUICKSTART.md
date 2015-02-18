@@ -35,7 +35,8 @@ To add the `MapView` as a layout element, add the following to your xml file:
 android:id="@+id/mapview"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-mapbox:mapid="Your Mapbox mapid" />
+mapbox:mapid="Your Mapbox mapid"
+mapbox:accessToken="Your Mapbox Access Token"/>
 ```
 
 
@@ -54,6 +55,7 @@ a [ZXY image template](http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames).
 
 ```java
 MapView mapView = new MapView(context);
+mapView.setAccessToken("Your Mapbox Access Token");
 mapView.setTileSource(new MapboxTileLayer("examples.map-vyofok3q"));
 ```
 
@@ -166,14 +168,13 @@ If you're interested in running the TestApp yourself (which is also highly recom
 ### Including SDK JavaDoc
 
 JavaDocs are automatically generated and distributed with each official and
-SNAPSHOT release.  They can be downloaded from Maven Central for local
-viewing and / or integration with an IDE.
+SNAPSHOT release.  The can be downloaded from The Central Repository  [official](http://search.maven.org/#search|ga|1|mapbox) or [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/com/mapbox/mapboxsdk/mapbox-android-sdk/) for local viewing and / or integration with an IDE.
 
 ### Generating SDK Documentation (aka JavaDoc)
 
 ```
 cd <PROJECT_HOME>/MapboxAndroidSDK/
-../gradlew clean assembleRelease generatereleaseJavadoc
-cd build/docs/javadoc
+../gradlew clean assembleRelease javadocrelease
+cd build/docs/javadoc/release/
 open index.html
 ```
