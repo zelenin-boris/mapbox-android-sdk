@@ -1,7 +1,9 @@
 package com.mapbox.mapboxsdk.views;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.ScaleGestureDetector;
+import com.mapbox.mapboxsdk.util.GeometryMath;
 
 /**
  * https://developer.android.com/training/gestures/scale.html
@@ -58,8 +60,21 @@ public class MapViewScaleGestureDetectorListener implements ScaleGestureDetector
         float focusY = detector.getFocusY();
 
         this.mapView.setScale(currentScale);
-        this.mapView.getController().offsetDeltaScroll(lastFocusX - focusX, lastFocusY - focusY);
-        this.mapView.getController().panBy(lastFocusX - focusX, lastFocusY - focusY, true);
+
+        float angleRadians = (float)(this.mapView.getMapOrientation() * GeometryMath.DEG2RAD);
+        Log.i(TAG, "angle: " + angleRadians + " (" + this.mapView.getMapOrientation() + ")");
+
+        float dx = lastFocusX - focusX;
+        float dy = lastFocusY - focusY;
+
+        float newX = (float)(Math.cos(angleRadians) * dx + Math.sin(angleRadians) * dy);
+        float newY = (float)(Math.cos(angleRadians) * dy + Math.sin(-angleRadians) * dx);
+
+        Log.i(TAG, "dx: " + dx + " newX: " + newX);
+        Log.i(TAG, "dy: " + dy + " newY: " + newY);
+
+        this.mapView.getController().offsetDeltaScroll(newX, newY);
+        this.mapView.getController().panBy(newX, newY, true);
 
         lastFocusX = focusX;
         lastFocusY = focusY;
