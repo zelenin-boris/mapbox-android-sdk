@@ -152,7 +152,7 @@ dependencies {
         <div class='pin-right'>
           <a href='#installation' class='icon x button quiet unround'></a>
         </div>
-        <p>The Mapbox Android SDK is also packaged as a <code>.apk</code> file.  This allows integration with older tools (Eclipse) that don't support the <code>.aar</code> format yet.  It's also available from Maven Central via:</p>
+        <p>The Mapbox Android SDK is also packaged as a <code>.apklib</code> file. This allows integration with older tools (Eclipse) that don't support the <code>.aar</code> format yet. In order to make this work the project will need to make use of <a href="http://maven.apache.org/" target="_blank">Maven</a>, and it the case of Eclipse the <a href="http://eclipse.org/m2e/" target="_blank">M2Eclipse</a> Maven plugin. From there configure the Maven pom.xml to include the following dependency:</p>
 {% highlight xml %}
 <dependency>
     <groupId>com.mapbox.mapboxsdk</groupId>
@@ -161,6 +161,7 @@ dependencies {
     <type>apklib</type>
 </dependency>
 {% endhighlight %}
+          <p>For more information on how to use Maven and Eclipse together please see Sonatype's <a href="http://books.sonatype.com/m2eclipse-book/reference/" target="_blank">Developing with Eclipse and Maven</a> tutorial.</p>
       </div>
     </div>
 
