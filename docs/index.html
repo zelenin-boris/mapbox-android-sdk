@@ -235,7 +235,8 @@ cd  <PROJECTHOME>
 android:id="@+id/mapview"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-mapbox:mapid="Your MapBox mapid" />
+mapbox:mapid="Your MapBox mapid"
+mapbox:accessToken="Your Mapbox Access Token"/>
 {% endhighlight %}
 
 <p>And then you can call it programmatically with</p>
@@ -249,7 +250,9 @@ this.findViewById(R.id.mapview);
 <p>On runtime you can create a new MapView by specifying the context of the application and a valid <a href='https://www.mapbox.com/developers/api-overview/'>MapBox mapid</a>, a TileJSON file or a zxy image template.</p>
 
 {% highlight java %}
-MapView mapView = new MapView(this, "examples.map-vyofok3q");
+MapView mapView = new MapView(context);
+mapView.setAccessToken("Your Mapbox Access Token");
+mapView.setTileSource(new MapboxTileLayer("examples.map-vyofok3q"));
 {% endhighlight %}
 
 And set it as the current view like this:
