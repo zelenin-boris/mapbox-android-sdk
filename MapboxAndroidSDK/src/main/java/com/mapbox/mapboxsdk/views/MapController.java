@@ -2,7 +2,6 @@ package com.mapbox.mapboxsdk.views;
 
 import android.graphics.PointF;
 import android.view.animation.LinearInterpolator;
-
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;

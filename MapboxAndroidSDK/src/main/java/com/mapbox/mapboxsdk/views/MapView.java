@@ -1050,6 +1050,12 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         return zoomInFixing(point, false);
     }
 
+    boolean zoomInFixing(final int xPixel, final int yPixel) {
+        LatLng latLng = (LatLng)mProjection.fromPixels(xPixel, yPixel);
+        Log.i(TAG, "zoomInFixing xPixel = " + xPixel + "; yPixel = " + yPixel +"; latLng = " + latLng);
+        return zoomInFixing(latLng);
+    }
+
     /**
      * Zoom out by one zoom level.
      */

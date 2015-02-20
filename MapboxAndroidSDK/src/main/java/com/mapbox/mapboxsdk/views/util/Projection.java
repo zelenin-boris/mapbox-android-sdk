@@ -583,4 +583,22 @@ public class Projection implements GeoConstants {
             reuse.set(x, y);
         return reuse;
     }
+
+    /**
+     * This will apply the current map's scaling and rotation for a point. This can be useful when
+     * converting MotionEvents to a screen point.
+     */
+    public Point rotateAndScalePoint(int x, int y, Point reuse) {
+        if (reuse == null)
+            reuse = new Point();
+
+        if (getMapOrientation() != 0 || mMultiTouchScale != 1.0f) {
+            mRotateScalePoints[0] = x;
+            mRotateScalePoints[1] = y;
+            mRotateAndScaleMatrix.mapPoints(mRotateScalePoints);
+            reuse.set((int) mRotateScalePoints[0], (int) mRotateScalePoints[1]);
+        } else
+            reuse.set(x, y);
+        return reuse;
+    }
 }
