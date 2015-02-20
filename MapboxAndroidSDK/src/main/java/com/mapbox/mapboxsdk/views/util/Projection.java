@@ -36,6 +36,9 @@ import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.views.MapView;
 
 public class Projection implements GeoConstants {
+
+    private static final String TAG = "Projection";
+
     private MapView mapView = null;
     private int viewWidth2;
     private int viewHeight2;
@@ -52,6 +55,11 @@ public class Projection implements GeoConstants {
     private final float mMapOrientation;
     private final Matrix mRotateMatrix = new Matrix();
     protected static int mTileSize = 256;
+
+    private final Matrix mRotateAndScaleMatrix = new Matrix();
+    private final Matrix mUnrotateAndScaleMatrix = new Matrix();
+    private final float[] mRotateScalePoints = new float[2];
+    protected final float mMultiTouchScale;
 
     public Projection(final MapView mv) {
         super();
@@ -84,6 +92,11 @@ public class Projection implements GeoConstants {
         mapView.getInversedTransformMatrix().mapRect(mTransformedScreenRectProjection);
         mMapOrientation = mapView.getMapOrientation();
         mRotateMatrix.setRotate(-mMapOrientation, viewWidth2, viewHeight2);
+
+
+        mRotateAndScaleMatrix.set(mapView.mRotateScaleMatrix);
+        mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
+        mMultiTouchScale = mapView.mMultiTouchScale;
     }
 
     public float getZoomLevel() {
@@ -545,5 +558,29 @@ public class Projection implements GeoConstants {
         return mRotateMatrix;
     }
 
-    private static final String TAG = "Projection";
+    /**
+     * This will provide a Matrix that will revert the current map's scaling and rotation. This can
+     * be useful when drawing to a fixed location on the screen.
+     */
+    public Matrix getInvertedScaleRotateCanvasMatrix() {
+        return mUnrotateAndScaleMatrix;
+    }
+
+    /**
+     * This will revert the current map's scaling and rotation for a point. This can be useful when
+     * drawing to a fixed location on the screen.
+     */
+    public Point unrotateAndScalePoint(int x, int y, Point reuse) {
+        if (reuse == null)
+            reuse = new Point();
+
+        if (getMapOrientation() != 0 || mMultiTouchScale != 1.0f) {
+            mRotateScalePoints[0] = x;
+            mRotateScalePoints[1] = y;
+            mUnrotateAndScaleMatrix.mapPoints(mRotateScalePoints);
+            reuse.set((int) mRotateScalePoints[0], (int) mRotateScalePoints[1]);
+        } else
+            reuse.set(x, y);
+        return reuse;
+    }
 }

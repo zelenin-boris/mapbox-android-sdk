@@ -60,6 +60,7 @@ import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewLayouts;
 import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected boolean mMapRotationEnabled;
     protected OnMapOrientationChangeListener mOnMapOrientationChangeListener;
 
-    protected float mMultiTouchScale = 1.0f;
+    public float mMultiTouchScale = 1.0f;
     protected PointF mMultiTouchScalePoint = new PointF();
     protected Matrix mInvTransformMatrix = new Matrix();
 
@@ -145,7 +146,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private final float[] mRotatePoints = new float[2];
     private final Rect mInvalidateRect = new Rect();
 
-    final Matrix mRotateScaleMatrix = new Matrix();
+    public final Matrix mRotateScaleMatrix = new Matrix();
     final Point mRotateScalePoint = new Point();
 
     protected BoundingBox mScrollableAreaBoundingBox = null;
@@ -1593,21 +1594,17 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         }
         MotionEvent rotatedEvent = MotionEvent.obtain(ev);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            mRotatePoints[0] = ev.getX();
-            mRotatePoints[1] = ev.getY();
-            getProjection().rotatePoints(mRotatePoints);
-            rotatedEvent.setLocation(mRotatePoints[0], mRotatePoints[1]);
+            getProjection().unrotateAndScalePoint((int) ev.getX(), (int) ev.getY(), mRotateScalePoint);
+            rotatedEvent.setLocation(mRotateScalePoint.x, mRotateScalePoint.y);
         } else {
             // This method is preferred since it will rotate historical touch events too
             try {
                 if (sMotionEventTransformMethod == null) {
-                    sMotionEventTransformMethod = MotionEvent.class.getDeclaredMethod("transform",
-                            new Class[]{Matrix.class});
+                    sMotionEventTransformMethod = MotionEvent.class.getDeclaredMethod("transform", new Class[] { Matrix.class });
                 }
-                sMotionEventTransformMethod.invoke(rotatedEvent,
-                        getProjection().getRotationMatrix());
+                sMotionEventTransformMethod.invoke(rotatedEvent, getProjection().getInvertedScaleRotateCanvasMatrix());
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "Exception while rotating Touch Event: " + e.toString());
             }
         }
         return rotatedEvent;
