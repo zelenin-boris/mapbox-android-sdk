@@ -126,8 +126,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected final Scroller mScroller;
     protected boolean mIsFlinging;
 
-    private final AtomicInteger mTargetZoomLevel = new AtomicInteger();
-    private final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
+    public final AtomicInteger mTargetZoomLevel = new AtomicInteger();
+    public final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
     private final MapController mController;
 
@@ -658,10 +658,13 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * for more than one draw, since the projection of the map could change.
      */
     public Projection getProjection() {
+/*
         if (mProjection == null) {
             mProjection = new Projection(this);
         }
         return mProjection;
+*/
+        return new Projection(this);
     }
 
     /**
@@ -737,9 +740,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     protected MapView setZoomInternal(final float aZoomLevel, ILatLng center, final PointF decale) {
-
         if (center == null) {
             center = getCenter();
+//            Log.i(TAG, "setZoomInternal() called with null center so getCenter() makes center = " + center);
         }
 
         final float newZoomLevel = getClampedZoomLevel(aZoomLevel);
@@ -767,7 +770,10 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             if (decale != null) {
                 centerPoint.offset(decale.x, decale.y);
             }
-            scrollTo(centerPoint.x, centerPoint.y);
+//            Log.i(TAG, "setZoomInternal() scrollTo() centerPoint.x = " + centerPoint.x + "; centerPoint.y = " + centerPoint.y);
+            if (getMapOrientation() % 360 == 0) {
+                scrollTo(centerPoint.x, centerPoint.y);
+            }
         } else {
             if (newZoomLevel > curZoomLevel) {
                 // We are going from a lower-resolution plane to a higher-resolution plane, so we have
@@ -1051,9 +1057,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     boolean zoomInFixing(final int xPixel, final int yPixel) {
+
+        // TODO - Try to get zoom to pixel
+/*
         LatLng latLng = (LatLng)mProjection.fromPixels(xPixel, yPixel);
         Log.i(TAG, "zoomInFixing xPixel = " + xPixel + "; yPixel = " + yPixel +"; latLng = " + latLng);
         return zoomInFixing(latLng);
+*/
+
+        return getController().zoomInFixing(xPixel, yPixel);
     }
 
     /**
@@ -1704,6 +1716,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         final int intX = (int) Math.round(x);
         final int intY = (int) Math.round(y);
+//        Log.i(TAG, "scrollTo x = " + x + "; intX = " + intX + "; y = " + y + "; intY = " + intY);
 
         // make sure the next time someone wants the projection it is the
         // correct one!

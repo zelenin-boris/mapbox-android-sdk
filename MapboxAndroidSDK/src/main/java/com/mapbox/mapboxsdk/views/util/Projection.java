@@ -39,6 +39,11 @@ public class Projection implements GeoConstants {
 
     private static final String TAG = "Projection";
 
+    // The offsets will take us from the MapView's current coordinate system
+    // to a 0,0 coordinate system
+    protected final int mOffsetX;
+    protected final int mOffsetY;
+
     private MapView mapView = null;
     private int viewWidth2;
     private int viewHeight2;
@@ -72,6 +77,9 @@ public class Projection implements GeoConstants {
 
         offsetX = -worldSize2;
         offsetY = -worldSize2;
+
+        mOffsetX = -mapView.getScrollX();
+        mOffsetY = -mapView.getScrollY();
 
         centerX = mv.getScrollX();
         centerY = mv.getScrollY();
@@ -329,6 +337,13 @@ public class Projection implements GeoConstants {
 
     public static int getTileSize() {
         return mTileSize;
+    }
+
+    public Point toMercatorPixels(int x, int y, Point reuse) {
+        final Point out = reuse != null ? reuse : new Point();
+        out.set(x, y);
+        out.offset(-mOffsetX, -mOffsetY);
+        return out;
     }
 
     /**

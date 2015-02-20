@@ -1,8 +1,12 @@
 package com.mapbox.mapboxsdk.views;
 
+import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.Rect;
+import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import com.mapbox.mapboxsdk.api.ILatLng;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.nineoldandroids.animation.Animator;
@@ -10,6 +14,7 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.animation.TypeEvaluator;
+import com.nineoldandroids.animation.ValueAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +26,42 @@ public class MapController implements MapViewConstants {
         public PointEvaluator() {
         }
 
-        public PointF evaluate(float fraction, PointF startValue,
-                               PointF endValue) {
+        public PointF evaluate(float fraction, PointF startValue, PointF endValue) {
             return new PointF((fraction * (endValue.x - startValue.x) + startValue.x), (fraction * (endValue.y - startValue.y) + startValue.y));
         }
 
     }
+
+    protected class MyZoomAnimatorListener extends AnimatorListenerAdapter {
+        @Override
+        public void onAnimationStart(Animator animation) {
+            MapController.this.onAnimationStart();
+            super.onAnimationStart(animation);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+//            MapController.this.onAnimationEndPoints();
+            MapController.this.onAnimationEnd();
+            super.onAnimationEnd(animation);
+        }
+    }
+
+    protected class MyZoomAnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener {
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            mMapView.mMultiTouchScale = (Float) animation.getAnimatedValue();
+            mMapView.invalidate();
+        }
+    }
+
 
     private static final String TAG = "Mapbox MapController";
 
     protected final MapView mMapView;
 
     // Zoom animations
-    private ObjectAnimator mCurrentAnimation;
+    private Animator mCurrentAnimation;
 
     private ILatLng zoomOnLatLong = null;
     private PointF zoomDeltaScroll = new PointF();
@@ -42,13 +70,27 @@ public class MapController implements MapViewConstants {
     private ILatLng mPointToGoTo = null;
     private float mZoomToZoomTo = -1;
 
+    private ValueAnimator mZoomInAnimation;
+    private ValueAnimator mZoomOutAnimation;
+
     /**
      * Constructor
      *
      * @param mapView MapView to be controlled
      */
     public MapController(MapView mapView) {
+        super();
         mMapView = mapView;
+
+        mZoomInAnimation = ValueAnimator.ofFloat(1f, 2f);
+        mZoomInAnimation.addListener(new MyZoomAnimatorListener());
+        mZoomInAnimation.addUpdateListener(new MyZoomAnimatorUpdateListener());
+        mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
+
+        mZoomOutAnimation = ValueAnimator.ofFloat(1f, 0.5f);
+        mZoomOutAnimation.addListener(new MyZoomAnimatorListener());
+        mZoomOutAnimation.addUpdateListener(new MyZoomAnimatorUpdateListener());
+        mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
     }
 
     public boolean currentlyInUserAction() {
@@ -217,6 +259,7 @@ public class MapController implements MapViewConstants {
 
         final PointF dCurrentScroll = mMapView.getScrollPoint();
         PointF p = Projection.toMapPixels(latlong.getLatitude(), latlong.getLongitude(), currentZoom, dCurrentScroll.x, dCurrentScroll.y, null);
+//        Log.i(TAG, "setZoomAnimated() with PointF.x = " + p.x + "; PointF.y = " + p.y);
 
         float targetZoom = mMapView.getClampedZoomLevel(zoomlevel);
         boolean zoomAnimating = (targetZoom != currentZoom);
@@ -341,6 +384,45 @@ public class MapController implements MapViewConstants {
         return zoomInAbout(latlong, false);
     }
 
+    public boolean zoomInFixing(final int xPixel, final int yPixel) {
+        Log.i(TAG, "zoomInFixing() with Orig center = " + mMapView.getCenter());
+        LatLng fromPix = (LatLng)mMapView.getProjection().fromPixels(xPixel, yPixel);
+        Log.i(TAG, "zoomInFixing() with fromPix = " + fromPix);
+        setCenter(fromPix);
+        Log.i(TAG, "zoomInFixing() with New center = " + mMapView.getCenter());
+        Log.i(TAG, "zoomInFixing() with zoomOnLatLong = "+ zoomOnLatLong);
+        zoomOnLatLong = fromPix;
+        Log.i(TAG, "zoomInFixing() with NEW zoomOnLatLong = "+ zoomOnLatLong);
+
+/*
+        Log.i(TAG, "zoomInFixing() BEFORE multiTouchScalePoint = " + mMapView.mMultiTouchScalePoint.toString());
+        mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
+        Log.i(TAG, "zoomInFixing() AFTER multiTouchScalePoint = " + mMapView.mMultiTouchScalePoint.toString());
+*/
+        if (mMapView.canZoomIn()) {
+            if (mMapView.mIsAnimating.getAndSet(true)) {
+                // TODO extend zoom (and return true)
+                return false;
+            } else {
+                mMapView.mTargetZoomLevel.set((int) mMapView.getZoomLevel(false) + 1);
+                // Can use single animation as 9OldAndroids is being used
+                mCurrentAnimation = mZoomInAnimation;
+                mZoomInAnimation.start();
+/*
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    mCurrentAnimator = mZoomInAnimation;
+                    mZoomInAnimation.start();
+                } else {
+                    mMapView.startAnimation(mZoomInAnimationOld);
+                }
+*/
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Zoom out by one zoom level.
      */
@@ -378,6 +460,42 @@ public class MapController implements MapViewConstants {
         mMapView.setZoomInternal(mMapView.getAnimatedZoom(), zoomOnLatLong, zoomDeltaScroll);
         zoomOnLatLong = null;
         mCurrentlyUserAction = false;
+    }
+
+    public void onAnimationEndPoints() {
+        LatLng center = mMapView.getCenter();
+        Log.i(TAG, "onAnimationEnd() with center = " + center);
+        Projection projection = mMapView.getProjection();
+        PointF centerPoint = projection.toMapPixels(center, null);
+        Log.i(TAG, "onAnimationEnd() with center x = " + centerPoint.x + "; center y = " + centerPoint.y);
+        final Rect screenRect = projection.getScreenRect();
+        Log.i(TAG, "onAnimationEndPoints() with screenRect = " + screenRect);
+        Point p = projection.unrotateAndScalePoint(screenRect.centerX(), screenRect.centerY(), null);
+        Log.i(TAG, "onAnimationEndPoints() with p.x = " + p.x + "; p.y = " + p.y);
+        p = projection.toMercatorPixels(p.x, p.y, p);
+        Log.i(TAG, "onAnimationEndPoints() with Mercator p.x = " + p.x + "; p.y = " + p.y);
+        // The points provided are "center", we want relative to upper-left for scrolling
+        p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
+        Log.i(TAG, "onAnimationEndPoints() with Mercator Now Offset p.x = " + p.x + "; p.y = " + p.y);
+        mMapView.mIsAnimating.set(false);
+        mMapView.scrollTo(p.x, p.y);
+//        mMapView.scrollTo(centerPoint.x, centerPoint.y);
+        setZoom(mMapView.mTargetZoomLevel.get());
+        mMapView.mMultiTouchScale = 1f;
+
+        mCurrentAnimation = null;
+/*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mCurrentAnimator = null;
+        }
+
+        // Fix for issue 477
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+            mMapView.clearAnimation();
+            mZoomInAnimationOld.reset();
+            mZoomOutAnimationOld.reset();
+        }
+*/
     }
 
     /**
