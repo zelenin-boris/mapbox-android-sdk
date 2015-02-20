@@ -226,12 +226,12 @@ public class Projection implements GeoConstants {
         return toMapPixels(latitude, longitude, getZoomLevel(), centerX, centerY, reuse);
     }
 
-    public static RectF toMapPixels(final BoundingBox box, final float zoom, final RectF reuse) {
-        final RectF out;
+    public static Rect toMapPixels(final BoundingBox box, final float zoom, final Rect reuse) {
+        final Rect out;
         if (reuse != null) {
             out = reuse;
         } else {
-            out = new RectF();
+            out = new Rect();
         }
         final int mapSize_2 = mapSize(zoom) >> 1;
         Point nw = latLongToPixelXY(box.getLatNorth(), box.getLonWest(), zoom, null);

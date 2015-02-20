@@ -146,9 +146,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private final Rect mInvalidateRect = new Rect();
 
     protected BoundingBox mScrollableAreaBoundingBox = null;
-    protected RectF mScrollableAreaLimit = null;
+    protected Rect mScrollableAreaLimit = null;
     private boolean mConstraintRegionFit;
-    protected RectF mTempRect = new RectF();
+    protected Rect mTempRect = new Rect();
 
     private BoundingBox mBoundingBoxToZoomOn = null;
     private boolean mBoundingBoxToZoomOnRegionFit = false;
@@ -812,8 +812,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      */
     private double minimumZoomForBoundingBox(final BoundingBox boundingBox,
                                              final boolean regionFit, final boolean roundedZoom) {
-        final RectF rect = Projection.toMapPixels(boundingBox,
-                TileLayerConstants.MAXIMUM_ZOOMLEVEL, mTempRect);
+        final Rect rect = Projection.toMapPixels(boundingBox, TileLayerConstants.MAXIMUM_ZOOMLEVEL, mTempRect);
         final float requiredLatitudeZoom = TileLayerConstants.MAXIMUM_ZOOMLEVEL
                 - (float) ((Math.log(rect.height() / getMeasuredHeight()) / Math
                 .log(2)));
@@ -1074,7 +1073,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     public boolean zoomInFixing(final ILatLng point) {
         Point coords = getProjection().toMapPixels(point, null);
-        return getController().zoomInAbout(point);
+        return getController().zoomInAbout(coords.x, coords.y);
     }
 
     /**
@@ -1091,7 +1090,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 */
 
     public boolean zoomOutFixing(final ILatLng point) {
-        return getController().zoomOutAbout(point);
+        Point coords = getProjection().toMapPixels(point, null);
+        return getController().zoomOutAbout(coords.x, coords.y);
     }
 
     /**
@@ -1186,7 +1186,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             return;
         }
         if (mScrollableAreaLimit == null) {
-            mScrollableAreaLimit = new RectF();
+            mScrollableAreaLimit = new Rect();
         }
         Projection.toMapPixels(mScrollableAreaBoundingBox, getZoomLevel(false),
                 mScrollableAreaLimit);
@@ -1268,7 +1268,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     /**
      * Returns if the map can go to a specified point (in map coordinates)
      */
-    public boolean canGoTo(final float x, final float y) {
+    public boolean canGoTo(final int x, final int y) {
         return (mScrollableAreaLimit == null || mScrollableAreaLimit.contains(x, y));
     }
 
@@ -1282,7 +1282,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     /**
      * Returns the map current scrollable bounding limit int map PX
      */
-    public RectF getScrollableAreaLimit() {
+    public Rect getScrollableAreaLimit() {
         return mScrollableAreaLimit;
     }
 
@@ -1573,9 +1573,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                     break;
                 case MotionEvent.ACTION_UP:
                     if (!isAnimating() && canTapTwoFingers) {
-                        final ILatLng center =
-                                getProjection().fromPixels(event.getX(), event.getY());
-                        mController.zoomOutAbout(center);
+                        mController.zoomOutAbout((int)event.getX(), (int)event.getY());
                         canTapTwoFingers = false;
                         multiTouchDownCount = 0;
                         return true;
@@ -1704,7 +1702,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     public final void setScalePoint(final Point point) {
-        mMultiTouchScalePoint.set(point);
+        mMultiTouchScalePoint.set(point.x, point.y);
         updateInversedTransformMatrix();
     }
 
@@ -1720,7 +1718,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     public void scrollTo(double x, double y) {
         if (mScrollableAreaLimit != null) {
-            final RectF currentLimit = mScrollableAreaLimit;
+            final Rect currentLimit = mScrollableAreaLimit;
 
             final double xToTestWith = x;
             final double yToTestWith = y;
@@ -1751,7 +1749,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             mController.offsetDeltaScroll(deltaX, deltaY);
         }
 */
-        super.scrollTo(x, y);
+        super.scrollTo((int)x, (int)y);
 
         final int intX = (int) Math.round(x);
         final int intY = (int) Math.round(y);

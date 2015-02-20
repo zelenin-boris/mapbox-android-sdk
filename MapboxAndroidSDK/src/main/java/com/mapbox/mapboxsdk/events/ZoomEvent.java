@@ -9,12 +9,10 @@ public class ZoomEvent implements MapEvent {
 
     protected MapView source;
     protected float zoomLevel;
-    protected boolean userAction;
 
-    public ZoomEvent(final MapView aSource, final float aZoomLevel, final boolean userAction) {
+    public ZoomEvent(final MapView aSource, final float aZoomLevel) {
         this.source = aSource;
         this.zoomLevel = aZoomLevel;
-        this.userAction = userAction;
     }
 
     /**
@@ -31,15 +29,8 @@ public class ZoomEvent implements MapEvent {
         return zoomLevel;
     }
 
-    /**
-     * @return true if it was a user action (touch action).
-     */
-    public boolean getUserAction() {
-        return userAction;
-    }
-
     @Override
     public String toString() {
-        return "ZoomEvent [source=" + source + ", zoomLevel=" + zoomLevel + ", userAction=" + userAction + "]";
+        return "ZoomEvent [source=" + source + ", zoomLevel=" + zoomLevel + "]";
     }
 }
