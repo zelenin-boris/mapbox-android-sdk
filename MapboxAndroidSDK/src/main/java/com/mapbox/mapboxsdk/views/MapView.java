@@ -145,6 +145,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private final float[] mRotatePoints = new float[2];
     private final Rect mInvalidateRect = new Rect();
 
+    final Matrix mRotateScaleMatrix = new Matrix();
+    final Point mRotateScalePoint = new Point();
+
     protected BoundingBox mScrollableAreaBoundingBox = null;
     protected RectF mScrollableAreaLimit = null;
     private boolean mConstraintRegionFit;
@@ -1726,16 +1729,20 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
         mProjection = updateProjection();
 
+        mRotateScaleMatrix.reset();
+
         // Save the current canvas matrix
         c.save();
 
         c.translate(getWidth() / 2, getHeight() / 2);
-        c.scale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
-                mMultiTouchScalePoint.y);
 
-        // rotate Canvas
-        c.rotate(mapOrientation, mProjection.getScreenRect().exactCenterX(),
-                mProjection.getScreenRect().exactCenterY());
+        // Scale Canvas
+        c.scale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
+        mRotateScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
+
+        // Rotate Canvas
+        c.rotate(mapOrientation, mProjection.getScreenRect().exactCenterX(), mProjection.getScreenRect().exactCenterY());
+        mRotateScaleMatrix.preRotate(mapOrientation, mProjection.getScreenRect().exactCenterX(), mProjection.getScreenRect().exactCenterY());
 
         // Draw all Overlays.
         this.getOverlayManager().draw(c, this);
