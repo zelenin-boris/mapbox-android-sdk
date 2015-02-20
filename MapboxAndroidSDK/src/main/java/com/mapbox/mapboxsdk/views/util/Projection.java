@@ -24,18 +24,20 @@ package com.mapbox.mapboxsdk.views.util;
 
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import com.mapbox.mapboxsdk.api.ILatLng;
-import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.constants.GeoConstants;
+import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
 import com.mapbox.mapboxsdk.util.GeometryMath;
 import com.mapbox.mapboxsdk.views.MapView;
 
 public class Projection implements GeoConstants {
+
+    private static final String TAG = "Projection";
+
     private MapView mapView = null;
     private int viewWidth2;
     private int viewHeight2;
@@ -74,7 +76,7 @@ public class Projection implements GeoConstants {
             // Since the canvas is shifted by getWidth/2, we can just return our
             // natural scrollX/Y
             // value since that is the same as the shifted center.
-            PointF scrollPoint = mapView.getScrollPoint();
+            Point scrollPoint = mapView.getScrollPoint();
             mScreenRectProjection = GeometryMath.getBoundingBoxForRotatedRectangle(mIntrinsicScreenRectProjection,
                     scrollPoint.x, scrollPoint.y, this.getMapOrientation(), null);
         } else {
@@ -162,10 +164,10 @@ public class Projection implements GeoConstants {
      * @param reuse just pass null if you do not have a Point to be 'recycled'.
      * @return the Point containing the <I>screen coordinates</I> of the LatLng passed.
      */
-    public PointF toPixels(final ILatLng in, final PointF reuse) {
-        PointF result = toMapPixels(in, reuse);
-        result.offset(-mIntrinsicScreenRectProjection.exactCenterX(),
-                -mIntrinsicScreenRectProjection.exactCenterY());
+    public Point toPixels(final ILatLng in, final Point reuse) {
+        Point result = toMapPixels(in, reuse);
+        result.offset(-mIntrinsicScreenRectProjection.centerX(),
+                -mIntrinsicScreenRectProjection.centerY());
         if (mMapOrientation % 360 != 0) {
             GeometryMath.rotatePoint(0, 0, result, mMapOrientation, result);
         }
@@ -180,11 +182,11 @@ public class Projection implements GeoConstants {
      * @param reuse just pass null if you do not have a Point to be 'recycled'.
      * @return the Point containing the <I>screen coordinates</I> of the point passed.
      */
-    public PointF toPixels(final PointF mapPos, final PointF reuse) {
-        final PointF out = GeometryMath.reusable(reuse);
-        out.set(mapPos);
-        out.offset(viewWidth2 - mIntrinsicScreenRectProjection.exactCenterX(),
-                viewHeight2 - mIntrinsicScreenRectProjection.exactCenterY());
+    public Point toPixels(final Point mapPos, final Point reuse) {
+        final Point out = GeometryMath.reusable(reuse);
+        out.set(mapPos.x, mapPos.y);
+        out.offset(viewWidth2 - mIntrinsicScreenRectProjection.centerX(),
+                viewHeight2 - mIntrinsicScreenRectProjection.centerY());
         return out;
     }
 
@@ -195,15 +197,15 @@ public class Projection implements GeoConstants {
      * @param reuse just pass null if you do not have a Point to be 'recycled'.
      * @return the Point containing the <I>Map coordinates</I> of the LatLng passed.
      */
-    public PointF toMapPixels(final ILatLng in, final PointF reuse) {
+    public Point toMapPixels(final ILatLng in, final Point reuse) {
         return toMapPixels(in.getLatitude(), in.getLongitude(), reuse);
     }
 
-    public static PointF toMapPixels(final double latitude, final double longitude, final float zoom, final double centerX, final double centerY, final PointF reuse) {
-        final PointF out = GeometryMath.reusable(reuse);
+    public static Point toMapPixels(final double latitude, final double longitude, final float zoom, final double centerX, final double centerY, final Point reuse) {
+        final Point out = GeometryMath.reusable(reuse);
         final int mapSize = mapSize(zoom);
         latLongToPixelXY(latitude, longitude, zoom, out);
-        final float worldSize2 = mapSize >> 1;
+        final int worldSize2 = mapSize >> 1;
         out.offset(-worldSize2, -worldSize2);
 //        if (Math.abs(out.x - centerX) > Math.abs(out.x - mapSize - centerX)) {
 //            out.x -= mapSize;
@@ -220,7 +222,7 @@ public class Projection implements GeoConstants {
         return out;
     }
 
-    public PointF toMapPixels(final double latitude, final double longitude, final PointF reuse) {
+    public Point toMapPixels(final double latitude, final double longitude, final Point reuse) {
         return toMapPixels(latitude, longitude, getZoomLevel(), centerX, centerY, reuse);
     }
 
@@ -232,8 +234,8 @@ public class Projection implements GeoConstants {
             out = new RectF();
         }
         final int mapSize_2 = mapSize(zoom) >> 1;
-        PointF nw = latLongToPixelXY(box.getLatNorth(), box.getLonWest(), zoom, null);
-        PointF se = latLongToPixelXY(box.getLatSouth(), box.getLonEast(), zoom, null);
+        Point nw = latLongToPixelXY(box.getLatNorth(), box.getLonWest(), zoom, null);
+        Point se = latLongToPixelXY(box.getLatSouth(), box.getLonEast(), zoom, null);
         out.set(nw.x, nw.y, se.x, se.y);
         out.offset(-mapSize_2, -mapSize_2);
         return out;
@@ -248,13 +250,13 @@ public class Projection implements GeoConstants {
      * @param reuse just pass null if you do not have a Point to be 'recycled'.
      * @return intermediate value to be stored and passed to toMapPixelsTranslated.
      */
-    public static PointF toMapPixelsProjected(final double latitude, final double longitude,
-            final PointF reuse) {
-        final PointF out;
+    public static Point toMapPixelsProjected(final double latitude, final double longitude,
+            final Point reuse) {
+        final Point out;
         if (reuse != null) {
             out = reuse;
         } else {
-            out = new PointF();
+            out = new Point();
         }
         latLongToPixelXY(latitude, longitude, TileLayerConstants.MAXIMUM_ZOOMLEVEL, out);
         return out;
@@ -269,12 +271,12 @@ public class Projection implements GeoConstants {
      * @return the Point containing the <I>Screen coordinates</I> of the initial LatLng passed
      * to the toMapPixelsProjected.
      */
-    public PointF toMapPixelsTranslated(final PointF in, final PointF reuse) {
-        final PointF out;
+    public Point toMapPixelsTranslated(final Point in, final Point reuse) {
+        final Point out;
         if (reuse != null) {
             out = reuse;
         } else {
-            out = new PointF();
+            out = new Point();
         }
 
         final float zoomDifference = TileLayerConstants.MAXIMUM_ZOOMLEVEL - getZoomLevel();
@@ -389,11 +391,11 @@ public class Projection implements GeoConstants {
      * @param reuse An optional Point to be recycled, or null to create a new one automatically
      * @return Output parameter receiving the X and Y coordinates in pixels
      */
-    public static PointF latLongToPixelXY(double latitude, double longitude,
-            final float levelOfDetail, final PointF reuse) {
+    public static Point latLongToPixelXY(double latitude, double longitude,
+            final float levelOfDetail, final Point reuse) {
         latitude = wrap(latitude, -90, 90, 180);
         longitude = wrap(longitude, -180, 180, 360);
-        final PointF out = (reuse == null ? new PointF() : reuse);
+        final Point out = (reuse == null ? new Point() : reuse);
 
         latitude = clip(latitude, MIN_LATITUDE, MAX_LATITUDE);
         longitude = clip(longitude, MIN_LONGITUDE, MAX_LONGITUDE);
@@ -403,8 +405,8 @@ public class Projection implements GeoConstants {
         final double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI);
 
         final float mapSize = mapSize(levelOfDetail);
-        out.x = (float) clip(x * mapSize, 0, mapSize - 1);
-        out.y = (float) clip(y * mapSize, 0, mapSize - 1);
+        out.x = (int) clip(x * mapSize, 0, mapSize - 1);
+        out.y = (int) clip(y * mapSize, 0, mapSize - 1);
         return out;
     }
 
@@ -544,6 +546,4 @@ public class Projection implements GeoConstants {
     public final Matrix getRotationMatrix() {
         return mRotateMatrix;
     }
-
-    private static final String TAG = "Projection";
 }

@@ -86,9 +86,9 @@ public class GeometryMath {
         return out;
     }
 
-    public static PointF rotatePoint(final float centerX, final float centerY, final PointF point,
-            final float angle, final PointF reuse) {
-        final PointF out = GeometryMath.reusable(reuse);
+    public static Point rotatePoint(final float centerX, final float centerY, final Point point,
+            final float angle, final Point reuse) {
+        final Point out = GeometryMath.reusable(reuse);
         double rotationRadians = angle * DEG2RAD;
         //calculate new x coord
         double sin = Math.sin(rotationRadians);
@@ -102,7 +102,7 @@ public class GeometryMath {
         double xnew = x * cos - y * sin + centerX;
         double ynew = x * sin + y * cos + centerY;
         // translate point back to global coords:
-        out.set((float) (xnew + centerX), (float) (ynew + centerY));
+        out.set((int) (xnew + centerX), (int) (ynew + centerY));
         return out;
     }
 

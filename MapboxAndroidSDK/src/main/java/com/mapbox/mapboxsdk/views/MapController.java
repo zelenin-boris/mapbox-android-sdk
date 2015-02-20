@@ -2,7 +2,6 @@ package com.mapbox.mapboxsdk.views;
 
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -11,13 +10,13 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
-import android.util.FloatMath;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 
 public class MapController implements MapViewConstants {
+
+    private static String TAG = "MapController";
 
     protected final MapView mMapView;
 
@@ -271,6 +270,4 @@ public class MapController implements MapViewConstants {
             // Nothing to do here...
         }
     }
-
-    private static String TAG = "MapController";
 }

@@ -1634,9 +1634,9 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         // scrollTo(getScrollX(), getScrollY());
     }
 
-    private PointF mDScroll = new PointF();
+    private Point mDScroll = new Point();
 
-    public final PointF getScrollPoint() {
+    public final Point getScrollPoint() {
         return mDScroll;
     }
 
