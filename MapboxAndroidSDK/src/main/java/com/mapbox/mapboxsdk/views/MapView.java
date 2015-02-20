@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.location.Location;
@@ -41,6 +42,7 @@ import com.mapbox.mapboxsdk.overlay.Overlay;
 import com.mapbox.mapboxsdk.overlay.OverlayManager;
 import com.mapbox.mapboxsdk.overlay.TilesOverlay;
 import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
+import com.mapbox.mapboxsdk.tile.TileSystem;
 import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBase;
 import com.mapbox.mapboxsdk.tileprovider.MapTileLayerBasic;
 import com.mapbox.mapboxsdk.tileprovider.constants.TileLayerConstants;
@@ -59,7 +61,6 @@ import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewLayouts;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private final Rect mInvalidateRect = new Rect();
 
     protected BoundingBox mScrollableAreaBoundingBox = null;
-    protected Rect mScrollableAreaLimit = null;
+    protected RectF mScrollableAreaLimit = null;
     private boolean mConstraintRegionFit;
     protected Rect mTempRect = new Rect();
 
@@ -1182,57 +1183,28 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * limit in pixels
      */
     public void updateScrollableAreaLimit() {
-        if (mScrollableAreaBoundingBox == null || !isLayedOut()) {
+        if (mScrollableAreaBoundingBox == null) {
             return;
         }
-        if (mScrollableAreaLimit == null) {
-            mScrollableAreaLimit = new Rect();
-        }
-        Projection.toMapPixels(mScrollableAreaBoundingBox, getZoomLevel(false),
-                mScrollableAreaLimit);
-//        if (mConstraintRegionFit) {
-//            int width = getMeasuredWidth();
-//            int height = getMeasuredHeight();
-//            float ratioX = mScrollableAreaLimit.width() / (float) width;
-//            float ratioY = mScrollableAreaLimit.height() / (float) height;
-//
-//            if (ratioX != ratioY) {
-//                if (ratioX < ratioY)
-//                {
-//                    float newWidth_2 = mScrollableAreaLimit.height() * width / (float) height / 2;
-//                    float centerX = mScrollableAreaLimit.centerX();
-//                    mScrollableAreaLimit.set(centerX - newWidth_2, mScrollableAreaLimit.top, centerX + newWidth_2, mScrollableAreaLimit.bottom);
-//                } else {
-//                    float newHeight_2 = width * ratioX / 2;
-//                    float centerY = mScrollableAreaLimit.centerY();
-//                    mScrollableAreaLimit.set(mScrollableAreaLimit.left, centerY - newHeight_2, mScrollableAreaLimit.right, centerY + newHeight_2);
-//                }
-//            }
-//
-//        }
-
-        if (mScrollableAreaBoundingBox == null) return;
         float zoom = getZoomLevel();
-        if (isAnimating()) {
-            zoom = mZoomLevel + (zoom - mZoomLevel) * mAnimationFactor;
-        }
+//    	if (isAnimating()) {
+//    		zoom = mZoomLevel + (zoom - mZoomLevel);
+//    	}
         final int worldSize_2 = TileSystem.MapSize(zoom) / 2;
         // Get NW/upper-left
-        final Point upperLeft = TileSystem.LatLongToPixelXY(mScrollableAreaBoundingBox.getLatNorth(),
+        final PointF upperLeft = TileSystem.LatLongToPixelXY(mScrollableAreaBoundingBox.getLatNorth(),
                 mScrollableAreaBoundingBox.getLonWest(), zoom, null);
         upperLeft.offset(-worldSize_2, -worldSize_2);
 
         // Get SE/lower-right
-        final Point lowerRight = TileSystem.LatLongToPixelXY(mScrollableAreaBoundingBox.getLatSouth(),
+        final PointF lowerRight = TileSystem.LatLongToPixelXY(mScrollableAreaBoundingBox.getLatSouth(),
                 mScrollableAreaBoundingBox.getLonEast(), zoom, null);
         lowerRight.offset(-worldSize_2, -worldSize_2);
         if (mScrollableAreaLimit == null) {
-            mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
-        }
-        else {
+            mScrollableAreaLimit = new RectF(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
+        } else {
             mScrollableAreaLimit.set(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
         }
-
     }
 
     /**
@@ -1282,7 +1254,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     /**
      * Returns the map current scrollable bounding limit int map PX
      */
-    public Rect getScrollableAreaLimit() {
+    public RectF getScrollableAreaLimit() {
         return mScrollableAreaLimit;
     }
 
@@ -1718,7 +1690,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     public void scrollTo(double x, double y) {
         if (mScrollableAreaLimit != null) {
-            final Rect currentLimit = mScrollableAreaLimit;
+            final RectF currentLimit = mScrollableAreaLimit;
 
             final double xToTestWith = x;
             final double yToTestWith = y;
@@ -1749,7 +1721,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
             mController.offsetDeltaScroll(deltaX, deltaY);
         }
 */
-        super.scrollTo((int)x, (int)y);
+        super.scrollTo((int) x, (int) y);
 
         final int intX = (int) Math.round(x);
         final int intY = (int) Math.round(y);
