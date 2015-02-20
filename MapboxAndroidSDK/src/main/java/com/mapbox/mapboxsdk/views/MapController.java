@@ -1,7 +1,5 @@
 package com.mapbox.mapboxsdk.views;
 
-import com.mapbox.mapboxsdk.api.ILatLng;
-import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -13,6 +11,8 @@ import android.os.Build;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
+import com.mapbox.mapboxsdk.api.ILatLng;
+import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 
 public class MapController implements MapViewConstants {
 
@@ -248,7 +248,7 @@ public class MapController implements MapViewConstants {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
         	float currentAnimFactor = (Float)animation.getAnimatedValue();
-            mMapView.updateScrollDuringAnimation(currentAnimFactor);
+//            mMapView.updateScrollDuringAnimation(currentAnimFactor);
             mMapView.setScale(1.0f + currentAnimFactor *(mAnimationFactor - 1.0f));
         }
     }
