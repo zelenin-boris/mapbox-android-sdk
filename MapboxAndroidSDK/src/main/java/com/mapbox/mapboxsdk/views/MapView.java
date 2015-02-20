@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.location.Location;
@@ -60,6 +59,7 @@ import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewLayouts;
 import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -136,7 +136,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected OnMapOrientationChangeListener mOnMapOrientationChangeListener;
 
     protected float mMultiTouchScale = 1.0f;
-    protected PointF mMultiTouchScalePoint = new PointF();
+    protected Point mMultiTouchScalePoint = new Point();
     protected Matrix mInvTransformMatrix = new Matrix();
 
     protected List<MapListener> mListeners = new ArrayList<MapListener>();
@@ -159,7 +159,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     private final Handler mTileRequestCompleteHandler;
 
     /* a point that will be reused to design added views */
-    private final PointF mPoint = new PointF();
+    private final Point mPoint = new Point();
 
     private TilesLoadedListener tilesLoadedListener;
     TileLoadedListener tileLoadedListener;
@@ -732,7 +732,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         return setZoomInternal(aZoomLevel, null, null);
     }
 
-    protected MapView setZoomInternal(final float aZoomLevel, ILatLng center, final PointF decale) {
+    protected MapView setZoomInternal(final float aZoomLevel, ILatLng center, final Point decale) {
 
         if (center == null) {
             center = getCenter();
@@ -757,7 +757,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         if (center != null) {
             // we cant use the mProjection because the values are not the right
             // one yet
-            final PointF centerPoint = Projection.toMapPixels(
+            final Point centerPoint = Projection.toMapPixels(
                     center.getLatitude(), center.getLongitude(), newZoomLevel,
                     mDScroll.x, mDScroll.y, null);
             if (decale != null) {
@@ -770,7 +770,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 // to do it the hard way.
                 final int worldSize_new_2 = Projection.mapSize(newZoomLevel) >> 1;
                 final ILatLng centerGeoPoint = getCenter();
-                final PointF centerPoint = Projection.latLongToPixelXY(centerGeoPoint.getLatitude(),
+                final Point centerPoint = Projection.latLongToPixelXY(centerGeoPoint.getLatitude(),
                         centerGeoPoint.getLongitude(), newZoomLevel, null);
                 scrollTo((int) centerPoint.x - worldSize_new_2, (int) centerPoint.y - worldSize_new_2);
             } else if (newZoomLevel < curZoomLevel) {
@@ -1640,15 +1640,15 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         return mDScroll;
     }
 
-    public final void setScrollPoint(final PointF point) {
+    public final void setScrollPoint(final Point point) {
         scrollTo((double) point.x, (double) point.y);
     }
 
-    public final PointF getScalePoint() {
+    public final Point getScalePoint() {
         return mMultiTouchScalePoint;
     }
 
-    public final void setScalePoint(final PointF point) {
+    public final void setScalePoint(final Point point) {
         mMultiTouchScalePoint.set(point);
         updateInversedTransformMatrix();
     }
@@ -1876,7 +1876,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 final Projection projection = getProjection();
                 final float accuracyInPixels = pos.getAccuracy() / (float) projection.groundResolution(
                         pos.getLatitude());
-                final PointF point = projection.toMapPixels(pos.getLatitude(), pos.getLongitude(), null);
+                final Point point = projection.toMapPixels(pos.getLatitude(), pos.getLongitude(), null);
                 return projection.getScreenRect().intersects((int) (point.x - accuracyInPixels),
                         (int) (point.y - accuracyInPixels),
                         (int) (point.x + accuracyInPixels),
