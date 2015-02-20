@@ -597,8 +597,9 @@ public class Projection implements GeoConstants {
             mRotateScalePoints[1] = y;
             mRotateAndScaleMatrix.mapPoints(mRotateScalePoints);
             reuse.set((int) mRotateScalePoints[0], (int) mRotateScalePoints[1]);
-        } else
+        } else {
             reuse.set(x, y);
+        }
         return reuse;
     }
 }
