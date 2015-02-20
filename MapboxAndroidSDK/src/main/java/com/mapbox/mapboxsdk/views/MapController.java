@@ -1,9 +1,5 @@
 package com.mapbox.mapboxsdk.views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -13,6 +9,9 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.ValueAnimator;
 
 public class MapController implements MapViewConstants {
 
@@ -244,7 +243,7 @@ public class MapController implements MapViewConstants {
         }
     }
 
-    protected class MyZoomAnimatorUpdateListener implements AnimatorUpdateListener {
+    protected class MyZoomAnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
         	float currentAnimFactor = (Float)animation.getAnimatedValue();
