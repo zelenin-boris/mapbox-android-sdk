@@ -24,6 +24,7 @@ package com.mapbox.mapboxsdk.views.util;
 
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import com.mapbox.mapboxsdk.api.ILatLng;
@@ -277,6 +278,30 @@ public class Projection implements GeoConstants {
             out = reuse;
         } else {
             out = new Point();
+        }
+
+        final float zoomDifference = TileLayerConstants.MAXIMUM_ZOOMLEVEL - getZoomLevel();
+        out.set((int) (GeometryMath.rightShift(in.x, zoomDifference) + offsetX),
+                (int) (GeometryMath.rightShift(in.y, zoomDifference) + offsetY));
+        return out;
+    }
+
+
+    /**
+     * Performs the second computationally light part of the projection. Returns results in
+     * <I>screen coordinates</I>.
+     *
+     * @param in the Point calculated by the toMapPixelsProjected
+     * @param reuse just pass null if you do not have a Point to be 'recycled'.
+     * @return the Point containing the <I>Screen coordinates</I> of the initial LatLng passed
+     * to the toMapPixelsProjected.
+     */
+    public PointF toMapPixelsTranslated(final PointF in, final PointF reuse) {
+        final PointF out;
+        if (reuse != null) {
+            out = reuse;
+        } else {
+            out = new PointF();
         }
 
         final float zoomDifference = TileLayerConstants.MAXIMUM_ZOOMLEVEL - getZoomLevel();

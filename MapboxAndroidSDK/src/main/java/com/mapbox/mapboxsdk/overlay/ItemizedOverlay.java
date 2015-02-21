@@ -157,8 +157,7 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
             final float aMapOrientation, final RectF mapBounds, final float mapScale) {
 
         item.updateDrawingPosition();
-        final PointF position = item.getPositionOnMap();
-        final Point roundedCoords = new Point((int) position.x, (int) position.y);
+        final Point position = item.getPositionOnMap();
         if (!RectF.intersects(mapBounds, item.getDrawingBounds(projection, null))) {
             //dont draw item if offscreen
             return;
@@ -177,13 +176,13 @@ public abstract class ItemizedOverlay extends SafeDrawOverlay implements Overlay
 
         // draw it
         if (this.isUsingSafeCanvas()) {
-            Overlay.drawAt(canvas.getSafeCanvas(), marker, roundedCoords, point, false,
+            Overlay.drawAt(canvas.getSafeCanvas(), marker, position, point, false,
                     aMapOrientation);
         } else {
             canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
                 @Override
                 public void onUnsafeCanvas(Canvas canvas) {
-                    Overlay.drawAt(canvas, marker, roundedCoords, point, false, aMapOrientation);
+                    Overlay.drawAt(canvas, marker, position, point, false, aMapOrientation);
                 }
             });
         }

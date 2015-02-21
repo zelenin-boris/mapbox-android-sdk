@@ -33,7 +33,7 @@ public class Marker implements MapViewConstants {
 
     private final RectF mMyLocationRect = new RectF(0, 0, 0, 0);
     private final RectF mMyLocationPreviousRect = new RectF(0, 0, 0, 0);
-    protected final PointF mCurMapCoords = new PointF();
+    protected final Point mCurMapCoords = new Point();
 
     private Context context;
     private MapView mapView;
@@ -403,11 +403,11 @@ public class Marker implements MapViewConstants {
      * @param projection Projection
      * @param reuse PointF to reuse
      */
-    public PointF getPositionOnScreen(final Projection projection, final PointF reuse) {
+    public Point getPositionOnScreen(final Projection projection, final Point reuse) {
         return projection.toPixels(mCurMapCoords, reuse);
     }
 
-    public PointF getDrawingPositionOnScreen(final Projection projection, PointF reuse) {
+    public Point getDrawingPositionOnScreen(final Projection projection, Point reuse) {
         reuse = getPositionOnScreen(projection, reuse);
         Point point = getAnchor();
         reuse.offset(point.x, point.y);
@@ -418,7 +418,7 @@ public class Marker implements MapViewConstants {
         if (reuse == null) {
             reuse = new RectF();
         }
-        final PointF position = getPositionOnScreen(projection, null);
+        final Point position = getPositionOnScreen(projection, null);
         final int w = getWidth();
         final int h = isUsingMakiIcon ? getRealHeight() : getHeight();
         final float left = position.x - mAnchor.x * w;
@@ -530,7 +530,7 @@ public class Marker implements MapViewConstants {
         return isUsingMakiIcon;
     }
 
-    public PointF getPositionOnMap() {
+    public Point getPositionOnMap() {
         return mCurMapCoords;
     }
 

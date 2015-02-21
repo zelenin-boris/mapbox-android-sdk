@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -127,7 +128,8 @@ public class PathOverlay extends Overlay {
         // precompute new points to the intermediate projection.
         for (; this.mPointsPrecomputed < size; this.mPointsPrecomputed++) {
             final PointF pt = this.mPoints.get(this.mPointsPrecomputed);
-            pj.toMapPixelsProjected((double) pt.x, (double) pt.y, pt);
+            final Point  p = new Point((int) pt.x, (int) pt.y);
+            pj.toMapPixelsProjected((double) pt.x, (double) pt.y, p);
         }
 
         PointF screenPoint0 = null; // points on screen
