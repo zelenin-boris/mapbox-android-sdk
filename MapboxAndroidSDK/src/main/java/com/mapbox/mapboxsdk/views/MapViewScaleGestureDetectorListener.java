@@ -41,7 +41,7 @@ public class MapViewScaleGestureDetectorListener implements ScaleGestureDetector
         currentScale = 1.0f;
         if (!this.mapView.isAnimating()) {
             this.mapView.setIsAnimating(true);
-            this.mapView.getController().aboutToStartAnimation(lastFocusX, lastFocusY);
+//            this.mapView.getController().aboutToStartAnimation(lastFocusX, lastFocusY);
             scaling = true;
         }
         return true;
@@ -58,8 +58,8 @@ public class MapViewScaleGestureDetectorListener implements ScaleGestureDetector
         float focusY = detector.getFocusY();
 
         this.mapView.setScale(currentScale);
-        this.mapView.getController().offsetDeltaScroll(lastFocusX - focusX, lastFocusY - focusY);
-        this.mapView.getController().panBy(lastFocusX - focusX, lastFocusY - focusY, true);
+//        this.mapView.getController().offsetDeltaScroll(lastFocusX - focusX, lastFocusY - focusY);
+        this.mapView.getController().panBy((int)(lastFocusX - focusX), (int)(lastFocusY - focusY));
 
         lastFocusX = focusX;
         lastFocusY = focusY;
