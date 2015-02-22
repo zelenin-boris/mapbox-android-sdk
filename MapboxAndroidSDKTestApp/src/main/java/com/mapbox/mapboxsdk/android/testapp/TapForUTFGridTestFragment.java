@@ -22,7 +22,7 @@ public class TapForUTFGridTestFragment extends Fragment {
 
         MapView mv = (MapView) view.findViewById(R.id.tapForUTFGridMapView);
         mv.setCenter(new LatLng(-33.99541, 18.48885));
-        mv.setZoom(12);
+        mv.getController().setZoom(12);
 
         mv.setMapViewListener(new MapViewListener() {
             @Override

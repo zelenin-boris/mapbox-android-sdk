@@ -22,7 +22,7 @@ public class MarkersTestFragment extends Fragment {
         // Setup Map
         mapView = (MapView) view.findViewById(R.id.markersMapView);
         mapView.setCenter(new LatLng(38.11493876707079, 13.3647260069847));
-        mapView.setZoom(14);
+        mapView.getController().setZoom(14);
 
         // Dynamically create 100 markers
         Random r = new Random();

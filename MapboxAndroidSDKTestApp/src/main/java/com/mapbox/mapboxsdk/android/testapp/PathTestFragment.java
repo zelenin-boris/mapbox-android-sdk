@@ -23,7 +23,7 @@ public class PathTestFragment extends Fragment {
         // Setup Map
         MapView mapView = (MapView) view.findViewById(R.id.pathMapView);
         mapView.setCenter(new LatLng(44.84029, -89.78027));
-        mapView.setZoom(7);
+        mapView.getController().setZoom(7);
 
         PathOverlay pathOverlay = new PathOverlay();
         pathOverlay.addPoint(47.05515, -93.18604);

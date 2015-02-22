@@ -21,7 +21,7 @@ public class ItemizedIconOverlayTestFragment extends Fragment {
         // Setup Map
         MapView mapView = (MapView) view.findViewById(R.id.markersMapView);
         mapView.setCenter(new LatLng(50.51171, 4.86325));
-        mapView.setZoom(8);
+        mapView.getController().setZoom(8);
 
         // Build ItemizedIconOverlay From Markers
         ArrayList<Marker> markers = new ArrayList<Marker>();

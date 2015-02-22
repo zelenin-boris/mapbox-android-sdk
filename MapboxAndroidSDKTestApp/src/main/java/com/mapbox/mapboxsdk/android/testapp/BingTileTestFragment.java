@@ -36,7 +36,7 @@ public class BingTileTestFragment extends Fragment {
 
         mapView.setTileSource(bingTileLayer);
         mapView.setCenter(new LatLng(34.19997, -118.17163));
-        mapView.setZoom(12);
+        mapView.getController().setZoom(12);
 
         Button satButton = (Button)view.findViewById(R.id.satbut);
         satButton.setOnClickListener(new View.OnClickListener() {

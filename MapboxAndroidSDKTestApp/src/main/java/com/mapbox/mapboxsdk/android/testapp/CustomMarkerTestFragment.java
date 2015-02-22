@@ -20,7 +20,7 @@ public class CustomMarkerTestFragment extends Fragment {
 
         MapView mv = (MapView) view.findViewById(R.id.customMarkerMapView);
         mv.setCenter(new LatLng(-3.07881, 37.31369));
-        mv.setZoom(8);
+        mv.getController().setZoom(8);
 
         Marker marker = new Marker("Mount Kilimanjaro", "", new LatLng(-3.06372, 36.71356));
         marker.setMarker(getResources().getDrawable(R.drawable.right_arrow));

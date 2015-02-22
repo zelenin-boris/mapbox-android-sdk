@@ -22,7 +22,7 @@ public class AlternateMapTestFragment extends Fragment {
 
         MapView mv = (MapView) view.findViewById(R.id.altMapView);
         mv.setCenter(new LatLng(43.07472, -89.38421));
-        mv.setZoom(14);
+        mv.getController().setZoom(14);
 
         Marker cap = new Marker(mv, "State Capitol", "Madison, WI", new LatLng(43.07472, -89.38421));
         cap.setIcon(new Icon(getActivity(), Icon.Size.LARGE, "town-hall", "FF0000"));

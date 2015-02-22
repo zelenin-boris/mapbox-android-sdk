@@ -18,7 +18,7 @@ public class OfflineCacheTestFragment extends Fragment {
         final MapView mapView = (MapView) view.findViewById(R.id.offlineCacheMapView);
         mapView.setDiskCacheEnabled(true);
         mapView.setCenter(new LatLng(46.85268, -121.75907));
-        mapView.setZoom(10);
+        mapView.getController().setZoom(10);
 
         final Button dataButton = (Button) view.findViewById(R.id.dataOnOffButton);
         if (!mapView.useDataConnection()) {

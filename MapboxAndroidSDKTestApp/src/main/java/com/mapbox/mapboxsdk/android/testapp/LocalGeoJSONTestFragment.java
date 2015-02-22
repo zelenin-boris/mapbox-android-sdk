@@ -24,7 +24,7 @@ public class LocalGeoJSONTestFragment extends Fragment {
         // Setup Map
         mapView = (MapView) view.findViewById(R.id.localGeoJSONMapView);
         mapView.setCenter(new LatLng(47.668780,-122.387883));
-        mapView.setZoom(14);
+        mapView.getController().setZoom(14);
 
         return view;
     }

@@ -38,7 +38,7 @@ public class SaveMapOfflineTestFragment extends Fragment implements MapboxConsta
         // Setup Map
         mapView = (MapView) view.findViewById(R.id.saveMapOfflineMapView);
         mapView.setCenter(new LatLng(29.94423, -90.09201));
-        mapView.setZoom(12);
+        mapView.getController().setZoom(12);
 
         Button saveMapButton = (Button) view.findViewById(R.id.saveMapButton);
         saveMapButton.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class SaveMapOfflineTestFragment extends Fragment implements MapboxConsta
 
         mapView.removeOverlay(offlineMapOverlay);
         mapView.setCenter(new LatLng(29.94423, -90.09201));
-        mapView.setZoom(12);
+        mapView.getController().setZoom(12);
     }
 
     @Override

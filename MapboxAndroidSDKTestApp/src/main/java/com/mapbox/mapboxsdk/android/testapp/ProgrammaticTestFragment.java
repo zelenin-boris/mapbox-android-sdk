@@ -22,7 +22,7 @@ public class ProgrammaticTestFragment extends Fragment {
         mapView.setAccessToken(getString(R.string.testAccessToken));
         mapView.setTileSource(new MapboxTileLayer(getString(R.string.mapbox_id_terrain)));
         mapView.setCenter(new LatLng(49.31376, -123.14000));
-        mapView.setZoom(8);
+        mapView.getController().setZoom(8);
 
         FrameLayout layout = (FrameLayout) view.findViewById(R.id.programmaticFrameLayout);
         layout.addView(mapView);

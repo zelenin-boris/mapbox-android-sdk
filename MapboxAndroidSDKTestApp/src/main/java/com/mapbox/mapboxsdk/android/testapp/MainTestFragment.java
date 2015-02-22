@@ -50,7 +50,7 @@ public class MainTestFragment extends Fragment {
             .setUserLocationTrackingMode(UserLocationOverlay.TrackingMode.FOLLOW);
         // Set a reasonable user location zoom level
         mv.setUserLocationRequiredZoom(16);
-        
+
         /*
         // Original GeoJSON Test that caus es crash when Hardware Acceleration when enabled in TestApp
         mv.loadFromGeoJSONURL("https://gist.githubusercontent.com/tmcw/4a6f5fa40ab9a6b2f163/raw/b1ee1e445225fc0a397e2605feda7da74c36161b/map.geojson");
@@ -246,7 +246,7 @@ public class MainTestFragment extends Fragment {
         mv.setMinZoomLevel(mv.getTileProvider().getMinimumZoomLevel());
         mv.setMaxZoomLevel(mv.getTileProvider().getMaximumZoomLevel());
         mv.setCenter(mv.getTileProvider().getCenterCoordinate());
-        mv.setZoom(0);
+        mv.getController().setZoom(0);
         Log.d("MainActivity", "zoomToBoundingBox " + box.toString());
         //        mv.zoomToBoundingBox(box);
     }

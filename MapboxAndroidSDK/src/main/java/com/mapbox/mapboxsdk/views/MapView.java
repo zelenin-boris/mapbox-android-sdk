@@ -233,7 +233,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         String zoomLvl = a.getString(R.styleable.MapView_zoomLevel);
         if (zoomLvl != null) {
             float lvl = Float.parseFloat(zoomLvl);
-            this.setZoom(lvl);
+            this.setZoomInternal(lvl);
         } else {
             Log.d(TAG, "zoomLevel is not specified in XML.");
         }
@@ -308,7 +308,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         this.setScrollableAreaLimit(mTileProvider.getBoundingBox());
         this.setMinZoomLevel(mTileProvider.getMinimumZoomLevel());
         this.setMaxZoomLevel(mTileProvider.getMaximumZoomLevel());
-        this.setZoom(mZoomLevel);
+        this.setZoomInternal(mZoomLevel);
         if (!isLayedOut()) {
             return;
         }
@@ -719,13 +719,17 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         }
     }
 
-    /**
+/*
+    */
+/**
      * @param aZoomLevel the zoom level bound by the tile source
      * @return the map view, for chaining
-     */
+     *//*
+
     public MapView setZoom(final float aZoomLevel) {
         return this.mController.setZoom(aZoomLevel);
     }
+*/
 
     protected MapView setZoomInternal(final float aZoomLevel) {
         return setZoomInternal(aZoomLevel, null, null);
@@ -1174,7 +1178,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                         false)
         );
         if (mZoomLevel < mMinimumZoomLevel) {
-            setZoom(mMinimumZoomLevel);
+            setMinZoomLevel(mMinimumZoomLevel);
         }
     }
 
@@ -1644,7 +1648,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 // One last scrollTo to get to the final destination
                 scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
                 // This will facilitate snapping-to any Snappable points.
-                setZoom(mZoomLevel);
+                setZoomInternal(mZoomLevel);
                 mIsFlinging = false;
             } else {
                 scrollTo(mScroller.getCurrX(), mScroller.getCurrY());

@@ -27,7 +27,7 @@ public class WebSourceTileTestFragment extends Fragment {
 
         mapView.setTileSource(ws);
         mapView.setCenter(new LatLng(34.19997, -118.17163));
-        mapView.setZoom(12);
+        mapView.getController().setZoom(12);
 
         FrameLayout layout = (FrameLayout) view.findViewById(R.id.webSourceTileFrameLayout);
         layout.addView(mapView);

@@ -28,7 +28,7 @@ public class LocalOSMTestFragment extends Fragment {
         // Setup Map
         mapView = (MapView) view.findViewById(R.id.localOSMMapView);
         mapView.setCenter(new LatLng(23.707873, 90.409774));
-        mapView.setZoom(19);
+        mapView.getController().setZoom(19);
 
         return view;
     }

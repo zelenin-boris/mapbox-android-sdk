@@ -19,7 +19,7 @@ public class DiskCacheDisabledTestFragment extends Fragment {
         MapView mapView = (MapView) view.findViewById(R.id.diskCacheDisableMapView);
         mapView.getTileProvider().setDiskCacheEnabled(false);
         mapView.setCenter(new LatLng(-22.95903, -43.17970));
-        mapView.setZoom(14);
+        mapView.getController().setZoom(14);
 
         return view;
     }
