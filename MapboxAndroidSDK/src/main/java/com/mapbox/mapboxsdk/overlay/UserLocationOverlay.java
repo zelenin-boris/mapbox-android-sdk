@@ -46,7 +46,7 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
     public GpsLocationProvider mMyLocationProvider;
 
     private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
-    private final PointF mMapCoords = new PointF();
+    private final Point mMapCoords = new Point();
 
     private Location mLocation;
     private LatLng mLatLng;
@@ -222,14 +222,15 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         canvas.restore();
     }
 
-    public PointF getPositionOnScreen(final Projection projection, PointF reuse) {
+    public Point getPositionOnScreen(final Projection projection, Point reuse) {
         if (reuse == null) {
-            reuse = new PointF();
+            reuse = new Point();
         }
         projection.toPixels(mLatLng, reuse);
         return reuse;
     }
 
+/*
     public PointF getDrawingPositionOnScreen(final Projection projection, Location lastFix,
             PointF reuse) {
         reuse = getPositionOnScreen(projection, reuse);
@@ -242,13 +243,14 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
         }
         return reuse;
     }
+*/
 
     protected RectF getDrawingBounds(final Projection projection, Location lastFix, RectF reuse) {
-        PointF positionOnScreen = getPositionOnScreen(projection, null);
+        Point positionOnScreen = getPositionOnScreen(projection, null);
         return getDrawingBounds(positionOnScreen, lastFix, reuse);
     }
 
-    protected RectF getDrawingBounds(PointF positionOnScreen, Location lastFix, RectF reuse) {
+    protected RectF getDrawingBounds(Point positionOnScreen, Location lastFix, RectF reuse) {
         if (reuse == null) {
             reuse = new RectF();
         }
@@ -450,15 +452,19 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
                         desiredSouthWest.getLongitude() != currentBox.getLonWest()) {
                     mMapView.zoomToBoundingBox(new BoundingBox(desiredNorthEast, desiredSouthWest), true, animated, true);
                 }
+/*
             } else if (animated) {
                 return mMapController.setZoomAnimated((float) requiredZoom, mLatLng, true, false);
+*/
             } else {
-                mMapController.setZoom((float) requiredZoom, mLatLng, false);
+                mMapController.setZoom((float) requiredZoom);
             }
         } else if (animated) {
-           return mMapController.animateTo(mLatLng);
+            mMapController.animateTo(mLatLng);
+            return true;
         } else {
-            return mMapController.goTo(mLatLng, new PointF(0, 0));
+            mMapController.animateTo(mLatLng);
+            return true;
         }
         return true;
     }
@@ -540,16 +546,20 @@ public class UserLocationOverlay extends SafeDrawOverlay implements Snappable, M
 
     @Override
     public void onScroll(ScrollEvent event) {
+/*
         if (event.getUserAction()) {
             disableFollowLocation();
         }
+*/
     }
 
     @Override
     public void onZoom(ZoomEvent event) {
+/*
         if (event.getUserAction()) {
             disableFollowLocation();
         }
+*/
     }
 
     @Override
