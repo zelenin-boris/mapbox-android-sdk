@@ -3,7 +3,7 @@ package com.mapbox.mapboxsdk.android.testapp;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.PointF;
+import android.graphics.Point;
 import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,8 +34,8 @@ public class PathTestFragment extends Fragment {
 
         pathOverlay.getPaint().setStyle(Paint.Style.FILL);
         // Get Height for LinearGradient
-        PointF topLeft = mapView.getProjection().toPixels(new LatLng(47.05515, -93.18604), null);
-        PointF bottomLeft = mapView.getProjection().toPixels(new LatLng(42.34231, -93.18604), null);
+        Point topLeft = mapView.getProjection().toPixels(new LatLng(47.05515, -93.18604), null);
+        Point bottomLeft = mapView.getProjection().toPixels(new LatLng(42.34231, -93.18604), null);
         int height = (int) Math.abs(topLeft.y) - (int) Math.abs(bottomLeft.y);
 
         pathOverlay.getPaint().setShader(new LinearGradient(0, 0, 0, height, Color.GREEN, Color.YELLOW, Shader.TileMode.MIRROR));
