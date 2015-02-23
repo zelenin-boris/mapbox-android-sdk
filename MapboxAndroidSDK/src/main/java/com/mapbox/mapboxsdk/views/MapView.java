@@ -197,6 +197,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
         mTilesOverlay = new TilesOverlay(mTileProvider);
+        mTilesOverlay.setDrawLoadingTile(true);
         mOverlayManager = new OverlayManager(mTilesOverlay);
 
         this.mGestureDetector =
