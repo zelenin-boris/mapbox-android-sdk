@@ -140,6 +140,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     protected float mMultiTouchScale = 1.0f;
     protected PointF mMultiTouchScalePoint = new PointF();
     protected Matrix mInvTransformMatrix = new Matrix();
+    private float rotateX;
+    private float rotateY;
 
     protected List<MapListener> mListeners = new ArrayList<MapListener>();
 
@@ -1736,8 +1738,10 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 mMultiTouchScalePoint.y);
 
         // rotate Canvas
-        c.rotate(mapOrientation, mProjection.getScreenRect().exactCenterX(),
-                mProjection.getScreenRect().exactCenterY());
+        Rect screen = mProjection.getScreenRect();
+        rotateX = screen.exactCenterX();
+        rotateY = screen.exactCenterY();
+        c.rotate(mapOrientation, rotateX, rotateY);
 
         // Draw all Overlays.
         this.getOverlayManager().draw(c, this);
