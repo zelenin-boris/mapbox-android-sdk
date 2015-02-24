@@ -57,6 +57,7 @@ public class TilesOverlay extends SafeDrawOverlay {
 
     private int mLoadingBackgroundColor = Color.rgb(216, 208, 208);
     private int mLoadingLineColor = Color.rgb(200, 192, 192);
+    private boolean mDrawLoadingTile = false;
 
     public TilesOverlay(final MapTileLayerBase aTileProvider) {
         super();
@@ -142,7 +143,9 @@ public class TilesOverlay extends SafeDrawOverlay {
         // Draw the tiles!
         if (tileSize > 0) {
             Log.d(TAG, "drawSafe(), start drawing tiles!");
-            drawLoadingTile(c.getSafeCanvas(), mapView, zoomLevel, mClipRect);
+            if (mDrawLoadingTile) {
+                drawLoadingTile(c.getSafeCanvas(), mapView, zoomLevel, mClipRect);
+            }
             drawTiles(c.getSafeCanvas(), zoomLevel, tileSize, mViewPort, mClipRect);
             Log.d(TAG, "drawSafe(), done drawing tiles!");
         } else {
@@ -277,6 +280,10 @@ public class TilesOverlay extends SafeDrawOverlay {
             mLoadingPaint.setColor(mLoadingLineColor);
             clearLoadingTile();
         }
+    }
+
+    public void setDrawLoadingTile(final boolean pDrawLoadingTile) {
+        this.mDrawLoadingTile = pDrawLoadingTile;
     }
 
     /**
