@@ -32,6 +32,8 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TilesOverlay extends SafeDrawOverlay {
 
+    private static final String TAG = "TilesOverlay";
+
     public static final int MENU_OFFLINE = getSafeMenuId();
     private int mNuberOfTiles;
 
@@ -57,6 +59,7 @@ public class TilesOverlay extends SafeDrawOverlay {
 
     private int mLoadingBackgroundColor = Color.rgb(216, 208, 208);
     private int mLoadingLineColor = Color.rgb(200, 192, 192);
+    private boolean mDrawLoadingTile = true;
 
     public TilesOverlay(final MapTileLayerBase aTileProvider) {
         super();
@@ -142,7 +145,9 @@ public class TilesOverlay extends SafeDrawOverlay {
         // Draw the tiles!
         if (tileSize > 0) {
             Log.d(TAG, "drawSafe(), start drawing tiles!");
-            drawLoadingTile(c.getSafeCanvas(), mapView, zoomLevel, mClipRect);
+            if (mDrawLoadingTile) {
+                drawLoadingTile(c.getSafeCanvas(), mapView, zoomLevel, mClipRect);
+            }
             drawTiles(c.getSafeCanvas(), zoomLevel, tileSize, mViewPort, mClipRect);
             Log.d(TAG, "drawSafe(), done drawing tiles!");
         } else {
@@ -277,6 +282,15 @@ public class TilesOverlay extends SafeDrawOverlay {
             mLoadingPaint.setColor(mLoadingLineColor);
             clearLoadingTile();
         }
+    }
+
+    /**
+     * Set whether or not the default loading tile background should be drawn.
+     * If it shouldn't be, then a transparent background will be displayed.
+     * @param pDrawLoadingTile True if loading tiles should be displayed (default), False if not (aka: transparent background)
+     */
+    public void setDrawLoadingTile(final boolean pDrawLoadingTile) {
+        this.mDrawLoadingTile = pDrawLoadingTile;
     }
 
     /**
@@ -529,6 +543,4 @@ public class TilesOverlay extends SafeDrawOverlay {
             }
         }
     }
-
-    private static final String TAG = "TilesOverlay";
 }
