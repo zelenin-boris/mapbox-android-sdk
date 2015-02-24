@@ -73,6 +73,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * and interaction code.
  */
 public class MapView extends ViewGroup implements MapViewConstants, MapEventsReceiver, MapboxConstants {
+
+    private static final String TAG = "MapBox MapView";
+
     /**
      * The default marker Overlay, automatically added to the view to add markers directly.
      */
@@ -94,7 +97,6 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      */
     private boolean firstMarker = true;
 
-    private static final String TAG = "MapBox MapView";
     private static Method sMotionEventTransformMethod;
 
     /**
@@ -327,7 +329,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     /**
      * Set the tile source of this map as an array of tile layers,
      * which will be presented on top of each other.
-     * @param value
+     * @param value Array of TileLayer
      */
     public void setTileSource(final ITileLayer[] value) {
         if (value != null && mTileProvider != null && mTileProvider instanceof MapTileLayerBasic) {
@@ -339,7 +341,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     /**
      * Set the tile source of this map as a single source, and trigger
      * an update.
-     * @param aTileSource
+     * @param aTileSource TileLayer to use
      */
     public void setTileSource(final ITileLayer aTileSource) {
         if (aTileSource != null && mTileProvider != null && mTileProvider instanceof MapTileLayerBasic) {
@@ -452,7 +454,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     /**
      * Get all itemized overlays on the map as an ArrayList.
-     * @return
+     * @return ArrayList<ItemizedIconOverlay> ArrayList of ItemizedIconOverlays
      */
     public ArrayList<ItemizedIconOverlay> getItemizedOverlays() {
         ArrayList<ItemizedIconOverlay> list = new ArrayList<ItemizedIconOverlay>();
@@ -1808,7 +1810,8 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
     }
 
     /**
-     * Show or hide the user location overlay
+     * Get status of user location overlay
+     * @return boolean true if enabled, false if not enabled
      */
     public final boolean getUserLocationEnabled() {
         if (mLocationOverlay != null) {
@@ -1903,8 +1906,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
 
     /**
      * Determines if maps are animating a zoom operation. Useful for overlays to avoid
-     * recalculating
-     * during an animation sequence.
+     * recalculating during an animation sequence.
      *
      * @return boolean indicating whether view is animating.
      */
