@@ -39,7 +39,7 @@ public class Projection implements GeoConstants {
     private MapView mapView = null;
     private int viewWidth2;
     private int viewHeight2;
-    private int worldSize2;
+    private int halfWorldSize;
     private final int offsetX;
     private final int offsetY;
     private final int centerX;
@@ -60,10 +60,10 @@ public class Projection implements GeoConstants {
         viewWidth2 = mapView.getMeasuredWidth() >> 1;
         viewHeight2 = mapView.getMeasuredHeight() >> 1;
         mZoomLevelProjection = mapView.getZoomLevel(false);
-        worldSize2 = mapSize(mZoomLevelProjection) >> 1;
+        halfWorldSize = mapSize(mZoomLevelProjection) >> 1;
 
-        offsetX = -worldSize2;
-        offsetY = -worldSize2;
+        offsetX = -halfWorldSize;
+        offsetY = -halfWorldSize;
 
         centerX = mv.getScrollX();
         centerY = mv.getScrollY();
@@ -91,7 +91,7 @@ public class Projection implements GeoConstants {
     }
 
     public int getHalfWorldSize() {
-        return worldSize2;
+        return halfWorldSize;
     }
 
     public BoundingBox getBoundingBox() {
@@ -132,8 +132,8 @@ public class Projection implements GeoConstants {
      */
     public ILatLng fromPixels(final float x, final float y) {
         final Rect screenRect = getIntrinsicScreenRect();
-        return pixelXYToLatLong(screenRect.left + (int) x + worldSize2,
-                screenRect.top + (int) y + worldSize2, mZoomLevelProjection);
+        return pixelXYToLatLong(screenRect.left + (int) x + halfWorldSize,
+                screenRect.top + (int) y + halfWorldSize, mZoomLevelProjection);
     }
 
     /**
