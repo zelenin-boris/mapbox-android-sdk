@@ -74,7 +74,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class MapView extends ViewGroup implements MapViewConstants, MapEventsReceiver, MapboxConstants {
 
-    private static final String TAG = "MapBox MapView";
+    private static final String TAG = "Mapbox MapView";
 
     /**
      * The default marker Overlay, automatically added to the view to add markers directly.
