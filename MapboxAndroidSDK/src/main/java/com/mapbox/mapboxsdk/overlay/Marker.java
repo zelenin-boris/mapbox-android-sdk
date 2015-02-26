@@ -85,7 +85,6 @@ public class Marker implements MapViewConstants {
         this.setTitle(aTitle);
         this.setDescription(aDescription);
         this.mLatLng = aLatLng;
-        Log.d(TAG, "markerconst" + mv + aTitle + aDescription + aLatLng);
         mParentHolder = null;
         mAnchor = DEFAULT_PIN_ANCHOR;
 
