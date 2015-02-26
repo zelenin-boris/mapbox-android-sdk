@@ -245,33 +245,17 @@ public class MapController implements MapViewConstants {
         mMapView.mMultiTouchScalePoint.set(p.x, p.y);
         List<PropertyValuesHolder> propertiesList = new ArrayList<PropertyValuesHolder>();
         zoomDeltaScroll.set(0, 0);
-//        if (zoomAnimating) {
-            Log.i(TAG, "setZoomAnimated() zoomAnimating");
-            zoomOnLatLong = latlong;
-            mMapView.setAnimatedZoom(targetZoom);
 
-            float factor = (float) Math.pow(2, targetZoom - currentZoom);
-            float delta = (targetZoom - currentZoom);
-            if (delta > 0) {
-                propertiesList.add(PropertyValuesHolder.ofFloat("scale", 1.0f, factor));
-            } else {
-                propertiesList.add(PropertyValuesHolder.ofFloat("scale", 1.0f, factor));
-            }
-/*
-        } else {
-            Log.i(TAG, "setZoomAnimated() zoomAnimating NOT");
-            //this is to make sure we don't change the zoom incorrectly at the end of the animation
-            mMapView.setAnimatedZoom(currentZoom);
-        }
-*/
+        zoomOnLatLong = latlong;
+        mMapView.setAnimatedZoom(targetZoom);
+
+        float factor = (float) Math.pow(2, targetZoom - currentZoom);
+        propertiesList.add(PropertyValuesHolder.ofFloat("scale", 1.0f, factor));
+
         if (zoomAndMove) {
-            Log.i(TAG, "setZoomAnimated() zoomAndMove");
             PointEvaluator evaluator = new PointEvaluator();
-            propertiesList.add(PropertyValuesHolder.ofObject(
-                    "scrollPoint", evaluator,
-                    p));
+            propertiesList.add(PropertyValuesHolder.ofObject("scrollPoint", evaluator, p));
         } else {
-            Log.i(TAG, "setZoomAnimated() zoomAndMove NOT");
             mMapView.getProjection().toPixels(p, p);
             zoomDeltaScroll.set((float) (mMapView.getMeasuredWidth() / 2.0 - p.x), (float) (mMapView.getMeasuredHeight() / 2.0 - p.y));
         }
