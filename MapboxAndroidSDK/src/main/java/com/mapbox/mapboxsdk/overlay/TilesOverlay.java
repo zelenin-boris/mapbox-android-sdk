@@ -124,8 +124,6 @@ public class TilesOverlay extends SafeDrawOverlay {
     @Override
     protected void drawSafe(final ISafeCanvas c, final MapView mapView, final boolean shadow) {
 
-        Log.d(TAG, "drawSafe() called with shadow = '" + shadow + "'");
-
         if (shadow) {
             return;
         }
@@ -144,14 +142,10 @@ public class TilesOverlay extends SafeDrawOverlay {
         int tileSize = Projection.getTileSize();
         // Draw the tiles!
         if (tileSize > 0) {
-            Log.d(TAG, "drawSafe(), start drawing tiles!");
             if (mDrawLoadingTile) {
                 drawLoadingTile(c.getSafeCanvas(), mapView, zoomLevel, mClipRect);
             }
             drawTiles(c.getSafeCanvas(), zoomLevel, tileSize, mViewPort, mClipRect);
-            Log.d(TAG, "drawSafe(), done drawing tiles!");
-        } else {
-            Log.d(TAG, "tileSize is not > 0, so not drawing tiles.");
         }
 
         if (UtilConstants.DEBUGMODE && mapView.getScrollableAreaLimit() != null) {
@@ -314,7 +308,7 @@ public class TilesOverlay extends SafeDrawOverlay {
                 mLoadingTilePaint = new SafePaint();
                 mLoadingTilePaint.setShader(new BitmapShader(mLoadingTileBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT));
             } catch (final OutOfMemoryError e) {
-                Log.e(TAG, "OutOfMemoryError getting loading tile");
+                Log.e(TAG, "OutOfMemoryError getting loading tile: " + e.toString());
                 System.gc();
             }
         }
@@ -474,8 +468,6 @@ public class TilesOverlay extends SafeDrawOverlay {
                     final Canvas canvas = new Canvas(bitmap);
                     canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
                     mNewTiles.put(pTile, bitmap);
-                    Log.d(TAG, "rescaled new tile : " + pTile);
-
                 }
             }
         }
