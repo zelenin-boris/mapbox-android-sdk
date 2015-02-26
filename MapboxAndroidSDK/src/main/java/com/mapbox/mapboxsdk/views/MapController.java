@@ -200,6 +200,15 @@ public class MapController implements MapViewConstants {
         return setZoomAnimated(zoomlevel, latlong, move, userAction, null);
     }
 
+    /**
+     * Start a Zoom Animation
+     * @param zoomlevel Zoom Level to go to
+     * @param latlong LatLng to go to
+     * @param move True to move animation, False to not move
+     * @param userAction Is this a user action
+     * @param listener Additional listeners
+     * @return true if ZoomAnimation ran, false if not
+     */
     public boolean setZoomAnimated(final float zoomlevel, final ILatLng latlong, final boolean move, final boolean userAction, Animator.AnimatorListener listener) {
         if (userAction && mMapView.isAnimating()) {
             return false;
