@@ -1,11 +1,8 @@
 package com.mapbox.mapboxsdk.views;
 
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.animation.LinearInterpolator;
-
 import com.mapbox.mapboxsdk.api.ILatLng;
-import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.nineoldandroids.animation.Animator;
@@ -13,7 +10,6 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.animation.TypeEvaluator;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,8 +230,6 @@ public class MapController implements MapViewConstants {
         float targetZoom = mMapView.getClampedZoomLevel(zoomlevel);
         boolean zoomAnimating = (targetZoom != currentZoom);
         boolean zoomAndMove = move && !p.equals(dCurrentScroll);
-
-//        Log.i(TAG, String.format(MapboxConstants.MAPBOX_LOCALE, "setZoomAnimated() zoomAnimating = %s, zoomAndMove = %s", zoomAnimating, zoomAndMove));
 
         if (!zoomAnimating && !zoomAndMove) {
             mMapView.invalidate();
