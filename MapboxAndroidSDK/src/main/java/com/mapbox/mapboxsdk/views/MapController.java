@@ -1,9 +1,11 @@
 package com.mapbox.mapboxsdk.views;
 
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.animation.LinearInterpolator;
 
 import com.mapbox.mapboxsdk.api.ILatLng;
+import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.views.util.Projection;
 import com.mapbox.mapboxsdk.views.util.constants.MapViewConstants;
 import com.nineoldandroids.animation.Animator;
@@ -101,6 +103,7 @@ public class MapController implements MapViewConstants {
      * Start animating the map towards the given point.
      */
     public boolean animateTo(final ILatLng point, final boolean userAction) {
+//        mMapView.invalidate();
         return setZoomAnimated(mMapView.getZoomLevel(), point, true, userAction);
     }
 
@@ -232,6 +235,8 @@ public class MapController implements MapViewConstants {
         boolean zoomAnimating = (targetZoom != currentZoom);
         boolean zoomAndMove = move && !p.equals(dCurrentScroll);
 
+//        Log.i(TAG, String.format(MapboxConstants.MAPBOX_LOCALE, "setZoomAnimated() zoomAnimating = %s, zoomAndMove = %s", zoomAnimating, zoomAndMove));
+
         if (!zoomAnimating && !zoomAndMove) {
             mMapView.invalidate();
             return false;
@@ -240,7 +245,8 @@ public class MapController implements MapViewConstants {
         mMapView.mMultiTouchScalePoint.set(p.x, p.y);
         List<PropertyValuesHolder> propertiesList = new ArrayList<PropertyValuesHolder>();
         zoomDeltaScroll.set(0, 0);
-        if (zoomAnimating) {
+//        if (zoomAnimating) {
+            Log.i(TAG, "setZoomAnimated() zoomAnimating");
             zoomOnLatLong = latlong;
             mMapView.setAnimatedZoom(targetZoom);
 
@@ -251,16 +257,21 @@ public class MapController implements MapViewConstants {
             } else {
                 propertiesList.add(PropertyValuesHolder.ofFloat("scale", 1.0f, factor));
             }
+/*
         } else {
+            Log.i(TAG, "setZoomAnimated() zoomAnimating NOT");
             //this is to make sure we don't change the zoom incorrectly at the end of the animation
             mMapView.setAnimatedZoom(currentZoom);
         }
+*/
         if (zoomAndMove) {
+            Log.i(TAG, "setZoomAnimated() zoomAndMove");
             PointEvaluator evaluator = new PointEvaluator();
             propertiesList.add(PropertyValuesHolder.ofObject(
                     "scrollPoint", evaluator,
                     p));
         } else {
+            Log.i(TAG, "setZoomAnimated() zoomAndMove NOT");
             mMapView.getProjection().toPixels(p, p);
             zoomDeltaScroll.set((float) (mMapView.getMeasuredWidth() / 2.0 - p.x), (float) (mMapView.getMeasuredHeight() / 2.0 - p.y));
         }
