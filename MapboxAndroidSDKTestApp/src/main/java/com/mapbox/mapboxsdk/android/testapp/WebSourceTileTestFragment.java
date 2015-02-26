@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.tileprovider.tilesource.WebSourceTileLayer;
 import com.mapbox.mapboxsdk.views.MapView;
@@ -17,7 +16,7 @@ public class WebSourceTileTestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_websourcetile, container, false);
 
         // Setup Map
-        MapView mapView = new MapView(getActivity());
+        MapView mapView = (MapView) view.findViewById(R.id.mapview);
 
         WebSourceTileLayer ws = new WebSourceTileLayer("openstreetmap", "http://tile.openstreetmap.org/{z}/{x}/{y}.png");
         ws.setName("OpenStreetMap")
@@ -28,9 +27,6 @@ public class WebSourceTileTestFragment extends Fragment {
         mapView.setTileSource(ws);
         mapView.setCenter(new LatLng(34.19997, -118.17163));
         mapView.setZoom(12);
-
-        FrameLayout layout = (FrameLayout) view.findViewById(R.id.webSourceTileFrameLayout);
-        layout.addView(mapView);
 
         return view;
     }
