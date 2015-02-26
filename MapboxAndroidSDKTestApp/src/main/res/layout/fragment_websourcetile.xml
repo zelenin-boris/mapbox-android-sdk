@@ -35,6 +35,13 @@
             android:text="@string/resetMapButtonText"
             />
 
+        <Button
+            android:id="@+id/goToLocationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goToButtonText"
+            />
+
     </LinearLayout>
 
 </RelativeLayout>

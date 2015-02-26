@@ -35,6 +35,7 @@ public class WebSourceTileTestFragment extends Fragment {
 
         Button animateButton = (Button) view.findViewById(R.id.animateToNewLocationButton);
         Button resetButton = (Button) view.findViewById(R.id.resetToOriginalButton);
+        Button gotoButton = (Button) view.findViewById(R.id.goToLocationButton);
 
         animateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +51,13 @@ public class WebSourceTileTestFragment extends Fragment {
             }
         });
 
+        gotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goTo();
+            }
+        });
+
         return view;
     }
 
@@ -61,5 +69,9 @@ public class WebSourceTileTestFragment extends Fragment {
     private void resetMap() {
         mapView.setCenter(new LatLng(34.19997, -118.17163));
         mapView.setZoom(12);
+    }
+
+    private void goTo() {
+        mapView.getController().goTo(new LatLng(34.01393, -118.28795), null);
     }
 }
