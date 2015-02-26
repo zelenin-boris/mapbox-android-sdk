@@ -13,6 +13,8 @@ import com.mapbox.mapboxsdk.views.MapView;
 
 public class WebSourceTileTestFragment extends Fragment {
 
+    private static final String TAG = "WebSourceTileTest";
+
     private MapView mapView;
 
     @Override
@@ -52,7 +54,8 @@ public class WebSourceTileTestFragment extends Fragment {
     }
 
     private void animateTo() {
-        mapView.getController().animateTo(new LatLng(34.16141, -118.16766));
+        boolean result = mapView.getController().animateTo(new LatLng(34.16141, -118.16766));
+        Log.i(TAG, "animatedTo() result = " + result);
     }
 
     private void resetMap() {
