@@ -119,7 +119,7 @@ public class MapTileLayerArray extends MapTileLayerBase {
     public Drawable getMapTile(final MapTile pTile, final boolean allowRemote) {
         //       Log.d(TAG, "getMapTile() with pTile (CacheKey) = '" + pTile.getCacheKey() + "'; allowRemote = '" + allowRemote + "'");
         if (tileUnavailable(pTile)) {
-            Log.d(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
+//            Log.d(TAG, "MapTileLayerArray.getMapTile() tileUnavailable: " + pTile);
             return null;
         }
 

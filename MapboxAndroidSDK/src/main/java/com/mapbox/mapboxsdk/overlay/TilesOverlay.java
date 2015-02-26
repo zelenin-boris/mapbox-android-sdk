@@ -185,7 +185,6 @@ public class TilesOverlay extends SafeDrawOverlay {
     public void drawTiles(final Canvas c, final float zoomLevel, final int tileSizePx,
                           final Rect viewPort, final Rect pClipRect) {
 
-//        Log.d(TAG, "drawTiles() start.");
         mNuberOfTiles = mTileLooper.loop(c, mTileProvider.getCacheKey(), zoomLevel, tileSizePx, viewPort, pClipRect);
 
         // draw a cross at center in debug mode
@@ -198,7 +197,6 @@ public class TilesOverlay extends SafeDrawOverlay {
             canvas.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y,
                     getDebugPaint());
         }
-//        Log.d(TAG, "drawTiles() done.");
     }
 
     private final TileLooper mTileLooper = new TileLooper() {
