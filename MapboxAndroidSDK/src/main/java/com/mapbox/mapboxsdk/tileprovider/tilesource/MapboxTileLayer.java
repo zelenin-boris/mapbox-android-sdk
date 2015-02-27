@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import android.text.TextUtils;
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.util.MapboxUtils;
@@ -18,14 +19,15 @@ public class MapboxTileLayer extends TileJsonTileLayer implements MapViewConstan
     /**
      * Initialize a new tile layer, directed at a hosted Mapbox tilesource.
      *
+     * @param context Applications Context
      * @param mapId a valid mapid, of the form account.map
      */
-    public MapboxTileLayer(String mapId) {
-        this(mapId, true);
+    public MapboxTileLayer(Context context, String mapId) {
+        this(context, mapId, true);
     }
 
-    public MapboxTileLayer(String mapId, boolean enableSSL) {
-        super(mapId, mapId, enableSSL);
+    public MapboxTileLayer(Context context, String mapId, boolean enableSSL) {
+        super(context, mapId, mapId, enableSSL);
     }
 
     @Override

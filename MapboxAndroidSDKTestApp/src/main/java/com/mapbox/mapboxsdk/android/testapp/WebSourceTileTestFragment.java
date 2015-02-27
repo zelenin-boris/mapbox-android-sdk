@@ -24,7 +24,7 @@ public class WebSourceTileTestFragment extends Fragment {
         // Setup Map
         mapView = (MapView) view.findViewById(R.id.mapview);
 
-        WebSourceTileLayer ws = new WebSourceTileLayer("openstreetmap", "http://tile.openstreetmap.org/{z}/{x}/{y}.png");
+        WebSourceTileLayer ws = new WebSourceTileLayer(getActivity(), "openstreetmap", "http://tile.openstreetmap.org/{z}/{x}/{y}.png");
         ws.setName("OpenStreetMap")
             .setAttribution("© OpenStreetMap Contributors")
             .setMinimumZoomLevel(1)

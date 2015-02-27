@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -30,7 +29,7 @@ public class BingTileTestFragment extends Fragment {
             Toast.makeText(inflater.getContext(), "BING_KEY needs to be defined", Toast.LENGTH_SHORT).show();
         }
 
-        bingTileLayer = new BingTileLayer(BING_KEY);
+        bingTileLayer = new BingTileLayer(getActivity(), BING_KEY);
         bingTileLayer.setName("Some sweet Bing action");
         bingTileLayer.setStyle(BingTileLayer.IMAGERYSET_AERIAL);
 

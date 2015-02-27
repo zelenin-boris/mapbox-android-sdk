@@ -217,7 +217,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
         String mapid = a.getString(R.styleable.MapView_mapid);
         MapboxUtils.setAccessToken(a.getString(R.styleable.MapView_accessToken));
         if (!TextUtils.isEmpty(mapid)) {
-            setTileSource(new MapboxTileLayer(mapid));
+            setTileSource(new MapboxTileLayer(getContext(), mapid));
         } else {
             Log.w(TAG, "mapid not set.");
         }

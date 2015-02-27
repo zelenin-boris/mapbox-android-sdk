@@ -1,16 +1,17 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mapbox.mapboxsdk.constants.MapboxConstants;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.tileprovider.MapTileCache;
 import com.mapbox.mapboxsdk.tileprovider.modules.MapTileDownloader;
+import com.mapbox.mapboxsdk.util.BitmapUtils;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
 import com.mapbox.mapboxsdk.views.util.TileLoadedListener;
 import com.mapbox.mapboxsdk.views.util.TilesLoadedListener;
@@ -29,12 +30,15 @@ public class WebSourceTileLayer extends TileLayer implements MapboxConstants {
     private AtomicInteger activeThreads = new AtomicInteger(0);
     protected boolean mEnableSSL = false;
 
-    public WebSourceTileLayer(final String pId, final String url) {
-        this(pId, url, false);
+    private Context context;
+
+    public WebSourceTileLayer(Context context, final String pId, final String url) {
+        this(context, pId, url, false);
     }
 
-    public WebSourceTileLayer(final String pId, final String url, final boolean enableSSL) {
+    public WebSourceTileLayer(Context context, final String pId, final String url, final boolean enableSSL) {
         super(pId, url);
+        this.context = context;
         initialize(pId, url, enableSSL);
     }
 
@@ -170,7 +174,7 @@ public class WebSourceTileLayer extends TileLayer implements MapboxConstants {
 
         try {
             HttpURLConnection connection = NetworkUtils.getHttpURLConnection(new URL(url));
-            Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+            Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, BitmapUtils.getBitmapOptions(context.getResources().getDisplayMetrics()));
             if (bitmap != null) {
                 aCache.putTileInMemoryCache(mapTile, bitmap);
             }

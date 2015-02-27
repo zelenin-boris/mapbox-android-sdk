@@ -1,5 +1,6 @@
 package com.mapbox.mapboxsdk.tileprovider.tilesource;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import com.mapbox.mapboxsdk.tileprovider.MapTile;
 import com.mapbox.mapboxsdk.util.NetworkUtils;
@@ -29,8 +30,8 @@ public class BingTileLayer extends WebSourceTileLayer {
 
     private boolean mHasMetadata = false;
 
-    public BingTileLayer(String key) {
-        super("Bing Tile Layer", BASE_URL_PATTERN, false);
+    public BingTileLayer(Context context, String key) {
+        super(context, "Bing Tile Layer", BASE_URL_PATTERN, false);
 
         setBingMapKey(key);
 
