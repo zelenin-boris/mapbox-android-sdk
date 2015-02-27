@@ -30,7 +30,7 @@ public class BitmapUtils {
     public static BitmapFactory.Options getBitmapOptionsForHighDensity(DisplayMetrics mDisplayMetrics) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
-        options.inTargetDensity = DisplayMetrics.DENSITY_HIGH;
+        options.inTargetDensity = DisplayMetrics.DENSITY_XHIGH;
         return options;
     }
 
