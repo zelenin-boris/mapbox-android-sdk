@@ -27,6 +27,13 @@ public class BitmapUtils {
         return options;
     }
 
+    public static BitmapFactory.Options getBitmapOptionsForHighDensity(DisplayMetrics mDisplayMetrics) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
+        options.inTargetDensity = DisplayMetrics.DENSITY_HIGH;
+        return options;
+    }
+
     public static boolean isCacheDrawableExpired(Drawable drawable) {
         if (drawable != null && drawable.getState() == EXPIRED) {
             return true;

@@ -174,7 +174,7 @@ public class WebSourceTileLayer extends TileLayer implements MapboxConstants {
 
         try {
             HttpURLConnection connection = NetworkUtils.getHttpURLConnection(new URL(url));
-            Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, BitmapUtils.getBitmapOptions(context.getResources().getDisplayMetrics()));
+            Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, BitmapUtils.getBitmapOptionsForHighDensity(context.getResources().getDisplayMetrics()));
             if (bitmap != null) {
                 aCache.putTileInMemoryCache(mapTile, bitmap);
             }
