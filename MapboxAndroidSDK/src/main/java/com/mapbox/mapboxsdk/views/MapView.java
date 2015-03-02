@@ -439,7 +439,7 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 mMapViewListener.onShowMarker(MapView.this, marker);
             }
             currentTooltip = toolTip;
-            if(displayBubble) {
+            if (displayBubble) {
                 marker.showBubble(currentTooltip, MapView.this, true);
             }
         }
