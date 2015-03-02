@@ -420,26 +420,14 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
      * Select a marker, showing a tooltip if the marker has content that would appear within it.
      */
     public void selectMarker(final Marker marker) {
-        InfoWindow toolTip = marker.getToolTip(MapView.this);
-
-        if (mMapViewListener != null) {
-            mMapViewListener.onTapMarker(MapView.this, marker);
-        }
-        closeCurrentTooltip();
-        if (toolTip != currentTooltip && marker.hasContent()) {
-            if (mMapViewListener != null) {
-                mMapViewListener.onShowMarker(MapView.this, marker);
-            }
-            currentTooltip = toolTip;
-            marker.showBubble(currentTooltip, MapView.this, true);
-        }
+        selectMarker(marker, true);
     }
 
     /**
-     * Select a marker, showing a tooltip if display_bubble is set to true and 
+     * Select a marker, showing a tooltip if display_bubble is set to true and
      * the marker has content that would appear within it.
      */
-    public void selectMarker(final Marker marker, final boolean display_bubble) {
+    public void selectMarker(final Marker marker, final boolean displayBubble) {
         InfoWindow toolTip = marker.getToolTip(MapView.this);
 
         if (mMapViewListener != null) {
@@ -451,12 +439,12 @@ public class MapView extends ViewGroup implements MapViewConstants, MapEventsRec
                 mMapViewListener.onShowMarker(MapView.this, marker);
             }
             currentTooltip = toolTip;
-            if(display_bubble) {
+            if(displayBubble) {
                 marker.showBubble(currentTooltip, MapView.this, true);
             }
         }
     }
-    
+
     /**
      * Adds a new ItemizedOverlay to the MapView
      *
